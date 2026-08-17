@@ -15,6 +15,7 @@
  */
 
 import gsap from 'gsap';
+import losHermanosMp3 from '../Los Hermanos - Sentimental (Karaokê) [Ga2Ja4O6k7c].mp3';
 import {
   getAllPhotos,
   getPhotoById,
@@ -24,8 +25,7 @@ import {
 import {
   getMorphSegments,
   segmentsToSvgPath,
-  createLuxurySvgDefs,
-  SpringDisplacementField
+  createLuxurySvgDefs
 } from './graphics/index.js';
 
 import {
@@ -34,104 +34,68 @@ import {
 } from './motion/motionDirector.js';
 
 // ============================================================================
-// 1. LIGHTWEIGHT WEB AUDIO SOUNDSCAPE
+// 1. LOS HERMANOS BACKGROUND AUDIO ENGINE (LOW VOLUME ACOUSTIC AMBIENCE)
 // ============================================================================
 
-class AmbientSoundscape {
-  constructor() {
-    this.ctx = null;
-    this.masterGain = null;
+class BackgroundMusic {
+  constructor(src) {
+    this.src = src;
+    this.audio = new Audio(src);
+    this.audio.loop = true;
+    this.audio.preload = 'auto';
+    this.audio.volume = 0.0001; // Start soft
+    this.targetVolume = 0.16; // "bem baixo tocando" (16% volume)
     this.isPlaying = false;
-    this.intervalId = null;
-    this.chordIndex = 0;
-
-    // Harmonic Chord Progression: Cmaj9 -> Gmaj7 -> Fmaj7#11 -> Am9
-    this.chords = [
-      [130.81, 196.00, 246.94, 293.66, 392.00], // Cmaj9
-      [98.00, 146.83, 196.00, 246.94, 293.66],  // Gmaj7
-      [87.31, 130.81, 174.61, 246.94, 329.63],  // Fmaj7#11
-      [110.00, 164.81, 220.00, 261.63, 329.63]  // Am9
-    ];
+    this.isFading = false;
   }
 
-  initContext() {
-    if (!this.ctx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) {
-        this.ctx = new AudioCtx();
-        this.masterGain = this.ctx.createGain();
-        this.masterGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
-
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(800, this.ctx.currentTime);
-
-        this.masterGain.connect(filter);
-        filter.connect(this.ctx.destination);
-      }
-    }
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
-  }
-
-  playChord(freqs, duration = 8.0) {
-    if (!this.ctx) return;
-    const now = this.ctx.currentTime;
-    freqs.forEach((freq, idx) => {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
-      osc.frequency.setValueAtTime(freq, now);
-
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.035 / freqs.length, now + 2.0);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-      osc.connect(gain);
-      gain.connect(this.masterGain);
-
-      osc.onended = () => {
-        try {
-          osc.disconnect();
-          gain.disconnect();
-        } catch (e) {}
-      };
-
-      osc.start(now);
-      osc.stop(now + duration + 0.1);
-    });
-  }
-
-  start() {
-    this.initContext();
+  play() {
     if (this.isPlaying) return;
-    this.isPlaying = true;
-
-    if (this.masterGain && this.ctx) {
-      this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.masterGain.gain.linearRampToValueAtTime(0.7, this.ctx.currentTime + 2.0);
+    const p = this.audio.play();
+    if (p !== undefined) {
+      p.then(() => {
+        this.isPlaying = true;
+        this.fadeIn(3.0);
+      }).catch(() => {
+        // Will auto-resume on first user pointer/touch/key interaction
+      });
     }
+  }
 
-    this.playChord(this.chords[0]);
-    this.intervalId = setInterval(() => {
-      this.chordIndex = (this.chordIndex + 1) % this.chords.length;
-      this.playChord(this.chords[this.chordIndex], 8.0);
-    }, 7000);
+  fadeIn(durationSec = 3.0) {
+    if (this.isFading) return;
+    this.isFading = true;
+    const startTime = performance.now();
+    const startVol = this.audio.volume;
+    const target = this.targetVolume;
+
+    const step = (now) => {
+      const elapsed = (now - startTime) / 1000;
+      const progress = Math.min(1.0, elapsed / durationSec);
+      this.audio.volume = Math.min(target, startVol + (target - startVol) * progress);
+      if (progress < 1.0) {
+        requestAnimationFrame(step);
+      } else {
+        this.isFading = false;
+      }
+    };
+    requestAnimationFrame(step);
+  }
+
+  pause() {
+    this.audio.pause();
+    this.isPlaying = false;
+  }
+
+  resume() {
+    if (!this.isPlaying) {
+      this.play();
+    }
   }
 
   destroy() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
-    if (this.ctx) {
-      try {
-        this.ctx.close();
-      } catch (e) {}
-      this.ctx = null;
-    }
+    this.audio.pause();
+    this.audio.src = '';
   }
 }
 
@@ -142,7 +106,7 @@ class AmbientSoundscape {
 export class App {
   constructor(rootContainer) {
     this.root = rootContainer || document.getElementById('app');
-    this.soundscape = new AmbientSoundscape();
+    this.bgMusic = new BackgroundMusic(losHermanosMp3);
 
     this.isPlaying = true;
     this.masterTimeline = null;
@@ -176,6 +140,7 @@ export class App {
     this.buildPhotosDOM();
     this.buildMasterTimeline();
     this.startAnimationLoop();
+    this.bgMusic.play();
   }
 
   updateSvgDimensions() {
@@ -252,6 +217,14 @@ export class App {
   initEventListeners() {
     let ticking = false;
 
+    // Smooth auto-play Los Hermanos on first user interaction
+    const unlockAudio = () => {
+      this.bgMusic.play();
+    };
+    window.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
+    window.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+    window.addEventListener('keydown', unlockAudio, { once: true, passive: true });
+
     const handlePointer = (clientX, clientY) => {
       if (ticking) return;
       ticking = true;
@@ -299,10 +272,10 @@ export class App {
       this.closePhotoFocus();
     });
 
-    // Background click to start audio soundscape smoothly
+    // Canvas click resumes audio
     this.root.addEventListener('click', (e) => {
       if (e.target.closest('.editorial-photo-card') || e.target.closest('.photo-focus-layer')) return;
-      this.soundscape.start();
+      this.bgMusic.resume();
     });
 
     // Keyboard accessibility
@@ -799,10 +772,11 @@ export class App {
     if (this.isPlaying) {
       this.masterTimeline.pause();
       this.isPlaying = false;
+      this.bgMusic.pause();
     } else {
       this.masterTimeline.play();
       this.isPlaying = true;
-      this.soundscape.start();
+      this.bgMusic.resume();
     }
   }
 
@@ -828,8 +802,8 @@ export class App {
       this.masterTimeline.kill();
       this.masterTimeline = null;
     }
-    if (this.soundscape) {
-      this.soundscape.destroy();
+    if (this.bgMusic) {
+      this.bgMusic.destroy();
     }
   }
 }
