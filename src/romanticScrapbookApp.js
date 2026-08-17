@@ -6,7 +6,6 @@
  */
 
 import gsap from 'gsap';
-import losHermanosMp3 from '../Los Hermanos - Sentimental (Karaokê) [Ga2Ja4O6k7c].mp3';
 import { getAllPhotos } from './data/photos.js';
 import {
   getBinderClipSvg,
@@ -21,6 +20,8 @@ import {
 } from './graphics/scrapbookDoodles.js';
 
 import './styles/romanticScrapbook.css';
+
+const losHermanosMp3 = './music.mp3';
 
 class BackgroundMusic {
   constructor(src) {

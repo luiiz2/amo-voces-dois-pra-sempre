@@ -15,7 +15,7 @@
  */
 
 import gsap from 'gsap';
-import losHermanosMp3 from '../Los Hermanos - Sentimental (Karaokê) [Ga2Ja4O6k7c].mp3';
+const losHermanosMp3 = './music.mp3';
 import {
   getAllPhotos,
   getPhotoById,
