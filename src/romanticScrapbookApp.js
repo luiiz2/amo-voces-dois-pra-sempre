@@ -29,7 +29,7 @@ class BackgroundMusic {
     this.audio.loop = true;
     this.audio.preload = 'auto';
     this.audio.volume = 0.0001;
-    this.targetVolume = 0.16;
+    this.targetVolume = 0.07; // Very soft, gentle background acoustic volume
     this.isPlaying = false;
   }
 
