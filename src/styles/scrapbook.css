@@ -1,0 +1,880 @@
+/* ==========================================================================
+   JUNK JOURNAL / HANDMADE SCRAPBOOK — DESIGN SYSTEM & TACTILE STYLING
+   Aged paper, torn edges, washi tape, physical polaroids, stamps, and doodles
+   ========================================================================== */
+
+:root {
+  /* --- PALETTE: Warm Paper, Kraft & Inks --- */
+  --bg-desk: #ECE4D4;
+  --bg-notebook-cover: #3F3327;
+  --bg-paper-aged: #FAF6ED;
+  --bg-paper-cream: #F4EAD8;
+  --bg-paper-kraft: #D5B992;
+  --bg-paper-kraft-dark: #B59369;
+  --bg-paper-grid: #F8F5EC;
+  --bg-paper-lined: #FFFDF9;
+  --bg-paper-blueprint: #E8EEF5;
+
+  /* Inks & Inscriptions */
+  --ink-blue-dark: #1D2A44;
+  --ink-blue-fountain: #2A4365;
+  --ink-black-faded: #262626;
+  --ink-pencil: #555555;
+  --ink-red-stamp: #B23A2B;
+  --ink-green-vintage: #3D5A45;
+  --ink-gold: #B8860B;
+
+  /* Washi Tapes (Semi-translucent) */
+  --tape-ochre: rgba(226, 125, 96, 0.82);
+  --tape-mustard: rgba(233, 196, 106, 0.85);
+  --tape-sage: rgba(132, 169, 140, 0.82);
+  --tape-sky: rgba(142, 202, 230, 0.80);
+  --tape-rose: rgba(181, 131, 141, 0.82);
+  --tape-kraft: rgba(197, 164, 126, 0.88);
+  --tape-white: rgba(255, 255, 255, 0.75);
+
+  /* Typography */
+  --font-hand-caveat: 'Caveat', cursive;
+  --font-hand-patrick: 'Patrick Hand', cursive;
+  --font-hand-kalam: 'Kalam', cursive;
+  --font-marker: 'Permanent Marker', cursive;
+  --font-typewriter: 'Courier Prime', monospace;
+  --font-typewriter-elite: 'Special Elite', cursive;
+  --font-serif-body: 'Lora', Georgia, serif;
+
+  /* Paper Shadows */
+  --shadow-paper-flat: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(60, 45, 30, 0.06);
+  --shadow-paper-lifted: 0 8px 24px rgba(45, 30, 15, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-paper-floating: 0 16px 38px rgba(45, 30, 15, 0.16), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-tape: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   RESET & DESK BACKGROUND
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--bg-desk);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.05) 100%),
+    repeating-linear-gradient(45deg, rgba(160, 130, 95, 0.04) 0, rgba(160, 130, 95, 0.04) 1px, transparent 0, transparent 24px);
+  color: var(--ink-blue-dark);
+  font-family: var(--font-typewriter);
+  overflow-x: hidden;
+  line-height: 1.5;
+  selection-background-color: #FBE49D;
+}
+
+/* Custom Scrollbar styled like vintage leather edge */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-desk);
+}
+::-webkit-scrollbar-thumb {
+  background: #C4A47C;
+  border-radius: 4px;
+  border: 2px solid var(--bg-desk);
+}
+
+/* ==========================================================================
+   MASTER JOURNAL NOTEBOOK WRAPPER
+   ========================================================================== */
+
+.journal-viewport {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(16px, 3.5vw, 48px) clamp(12px, 2.5vw, 32px);
+  position: relative;
+}
+
+/* Notebook Spread Container */
+.journal-spread {
+  position: relative;
+  background-color: var(--bg-paper-aged);
+  border-radius: 6px;
+  box-shadow: 
+    0 20px 60px rgba(45, 30, 15, 0.22),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 0 100px rgba(180, 140, 90, 0.12);
+  margin-bottom: clamp(60px, 8vh, 120px);
+  padding: clamp(28px, 4.5vw, 64px);
+  overflow: visible;
+  transition: transform 0.4s ease;
+}
+
+/* Spiral Ring Binding at Left on Desktop */
+.journal-spiral-binding {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20px;
+  width: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.spiral-ring {
+  width: 32px;
+  height: 12px;
+  border: 3px solid #8E9BAE;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #6C7A8E 0%, #D8E0EA 50%, #546274 100%);
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+  transform: rotate(-12deg);
+}
+
+/* Paper Texture Overlays */
+.paper-grid {
+  background-color: var(--bg-paper-grid);
+  background-image: 
+    linear-gradient(to right, rgba(40, 80, 140, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(40, 80, 140, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.paper-lined {
+  background-color: var(--bg-paper-lined);
+  background-image: 
+    linear-gradient(90deg, transparent 58px, #F08080 58px, #F08080 60px, transparent 60px),
+    repeating-linear-gradient(transparent, transparent 27px, #CCD9E8 28px);
+  line-height: 28px;
+}
+
+.paper-kraft {
+  background-color: var(--bg-paper-kraft);
+  background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+  box-shadow: var(--shadow-paper-lifted);
+}
+
+/* Torn Edge Polygon Masks */
+.torn-edge-bottom {
+  clip-path: polygon(
+    0% 0%, 100% 0%, 100% 95%, 
+    97% 98%, 94% 93%, 90% 97%, 86% 94%, 82% 98%, 78% 95%, 74% 98%, 
+    70% 93%, 66% 97%, 62% 94%, 58% 98%, 54% 94%, 50% 98%, 46% 93%, 
+    42% 97%, 38% 94%, 34% 98%, 30% 95%, 26% 98%, 22% 93%, 18% 97%, 
+    14% 94%, 10% 98%, 6% 94%, 2% 97%, 0% 94%
+  );
+}
+
+.torn-edge-all {
+  clip-path: polygon(
+    2% 2%, 15% 0%, 32% 3%, 48% 1%, 65% 3%, 82% 0%, 98% 2%,
+    100% 18%, 98% 35%, 100% 52%, 97% 70%, 100% 88%, 98% 98%,
+    84% 97%, 68% 100%, 52% 97%, 36% 100%, 18% 98%, 2% 97%,
+    0% 82%, 3% 65%, 1% 48%, 3% 32%, 0% 15%
+  );
+}
+
+/* ==========================================================================
+   WASHI TAPE & PHYSICAL FASTENERS
+   ========================================================================== */
+
+.washi-tape {
+  position: absolute;
+  height: clamp(26px, 3.2vw, 36px);
+  background-color: var(--tape-ochre);
+  box-shadow: var(--shadow-tape);
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-typewriter);
+  font-size: 0.72rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: rgba(30, 20, 10, 0.75);
+  clip-path: polygon(
+    3% 0%, 97% 0%, 100% 15%, 98% 35%, 100% 55%, 98% 75%, 100% 90%, 97% 100%,
+    3% 100%, 0% 85%, 2% 65%, 0% 45%, 2% 25%, 0% 10%
+  );
+}
+
+.tape--mustard { background-color: var(--tape-mustard); }
+.tape--sage { background-color: var(--tape-sage); }
+.tape--sky { background-color: var(--tape-sky); }
+.tape--rose { background-color: var(--tape-rose); }
+.tape--kraft { background-color: var(--tape-kraft); }
+.tape--white { background-color: var(--tape-white); border: 1px dashed rgba(0,0,0,0.2); }
+
+/* Tape placements */
+.tape--top-center {
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: clamp(90px, 14vw, 150px);
+}
+
+.tape--top-left {
+  top: -12px;
+  left: -15px;
+  transform: rotate(-18deg);
+  width: clamp(80px, 11vw, 120px);
+}
+
+.tape--top-right {
+  top: -12px;
+  right: -15px;
+  transform: rotate(16deg);
+  width: clamp(80px, 11vw, 120px);
+}
+
+.tape--corner-cross {
+  bottom: -10px;
+  right: -15px;
+  transform: rotate(-35deg);
+  width: clamp(75px, 10vw, 110px);
+}
+
+/* Metallic Pushpin & Paperclips */
+.scrapbook-pin-holder {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 35;
+  filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));
+}
+
+.scrapbook-paperclip-holder {
+  position: absolute;
+  top: -22px;
+  right: 25px;
+  z-index: 35;
+  filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.25));
+}
+
+/* ==========================================================================
+   STICKERS, STAMPS & LABELS
+   ========================================================================== */
+
+/* Vintage Postage Stamp */
+.postage-stamp {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: #FFFDF9;
+  border: 1px dashed #C4A47C;
+  outline: 4px solid #FFFDF9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  transform: rotate(4deg);
+  z-index: 25;
+}
+
+.postage-stamp-inner {
+  border: 1px solid var(--ink-red-stamp);
+  padding: 6px 10px;
+  text-align: center;
+}
+
+.stamp-price {
+  font-family: var(--font-typewriter);
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--ink-red-stamp);
+}
+
+.stamp-title {
+  font-family: var(--font-marker);
+  font-size: 0.65rem;
+  color: var(--ink-blue-dark);
+}
+
+/* Embossed Dymo Label Maker Tape */
+.dymo-label {
+  display: inline-block;
+  background: #1A1A1A;
+  color: #FFFFFF;
+  font-family: var(--font-typewriter);
+  font-weight: bold;
+  font-size: clamp(0.72rem, 1.2vw, 0.95rem);
+  letter-spacing: 0.16em;
+  padding: 4px 12px;
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.35);
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+/* Circular Badge Sticker */
+.sticker-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(56px, 7vw, 76px);
+  height: clamp(56px, 7vw, 76px);
+  border-radius: 50%;
+  background: var(--tape-mustard);
+  color: var(--ink-blue-dark);
+  font-family: var(--font-marker);
+  font-size: 0.75rem;
+  text-align: center;
+  border: 2px dashed rgba(30, 40, 70, 0.4);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: rotate(-12deg);
+  cursor: default;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sticker-badge:hover {
+  transform: rotate(0deg) scale(1.1);
+}
+
+/* ==========================================================================
+   1. HERO SPREAD (THE COVER SPREAD)
+   ========================================================================== */
+
+.hero-spread {
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  background-color: var(--bg-paper-aged);
+}
+
+.hero-top-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  border-bottom: 1.5px dashed rgba(60, 45, 30, 0.2);
+  padding-bottom: 12px;
+}
+
+.meta-field-note {
+  font-family: var(--font-typewriter);
+  font-size: 0.82rem;
+  color: var(--ink-pencil);
+}
+
+.meta-field-date {
+  font-family: var(--font-hand-caveat);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink-red-stamp);
+  transform: rotate(-3deg);
+}
+
+/* Giant Collage Cut-out Title: LUIZ */
+.hero-title-collage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(6px, 1.5vw, 18px);
+  margin: clamp(18px, 3vh, 36px) 0;
+  flex-wrap: wrap;
+}
+
+.cutout-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(75px, 15vw, 160px);
+  height: clamp(95px, 18vw, 190px);
+  font-family: var(--font-marker);
+  font-size: clamp(3.5rem, 11vw, 8.5rem);
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: var(--shadow-paper-lifted);
+  border-radius: 3px;
+  position: relative;
+  transition: transform 0.3s ease;
+  user-select: none;
+}
+
+.cutout-letter:hover {
+  transform: scale(1.08) rotate(0deg) !important;
+  z-index: 40;
+}
+
+/* Individual letter paper cut-out styling */
+.letter--l {
+  background-color: #F8F4EB;
+  color: var(--ink-blue-dark);
+  border: 1px solid #D2C2A8;
+  transform: rotate(-3.5deg);
+}
+
+.letter--u {
+  background-color: var(--bg-paper-kraft);
+  color: #FFFFFF;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+  transform: rotate(2.8deg) translateY(-8px);
+}
+
+.letter--i {
+  background-color: #E27D60;
+  color: #FAF6ED;
+  transform: rotate(-2deg);
+}
+
+.letter--z {
+  background-color: #84A98C;
+  color: #1D2A44;
+  transform: rotate(4deg) translateY(6px);
+}
+
+/* Subtitle & Role Tag */
+.hero-subtitle-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-handwritten-claim {
+  font-family: var(--font-hand-caveat);
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--ink-blue-fountain);
+  transform: rotate(-1.5deg);
+}
+
+.hero-scrapbook-elements {
+  position: absolute;
+  right: clamp(16px, 3vw, 48px);
+  top: clamp(24px, 4vh, 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+/* Mini Polaroid on Hero */
+.hero-polaroid {
+  width: clamp(120px, 16vw, 190px);
+  background: #FFFDF9;
+  padding: 8px 8px 24px 8px;
+  box-shadow: var(--shadow-paper-floating);
+  transform: rotate(8deg);
+  border-radius: 2px;
+  transition: transform 0.4s ease;
+}
+
+.hero-polaroid:hover {
+  transform: rotate(0deg) scale(1.06);
+  z-index: 45;
+}
+
+.polaroid-img-frame {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #E8E0D2;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.polaroid-img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.polaroid-caption {
+  font-family: var(--font-hand-kalam);
+  font-size: 0.85rem;
+  color: var(--ink-pencil);
+  text-align: center;
+  margin-top: 6px;
+}
+
+/* ==========================================================================
+   2. ABOUT ME SPREAD (CADERNO DE NOTAS / ANOTAÇÕES PESSOAIS)
+   ========================================================================== */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: flex-start;
+}
+
+.journal-entry-card {
+  background: var(--bg-paper-lined);
+  padding: clamp(20px, 3.5vw, 36px);
+  border-radius: 4px;
+  box-shadow: var(--shadow-paper-lifted);
+  position: relative;
+  transform: rotate(-1deg);
+}
+
+.section-handwritten-title {
+  font-family: var(--font-hand-caveat);
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-weight: 700;
+  color: var(--ink-blue-dark);
+  margin-bottom: 16px;
+  display: inline-block;
+  position: relative;
+}
+
+.typewriter-paragraph {
+  font-family: var(--font-typewriter);
+  font-size: clamp(0.88rem, 1.2vw, 1.05rem);
+  color: var(--ink-black-faded);
+  margin-bottom: 18px;
+  line-height: 1.7;
+}
+
+.handwritten-annotation {
+  font-family: var(--font-hand-caveat);
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  color: var(--ink-red-stamp);
+  transform: rotate(-2deg);
+  display: block;
+  margin: 12px 0;
+}
+
+/* Pinned Sticky Notes & Scraps */
+.about-scraps-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+}
+
+.sticky-note-yellow {
+  background: #FFF3B0;
+  padding: 22px;
+  box-shadow: var(--shadow-paper-lifted);
+  transform: rotate(2.5deg);
+  position: relative;
+  font-family: var(--font-hand-kalam);
+  font-size: 1.05rem;
+  color: #333333;
+}
+
+.sticky-note-kraft {
+  background: var(--bg-paper-kraft);
+  padding: 20px;
+  box-shadow: var(--shadow-paper-lifted);
+  transform: rotate(-3deg);
+  position: relative;
+  font-family: var(--font-typewriter);
+  font-size: 0.85rem;
+  color: #222222;
+}
+
+/* ==========================================================================
+   3. SELECTED PROJECTS SPREAD (PROJETOS PASTED AS PHOTOGRAPHS)
+   ========================================================================== */
+
+.projects-collage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(28px, 4vw, 48px);
+  margin-top: 32px;
+}
+
+.project-scrapbook-card {
+  background: var(--bg-paper-aged);
+  border: 1px solid #D8C8B0;
+  border-radius: 4px;
+  padding: 16px 16px 24px 16px;
+  box-shadow: var(--shadow-paper-lifted);
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-scrapbook-card:nth-child(odd) {
+  transform: rotate(-1.8deg);
+}
+
+.project-scrapbook-card:nth-child(even) {
+  transform: rotate(2.2deg) translateY(12px);
+}
+
+.project-scrapbook-card:hover {
+  transform: rotate(0deg) scale(1.03) translateY(-6px);
+  box-shadow: var(--shadow-paper-floating);
+  z-index: 35;
+}
+
+.project-photo-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #E2DAC8;
+  border: 6px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.project-photo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.project-scrapbook-card:hover .project-photo-wrapper img {
+  transform: scale(1.05);
+}
+
+.project-tag-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.mini-tag-tape {
+  font-family: var(--font-typewriter);
+  font-size: 0.68rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: var(--tape-sage);
+  color: #1A281E;
+}
+
+.project-handwritten-title {
+  font-family: var(--font-marker);
+  font-size: 1.35rem;
+  color: var(--ink-blue-dark);
+  margin-bottom: 8px;
+}
+
+.project-desc {
+  font-family: var(--font-typewriter);
+  font-size: 0.84rem;
+  color: var(--ink-black-faded);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.project-links-row {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed rgba(60, 45, 30, 0.2);
+  padding-top: 10px;
+}
+
+.scrapbook-link {
+  font-family: var(--font-hand-caveat);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink-red-stamp);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.scrapbook-link:hover {
+  color: #8C2215;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   4. SKILLS & TOOLBAG SPREAD (CAIXA DE FERRAMENTAS)
+   ========================================================================== */
+
+.skills-index-card {
+  background: var(--bg-paper-grid);
+  border: 1px solid #D5C7B0;
+  padding: clamp(24px, 4vw, 44px);
+  border-radius: 4px;
+  box-shadow: var(--shadow-paper-lifted);
+  position: relative;
+  transform: rotate(0.8deg);
+}
+
+.skills-category-group {
+  margin-bottom: 28px;
+}
+
+.skills-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.skills-cat-title {
+  font-family: var(--font-marker);
+  font-size: 1.15rem;
+  color: var(--ink-blue-dark);
+}
+
+.skills-pill-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFDF9;
+  border: 1px solid #C4B59D;
+  padding: 6px 14px;
+  border-radius: 3px;
+  font-family: var(--font-typewriter);
+  font-size: 0.82rem;
+  font-weight: bold;
+  color: var(--ink-blue-dark);
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.06);
+  transform: rotate(var(--rot, 0deg));
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  cursor: default;
+}
+
+.skill-sticker:hover {
+  transform: scale(1.1) rotate(0deg) !important;
+  background-color: var(--tape-mustard);
+}
+
+/* ==========================================================================
+   5. CONTACT SPREAD (AIRMAIL POSTCARD / DEIXE UM BILHETE)
+   ========================================================================== */
+
+.postcard-wrapper {
+  background: #FFFDF9;
+  border: 10px solid #FFFFFF;
+  outline: 1px solid #E0D6C2;
+  box-shadow: var(--shadow-paper-floating);
+  padding: clamp(24px, 4.5vw, 52px);
+  position: relative;
+  transform: rotate(-1.2deg);
+  border-radius: 3px;
+}
+
+/* Airmail Red & Blue Border Stripe */
+.airmail-stripe {
+  height: 8px;
+  background: repeating-linear-gradient(
+    135deg,
+    #C34A36 0, #C34A36 18px,
+    transparent 18px, transparent 24px,
+    #2A4365 24px, #2A4365 42px,
+    transparent 42px, transparent 48px
+  );
+  margin-bottom: 24px;
+}
+
+.postcard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 48px);
+}
+
+.postcard-message-side {
+  border-right: 1.5px dashed rgba(60, 45, 30, 0.2);
+  padding-right: clamp(16px, 3vw, 32px);
+}
+
+.postcard-address-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.postcard-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.contact-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  background: var(--bg-paper-kraft);
+  border: 1px dashed #8C6D1F;
+  border-radius: 3px;
+  font-family: var(--font-typewriter);
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--ink-blue-dark);
+  text-decoration: none;
+  box-shadow: var(--shadow-tape);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.contact-action-btn:hover {
+  transform: scale(1.04) rotate(1deg);
+  background: var(--tape-mustard);
+}
+
+/* ==========================================================================
+   DOODLES & SVG ANIMATIONS
+   ========================================================================== */
+
+.doodle-svg {
+  overflow: visible;
+  pointer-events: none;
+}
+
+.doodle-draw-path {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.4s ease;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MOBILE VINTAGE POCKET JOURNAL)
+   ========================================================================== */
+
+@media screen and (max-width: 860px) {
+  .journal-spiral-binding {
+    display: none;
+  }
+
+  .about-grid,
+  .postcard-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .postcard-message-side {
+    border-right: none;
+    border-bottom: 1.5px dashed rgba(60, 45, 30, 0.2);
+    padding-right: 0;
+    padding-bottom: 24px;
+  }
+
+  .hero-scrapbook-elements {
+    position: relative;
+    right: auto;
+    top: auto;
+    align-items: flex-start;
+    margin-top: 24px;
+  }
+
+  .hero-polaroid {
+    transform: rotate(-3deg);
+  }
+}
