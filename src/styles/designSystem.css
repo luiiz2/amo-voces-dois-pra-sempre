@@ -1,9 +1,7 @@
 /* ==========================================================================
-   AMO VOCÊS DOIS PRA SEMPRE — LUXURY EDITORIAL DESIGN SYSTEM & TOKENS
-   Pure White Square Frames (1:1 Ratio) — No Purple on Frames
-   Typography & SVG Morph: Pure Royal Purple & Vivid Violet (Zero Yellow/Gold)
-   Act V: Pure Background Photo Mosaic (Zero Foreground Overlay Frames)
-   Strict Zero-Scroll Guarantee (100vw x 100svh Viewport Containment)
+   AMO VOCÊS DOIS PRA SEMPRE — HIGH-PERFORMANCE EDITORIAL DESIGN SYSTEM
+   Ultra-Smooth 60fps GPU Compositing | Pure White Square Frames (1:1 Ratio)
+   Pure Royal Purple & Violet Typography & SVG Motif | Zero UI Clutter
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Italiana&family=Montserrat:wght@200;300;400;500&display=swap');
@@ -28,14 +26,13 @@
   --purple-bright: #9333EA;
   --purple-light: #A855F7;
   --purple-soft: #C084FC;
-  --purple-faint: rgba(126, 34, 206, 0.08);
+  --purple-faint: rgba(126, 34, 206, 0.06);
   --purple-glow: rgba(147, 51, 234, 0.3);
 
   /* Ambient Lighting & Luminous Gradients */
-  --glow-radial-center: radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.06) 0%, rgba(255, 255, 255, 0) 65%);
-  --glow-radial-purple: radial-gradient(circle at 50% 45%, rgba(126, 34, 206, 0.05) 0%, rgba(250, 247, 253, 0) 60%);
-  --glow-radial-ambient: radial-gradient(circle at 20% 75%, rgba(168, 85, 247, 0.04) 0%, rgba(255, 255, 255, 0) 55%);
-  --vignette-editorial: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.02) 100%);
+  --glow-radial-center: radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.05) 0%, rgba(255, 255, 255, 0) 65%);
+  --glow-radial-purple: radial-gradient(circle at 50% 45%, rgba(126, 34, 206, 0.04) 0%, rgba(250, 247, 253, 0) 60%);
+  --glow-radial-ambient: radial-gradient(circle at 20% 75%, rgba(168, 85, 247, 0.03) 0%, rgba(255, 255, 255, 0) 55%);
 
   /* --- TYPOGRAPHY FAMILIES & WEIGHTS --- */
   --font-serif-cinzel: 'Cinzel', Georgia, serif;
@@ -46,16 +43,14 @@
   --text-straight-size: clamp(0.95rem, 2.2vw, 2.5rem);
   --text-straight-tracking: clamp(0.14em, 0.32vw, 0.32em);
 
-  /* Pure White Gallery Frame Shadows */
-  --shadow-card-clean: 0 10px 30px -4px rgba(0, 0, 0, 0.10), 0 3px 12px rgba(0, 0, 0, 0.04);
-  --shadow-card-hover: 0 18px 45px -6px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(126, 34, 206, 0.2);
-  --shadow-card-focused: 0 25px 70px -10px rgba(0, 0, 0, 0.22);
+  /* Pure White Gallery Frame Shadows (GPU Optimized) */
+  --shadow-card-clean: 0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 16px 36px -6px rgba(0, 0, 0, 0.12), 0 4px 14px rgba(126, 34, 206, 0.18);
+  --shadow-card-focused: 0 20px 50px -8px rgba(0, 0, 0, 0.18);
 
   /* Transition Curves */
   --ease-cinematic-slow: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-drift: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-soft-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-silk-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* Clean Pure White Frame Mat Inset */
   --photo-mat-inset: clamp(6px, 1.0vw, 14px);
@@ -103,7 +98,7 @@ html, body {
 }
 
 /* ==========================================================================
-   3. LUXURY WHITE CANVAS
+   3. LUXURY WHITE CANVAS (ZERO-LAG COMPOSITING)
    ========================================================================== */
 
 .editorial-viewport {
@@ -117,75 +112,8 @@ html, body {
     var(--glow-radial-purple),
     var(--glow-radial-ambient),
     linear-gradient(135deg, #FFFFFF 0%, #FAF7FD 50%, #F5EEFC 100%);
-}
-
-/* Film Grain Texture Layer */
-.film-grain-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 90;
-  opacity: 0.018;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
-}
-
-/* Editorial Vignette */
-.editorial-vignette {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 85;
-  background: var(--vignette-editorial);
-}
-
-/* Hairline Outer Ornamental Framing in Soft Purple Tone */
-.editorial-frame-border {
-  position: absolute;
-  inset: clamp(8px, 1.5vw, 24px);
-  border: 1px solid rgba(126, 34, 206, 0.15);
-  pointer-events: none;
-  z-index: 80;
-  border-radius: 4px;
-}
-
-/* Corner Architectural Accents in Purple */
-.frame-corner {
-  position: absolute;
-  width: clamp(14px, 2vw, 28px);
-  height: clamp(14px, 2vw, 28px);
-  pointer-events: none;
-  z-index: 82;
-}
-
-.frame-corner--tl {
-  top: clamp(6px, 1.3vw, 20px);
-  left: clamp(6px, 1.3vw, 20px);
-  border-top: 1.5px solid var(--purple-rich);
-  border-left: 1.5px solid var(--purple-rich);
-}
-
-.frame-corner--tr {
-  top: clamp(6px, 1.3vw, 20px);
-  right: clamp(6px, 1.3vw, 20px);
-  border-top: 1.5px solid var(--purple-rich);
-  border-right: 1.5px solid var(--purple-rich);
-}
-
-.frame-corner--bl {
-  bottom: clamp(6px, 1.3vw, 20px);
-  left: clamp(6px, 1.3vw, 20px);
-  border-bottom: 1.5px solid var(--purple-rich);
-  border-left: 1.5px solid var(--purple-rich);
-}
-
-.frame-corner--br {
-  bottom: clamp(6px, 1.3vw, 20px);
-  right: clamp(6px, 1.3vw, 20px);
-  border-bottom: 1.5px solid var(--purple-rich);
-  border-right: 1.5px solid var(--purple-rich);
+  contain: strict;
+  transform: translateZ(0);
 }
 
 /* SVG Vector Engine Layer (Sole Heart & Infinity Morph Motif) */
@@ -196,6 +124,7 @@ html, body {
   height: 100%;
   pointer-events: none;
   z-index: 20;
+  transform: translateZ(0);
 }
 
 #morphPath {
@@ -204,13 +133,13 @@ html, body {
   stroke-width: 2.6;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: url(#amo-romantic-glow);
+  filter: drop-shadow(0 0 8px rgba(147, 51, 234, 0.4));
   opacity: 0.88;
-  transition: opacity 1.2s var(--ease-soft-out);
+  will-change: d;
 }
 
 /* ==========================================================================
-   4. PURE STRAIGHT HORIZONTAL TYPOGRAPHY (PURE PURPLE / VIOLET — NO YELLOW)
+   4. PURE STRAIGHT HORIZONTAL TYPOGRAPHY (PURE PURPLE / VIOLET)
    ========================================================================== */
 
 .editorial-typography-stage {
@@ -225,7 +154,7 @@ html, body {
   z-index: 60;
 }
 
-/* Master Straight Phrase Container (Zero Liquid Glass, Pure Floating Text) */
+/* Master Straight Phrase Container */
 .straight-phrase-container {
   position: absolute;
   left: 50%;
@@ -240,11 +169,10 @@ html, body {
   max-width: min(52vw, 700px);
   padding: 0;
   background: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
   border: none !important;
   box-shadow: none !important;
   will-change: transform, opacity;
+  transform: translate(-50%, -50%) translateZ(0);
 }
 
 /* Single Straight Line in Uppercase */
@@ -264,25 +192,25 @@ html, body {
   padding: 0;
 }
 
-/* Individual Straight Words — Strictly Pure Royal Purple & Violet */
+/* Individual Straight Words */
 .straight-word {
   display: inline-block;
   background: linear-gradient(135deg, #3B0764 0%, #581C87 30%, #7E22CE 70%, #9333EA 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  filter: drop-shadow(0 2px 10px rgba(88, 28, 135, 0.3)) drop-shadow(0 0 16px rgba(147, 51, 234, 0.45)) !important;
-  will-change: transform, opacity, filter;
-  transition: transform 0.8s var(--ease-cinematic-slow), opacity 0.8s var(--ease-cinematic-slow), filter 0.8s var(--ease-cinematic-slow);
+  filter: drop-shadow(0 2px 8px rgba(88, 28, 135, 0.25)) drop-shadow(0 0 12px rgba(147, 51, 234, 0.35)) !important;
+  will-change: transform, opacity;
+  transition: transform 0.6s var(--ease-soft-out), opacity 0.6s var(--ease-soft-out);
 }
 
-/* Active Highlight States during Narrative Acts — Pure Radiant Purple */
+/* Active Highlight States during Narrative Acts */
 .straight-word.is-active {
   opacity: 1 !important;
-  transform: scale(1.08) translateY(-2px) !important;
+  transform: scale(1.06) translateY(-2px) !important;
   background: linear-gradient(135deg, #4C1D95 0%, #6D28D9 30%, #8B5CF6 70%, #A855F7 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  filter: drop-shadow(0 2px 14px rgba(109, 40, 217, 0.5)) drop-shadow(0 0 26px rgba(168, 85, 247, 0.8)) !important;
+  filter: drop-shadow(0 2px 10px rgba(109, 40, 217, 0.4)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.6)) !important;
 }
 
 .straight-word.is-passive {
@@ -297,11 +225,11 @@ html, body {
   background: linear-gradient(90deg, transparent 0%, var(--purple-vibrant) 50%, transparent 100%) !important;
   margin-top: clamp(6px, 1.2vh, 14px);
   opacity: 0.85;
-  filter: drop-shadow(0 0 6px var(--purple-light)) !important;
+  filter: drop-shadow(0 0 4px var(--purple-light)) !important;
 }
 
 /* ==========================================================================
-   5. PURE WHITE SQUARE PHOTO FRAMES (1:1 RATIO — ZERO PURPLE ON FRAMES)
+   5. PURE WHITE SQUARE PHOTO FRAMES (1:1 RATIO — HARDWARE ACCELERATED)
    ========================================================================== */
 
 .photo-stage-layer {
@@ -312,6 +240,7 @@ html, body {
   z-index: 40;
   pointer-events: auto;
   perspective: 1200px;
+  transform: translateZ(0);
 }
 
 .act-layer {
@@ -320,10 +249,11 @@ html, body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  transition: opacity 1.2s var(--ease-soft-out);
+  will-change: opacity;
+  transform: translateZ(0);
 }
 
-/* Pure White Square Photo Card (No Purple, Pure White Frame) */
+/* Pure White Square Photo Card */
 .editorial-photo-card {
   position: absolute;
   background: #FFFFFF !important;
@@ -332,9 +262,9 @@ html, body {
   border: none !important;
   border-radius: var(--frame-radius-square) !important;
   aspect-ratio: 1 / 1 !important;
-  transform-style: preserve-3d;
-  will-change: transform, opacity, filter;
-  transition: box-shadow 0.6s var(--ease-soft-out), transform 0.4s var(--ease-soft-out);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   cursor: pointer;
   box-sizing: border-box;
 }
@@ -342,7 +272,7 @@ html, body {
 @media (hover: hover) and (pointer: fine) {
   .editorial-photo-card:hover {
     box-shadow: var(--shadow-card-hover) !important;
-    transform: scale(1.03);
+    transform: scale(1.03) translateZ(0);
   }
 }
 
@@ -359,6 +289,7 @@ html, body {
   border-radius: 2px !important;
   overflow: hidden;
   background-color: var(--bg-soft-lilac);
+  transform: translateZ(0);
 }
 
 .editorial-photo-img {
@@ -367,32 +298,9 @@ html, body {
   object-fit: cover;
   object-position: center 32%;
   display: block;
-  transform: scale(1.0);
-  will-change: transform, filter;
-  transition: transform 4.8s var(--ease-drift), filter 1.8s var(--ease-soft-out);
-  filter: contrast(102%) saturate(102%) brightness(100%);
-}
-
-/* Frame Variant Harmonization — All Pure White Squares */
-.photo-frame--arch,
-.photo-frame--oval,
-.photo-frame--soft,
-.photo-frame--deckled,
-.photo-frame--glowing {
-  background: #FFFFFF !important;
-  border: none !important;
-  border-radius: var(--frame-radius-square) !important;
-  aspect-ratio: 1 / 1 !important;
-  box-shadow: var(--shadow-card-clean) !important;
-}
-
-.photo-frame--arch .editorial-photo-inner,
-.photo-frame--oval .editorial-photo-inner,
-.photo-frame--soft .editorial-photo-inner,
-.photo-frame--deckled .editorial-photo-inner,
-.photo-frame--glowing .editorial-photo-inner {
-  border-radius: 2px !important;
-  aspect-ratio: 1 / 1 !important;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  filter: contrast(101%) saturate(101%) brightness(100%);
 }
 
 /* Living Archival Mosaic Grid (Act V Finale: Background Mosaic ONLY) */
@@ -410,6 +318,7 @@ html, body {
   z-index: 30;
   align-items: center;
   justify-items: center;
+  transform: translateZ(0);
 }
 
 .mosaic-tile {
@@ -428,11 +337,12 @@ html, body {
   background: #FFFFFF !important;
   border: none !important;
   border-radius: 4px !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06) !important;
   filter: contrast(98%) brightness(98%) saturate(95%);
   pointer-events: auto;
   cursor: pointer;
-  transition: opacity 1.8s var(--ease-soft-out), transform 1.8s var(--ease-soft-out);
+  will-change: opacity, transform;
+  transform: translateZ(0);
 }
 
 /* ==========================================================================
@@ -443,7 +353,6 @@ html, body {
    A. DESKTOP (Wide & Standard: >= 1024px)
    -------------------------------------------------------------------------- */
 @media screen and (min-width: 1024px) {
-  /* Act I Layout: Left & Right Wings */
   .layout-act-1 .photo-hero-solo {
     width: clamp(160px, 17vw, 240px);
     aspect-ratio: 1 / 1;
@@ -462,7 +371,6 @@ html, body {
     z-index: 38;
   }
 
-  /* Act II Layout: Diptych on Left & Right Sides */
   .layout-act-2 .photo-diptych-left {
     width: clamp(150px, 16vw, 230px);
     aspect-ratio: 1 / 1;
@@ -482,7 +390,6 @@ html, body {
     z-index: 44;
   }
 
-  /* Act III Layout: Triptych Flanking the Center */
   .layout-act-3 .photo-triptych-1 {
     width: clamp(150px, 16vw, 230px);
     aspect-ratio: 1 / 1;
@@ -508,7 +415,6 @@ html, body {
     transform: translateY(-50%) rotate(2deg);
   }
 
-  /* Act IV Layout: Devotion Wings */
   .layout-act-4 .photo-echo-left {
     width: clamp(120px, 12.5vw, 175px);
     aspect-ratio: 1 / 1;
@@ -743,7 +649,7 @@ html, body {
 }
 
 /* ==========================================================================
-   7. IN-CANVAS INTERACTIVE PHOTO FOCUS LAYER (PURE WHITE SQUARE)
+   7. IN-CANVAS INTERACTIVE PHOTO FOCUS LAYER
    ========================================================================== */
 
 .photo-focus-layer {
@@ -757,24 +663,20 @@ html, body {
   justify-content: center;
   pointer-events: auto;
   cursor: pointer;
-}
-
-.focus-ambient-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateZ(0);
 }
 
 .focus-ambient-spotlight {
   position: absolute;
-  width: min(85vw, 650px);
-  height: min(85vw, 650px);
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.12) 0%, rgba(126, 34, 206, 0.08) 45%, transparent 75%);
+  width: min(85vw, 600px);
+  height: min(85vw, 600px);
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.12) 0%, rgba(126, 34, 206, 0.05) 50%, transparent 75%);
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(25px);
+  filter: blur(20px);
 }
 
 .focused-card-holder {
@@ -794,7 +696,7 @@ html, body {
   right: auto !important;
   bottom: auto !important;
   transform: none !important;
-  width: min(80vw, 500px) !important;
+  width: min(80vw, 480px) !important;
   height: auto !important;
   aspect-ratio: 1 / 1 !important;
   max-width: 88vw;
@@ -804,125 +706,4 @@ html, body {
   border: none !important;
   border-radius: 6px !important;
   cursor: pointer;
-}
-
-/* ==========================================================================
-   8. APOTHEOSIS REPLAY & MINIMAL CONTROLS (STRICTLY NO TEXT)
-   ========================================================================== */
-
-.apotheosis-replay-container {
-  position: absolute;
-  bottom: clamp(16px, 2.8vh, 32px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 75;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.apotheosis-replay-btn {
-  background: #FFFFFF;
-  border: 1.5px solid var(--purple-vibrant);
-  box-shadow: 0 4px 18px rgba(126, 34, 206, 0.15);
-  width: clamp(44px, 5.5vw, 56px);
-  height: clamp(44px, 5.5vw, 56px);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--purple-vibrant);
-  transition: transform 0.4s var(--ease-soft-out), box-shadow 0.4s var(--ease-soft-out);
-}
-
-.apotheosis-replay-btn:hover {
-  transform: scale(1.12);
-  box-shadow: 0 6px 25px rgba(126, 34, 206, 0.3);
-  color: var(--purple-deep);
-}
-
-.replay-svg-icon {
-  width: 60%;
-  height: 60%;
-  fill: currentColor;
-}
-
-.replay-ring {
-  fill: none;
-  stroke: var(--purple-vibrant);
-  stroke-width: 1.5;
-  stroke-dasharray: 4 3;
-  animation: rotateOrbital 18s linear infinite;
-  transform-origin: center;
-}
-
-.replay-inner-ring {
-  fill: none;
-  stroke: rgba(147, 51, 234, 0.35);
-  stroke-width: 1;
-}
-
-@keyframes rotateOrbital {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Minimal Non-Text Control Bar */
-.ambient-controller-bar {
-  position: absolute;
-  top: clamp(14px, 2.2vh, 26px);
-  right: clamp(14px, 2.2vw, 26px);
-  display: flex;
-  gap: clamp(8px, 1.2vw, 14px);
-  z-index: 75;
-}
-
-.glyph-btn {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(126, 34, 206, 0.15);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  width: clamp(34px, 4vw, 42px);
-  height: clamp(34px, 4vw, 42px);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--purple-royal);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: transform 0.3s var(--ease-soft-out), border-color 0.3s var(--ease-soft-out);
-}
-
-.glyph-btn:hover {
-  transform: scale(1.1);
-  border-color: var(--purple-vibrant);
-  color: var(--purple-deep);
-}
-
-.glyph-btn svg {
-  width: 55%;
-  height: 55%;
-  fill: currentColor;
-}
-
-/* Bottom Progress Rail */
-.timeline-progress-rail {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: rgba(126, 34, 206, 0.08);
-  z-index: 75;
-  pointer-events: none;
-}
-
-.timeline-progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--purple-deep) 0%, var(--purple-vibrant) 50%, var(--purple-light) 100%);
-  box-shadow: 0 0 8px var(--purple-light);
-  transition: width 0.1s linear;
 }

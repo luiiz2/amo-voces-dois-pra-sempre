@@ -1,56 +1,40 @@
 /**
  * ============================================================================
- * AMO VOCÊS DOIS PRA SEMPRE — MASTER APPLICATION ENGINE
- * Single-Screen Generative Experience (100vw × 100svh Zero-Scroll Architecture)
- * Pure White Square Frames (1:1 Ratio) & Background Photo Mosaic in Act V
+ * AMO VOCÊS DOIS PRA SEMPRE — HIGH-PERFORMANCE APPLICATION ENGINE
+ * Ultra-Smooth 60fps GPU Compositing | Pure White Square Frames (1:1 Ratio)
+ * Pure Royal Purple & Violet Typography & SVG Motif | Zero UI Clutter
  * ============================================================================
  * 
- * Rules & Guarantees:
- * 1. Strict zero-scroll viewport containment (100vw x 100svh, touch-action: none).
+ * Guarantees:
+ * 1. ZERO UI buttons or floating controls (100% immersive, pure aesthetic).
  * 2. ONLY allowed visible text: 'AMO VOCÊS DOIS PRA SEMPRE' straight in one line.
- * 3. Zero liquid glass / pure floating typography.
- * 4. Lateral square photos (left & right wings) protecting the central channel.
- * 5. Act V Finale: ONLY background photo mosaic, NO foreground overlay frames.
- * 6. ONLY SVG motif: The Parametric Heart-to-Infinity Bezier morph path.
- * 7. 13 Curated archival family photographs with protected focal coordinates.
- * 8. Smooth 60fps GPU-accelerated GSAP camera drift & clip reveals.
- * 9. Interactive in-canvas photo focus without modals or navigation away.
+ * 3. 100vw x 100svh Zero-Scroll Containment (GPU Compositor 60fps).
+ * 4. Act V: Background Photo Mosaic ONLY (Zero Foreground Overlay Frames).
+ * 5. Hardware-accelerated SVG Heart-to-Infinity Bezier Morphing.
+ * 6. Smooth interactive in-canvas photo focus on tap/click.
  */
 
 import gsap from 'gsap';
 import {
-  PHOTOS_CATALOG,
-  SCENES_CATALOG,
   getAllPhotos,
   getPhotoById,
-  getObjectPositionStyle,
-  getFocalCoordinates,
-  getSafeCropBox,
-  resolvePhotoSrc
+  getObjectPositionStyle
 } from './data/photos.js';
 
 import {
   getMorphSegments,
   segmentsToSvgPath,
-  getMorphSvgPath,
   createLuxurySvgDefs,
-  SpringDisplacementField,
-  EasingFunctions
+  SpringDisplacementField
 } from './graphics/index.js';
 
 import {
-  PALETTE,
   EASINGS,
-  TIMELINE_ACTS,
-  RESPONSIVE_LAYOUT_MATRIX,
-  getCurrentAct,
-  getActProgress,
-  getCameraDrift,
   getLayoutProfile
 } from './motion/motionDirector.js';
 
 // ============================================================================
-// 1. PURE WEB AUDIO AMBIENT SOUNDSCAPE
+// 1. LIGHTWEIGHT WEB AUDIO SOUNDSCAPE
 // ============================================================================
 
 class AmbientSoundscape {
@@ -58,8 +42,6 @@ class AmbientSoundscape {
     this.ctx = null;
     this.masterGain = null;
     this.isPlaying = false;
-    this.isMuted = true;
-    this.oscillators = [];
     this.intervalId = null;
     this.chordIndex = 0;
 
@@ -80,21 +62,12 @@ class AmbientSoundscape {
         this.masterGain = this.ctx.createGain();
         this.masterGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
 
-        this.filter = this.ctx.createBiquadFilter();
-        this.filter.type = 'lowpass';
-        this.filter.frequency.setValueAtTime(750, this.ctx.currentTime);
-        this.filter.Q.setValueAtTime(1.1, this.ctx.currentTime);
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(800, this.ctx.currentTime);
 
-        this.delay = this.ctx.createDelay();
-        this.delay.delayTime.setValueAtTime(0.32, this.ctx.currentTime);
-        this.delayGain = this.ctx.createGain();
-        this.delayGain.gain.setValueAtTime(0.25, this.ctx.currentTime);
-
-        this.masterGain.connect(this.filter);
-        this.filter.connect(this.ctx.destination);
-        this.filter.connect(this.delay);
-        this.delay.connect(this.delayGain);
-        this.delayGain.connect(this.filter);
+        this.masterGain.connect(filter);
+        filter.connect(this.ctx.destination);
       }
     }
     if (this.ctx && this.ctx.state === 'suspended') {
@@ -103,18 +76,17 @@ class AmbientSoundscape {
   }
 
   playChord(freqs, duration = 8.0) {
-    if (!this.ctx || this.isMuted) return;
-
+    if (!this.ctx) return;
     const now = this.ctx.currentTime;
     freqs.forEach((freq, idx) => {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
       osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
-      osc.frequency.setValueAtTime(freq + (Math.random() - 0.5) * 0.7, now);
+      osc.frequency.setValueAtTime(freq, now);
 
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.04 / freqs.length, now + 2.5);
+      gain.gain.exponentialRampToValueAtTime(0.035 / freqs.length, now + 2.0);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
       osc.connect(gain);
@@ -134,50 +106,19 @@ class AmbientSoundscape {
 
   start() {
     this.initContext();
+    if (this.isPlaying) return;
     this.isPlaying = true;
-    if (this.isMuted) return;
 
-    if (this.masterGain) {
+    if (this.masterGain && this.ctx) {
       this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.masterGain.gain.linearRampToValueAtTime(0.8, this.ctx.currentTime + 2.0);
+      this.masterGain.gain.linearRampToValueAtTime(0.7, this.ctx.currentTime + 2.0);
     }
 
     this.playChord(this.chords[0]);
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
     this.intervalId = setInterval(() => {
       this.chordIndex = (this.chordIndex + 1) % this.chords.length;
       this.playChord(this.chords[this.chordIndex], 8.0);
     }, 7000);
-  }
-
-  toggleMute() {
-    this.initContext();
-    this.isMuted = !this.isMuted;
-    if (this.isMuted) {
-      if (this.masterGain && this.ctx) {
-        this.masterGain.gain.linearRampToValueAtTime(0.0001, this.ctx.currentTime + 0.8);
-      }
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
-    } else {
-      if (this.masterGain && this.ctx) {
-        this.masterGain.gain.linearRampToValueAtTime(0.8, this.ctx.currentTime + 1.2);
-      }
-      this.chordIndex = 0;
-      this.playChord(this.chords[0]);
-      if (!this.intervalId) {
-        this.intervalId = setInterval(() => {
-          this.chordIndex = (this.chordIndex + 1) % this.chords.length;
-          this.playChord(this.chords[this.chordIndex], 8.0);
-        }, 7000);
-      }
-    }
-    return !this.isMuted;
   }
 
   destroy() {
@@ -195,7 +136,7 @@ class AmbientSoundscape {
 }
 
 // ============================================================================
-// 2. MAIN APPLICATION CLASS
+// 2. MAIN HIGH-PERFORMANCE APPLICATION
 // ============================================================================
 
 export class App {
@@ -205,25 +146,22 @@ export class App {
     this.springField = new SpringDisplacementField({
       stiffness: 0.08,
       damping: 0.88,
-      influenceRadius: 220,
-      maxForce: 48
+      influenceRadius: 180,
+      maxForce: 36
     });
 
     this.isPlaying = true;
-    this.totalDuration = 65.0;
     this.masterTimeline = null;
     this.rafId = null;
-    this.currentT = 0;
-    this.isApotheosisSettled = false;
     this.morphProgress = 0.0;
+    this.isApotheosisSettled = false;
 
     // Interactive Photo Focus state
     this.isFocused = false;
     this.focusedPhotoId = null;
     this.activeSourceCard = null;
-    this.wasPlayingBeforeFocus = false;
 
-    // Desktop Pointer Parallax & 3D Tilt State
+    // Smooth Desktop Parallax
     this.targetTiltX = 0;
     this.targetTiltY = 0;
     this.currentTiltX = 0;
@@ -234,13 +172,10 @@ export class App {
     this.svgWidth = 1920;
     this.svgHeight = 1080;
 
-    this.preloadedImages = new Map();
-
     this.init();
   }
 
   init() {
-    this.preloadArchivalBitmaps();
     this.renderDOM();
     this.updateSvgDimensions();
     this.initEventListeners();
@@ -260,70 +195,25 @@ export class App {
   }
 
   // --------------------------------------------------------------------------
-  // ASSET PRELOADING & GPU DECODING
-  // --------------------------------------------------------------------------
-  async preloadArchivalBitmaps() {
-    const photos = getAllPhotos();
-    const promises = photos.map(async (photo) => {
-      try {
-        const img = new Image();
-        img.src = photo.src;
-        if (typeof img.decode === 'function') {
-          await img.decode();
-        } else {
-          await new Promise((resolve) => {
-            img.onload = resolve;
-            img.onerror = resolve;
-          });
-        }
-        this.preloadedImages.set(photo.id, img);
-        return { id: photo.id, status: 'decoded' };
-      } catch (err) {
-        this.preloadedImages.set(photo.id, { src: photo.src });
-        return { id: photo.id, status: 'fallback' };
-      }
-    });
-
-    try {
-      await Promise.all(promises);
-    } catch (e) {
-      // Non-blocking fallback
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  // DOM RENDERING (STRICT ZERO TEXT OTHER THAN CANONICAL PHRASE)
+  // DOM RENDERING (ZERO BUTTONS / ZERO CLUTTER)
   // --------------------------------------------------------------------------
   renderDOM() {
     const luxuryDefs = createLuxurySvgDefs({ prefix: 'amo-' });
 
     this.root.innerHTML = `
       <div class="editorial-viewport" id="viewport">
-        <!-- Film Grain & Ambient Atmosphere -->
-        <div class="film-grain-layer"></div>
-        <div class="editorial-vignette"></div>
-
-        <!-- Outer Ornamental Editorial Borders in Gold -->
-        <div class="editorial-frame-border"></div>
-        <div class="frame-corner frame-corner--tl"></div>
-        <div class="frame-corner frame-corner--tr"></div>
-        <div class="frame-corner frame-corner--bl"></div>
-        <div class="frame-corner frame-corner--br"></div>
-
         <!-- Master SVG Vector Engine Layer (SOLE HEART & INFINITY MOTIF) -->
         <svg class="continuous-svg-layer" id="masterSvg" viewBox="0 0 1920 1080" preserveAspectRatio="none">
           <defs>${luxuryDefs}</defs>
-
-          <!-- Central Heart-to-Infinity Morphing Path (Sole SVG Element) -->
-          <path id="morphPath" d="" fill="none" stroke="url(#amo-grad-purple-pure)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#amo-romantic-glow)"></path>
+          <path id="morphPath" d="" fill="none" stroke="url(#amo-grad-purple-pure)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
 
         <!-- Dynamic Photo Stage Layer (Lateral Left & Right Wings) -->
         <div class="photo-stage-layer" id="photoStage"></div>
 
-        <!-- Pure Straight Horizontal Phrase in Center (No Liquid Glass, Clean Uppercase) -->
+        <!-- Pure Straight Horizontal Phrase in Center (Pure Royal Purple & Violet) -->
         <div class="editorial-typography-stage" id="typographyStage">
-          <div class="straight-phrase-container" id="straightPhraseContainer" style="opacity: 0; transform: translate(-50%, -50%) scale(0.96); filter: blur(8px);">
+          <div class="straight-phrase-container" id="straightPhraseContainer" style="opacity: 0; transform: translate(-50%, -50%) scale(0.96);">
             <h1 class="phrase-straight-line" id="phraseStraightLine">
               <span class="straight-word word--amo is-active" id="wordAmo">AMO</span>
               <span class="straight-word word--voces is-passive" id="wordVoces">VOCÊS</span>
@@ -337,44 +227,8 @@ export class App {
 
         <!-- In-Canvas Interactive Photo Focus Layer -->
         <div class="photo-focus-layer" id="photoFocusLayer" style="display: none; opacity: 0;">
-          <div class="focus-ambient-backdrop" id="focusBackdrop"></div>
           <div class="focus-ambient-spotlight" id="focusSpotlight"></div>
           <div class="focused-card-holder" id="focusedCardHolder"></div>
-        </div>
-
-        <!-- Apotheosis Replay Trigger (Icon-Only, Strictly No Text) -->
-        <div class="apotheosis-replay-container" id="apotheosisReplayContainer" style="opacity: 0; pointer-events: none;">
-          <button class="apotheosis-replay-btn" id="btnApotheosisReplay" aria-label="AMO VOCÊS DOIS PRA SEMPRE" title="">
-            <svg viewBox="0 0 48 48" class="replay-svg-icon" aria-hidden="true">
-              <circle cx="24" cy="24" r="21" class="replay-ring" />
-              <circle cx="24" cy="24" r="17" class="replay-inner-ring" />
-              <path class="replay-arrow" d="M24 14v-4l-6 6 6 6v-4c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8h-3c0 6.08 4.92 11 11 11s11-4.92 11-11-4.92-11-11-11z" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Minimal Non-Text Control Bar (SVGs only, NO text) -->
-        <div class="ambient-controller-bar" aria-hidden="true">
-          <button class="glyph-btn" id="btnSound" aria-label="AMO VOCÊS DOIS PRA SEMPRE" title="">
-            <svg viewBox="0 0 24 24" id="soundIcon" aria-hidden="true">
-              <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-            </svg>
-          </button>
-          <button class="glyph-btn" id="btnPlayPause" aria-label="AMO VOCÊS DOIS PRA SEMPRE" title="">
-            <svg viewBox="0 0 24 24" id="playPauseIcon" aria-hidden="true">
-              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-            </svg>
-          </button>
-          <button class="glyph-btn" id="btnRestart" aria-label="AMO VOCÊS DOIS PRA SEMPRE" title="">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Continuous Bottom Progress Rail -->
-        <div class="timeline-progress-rail" id="progressRail">
-          <div class="timeline-progress-bar" id="progressBar"></div>
         </div>
       </div>
     `;
@@ -390,111 +244,63 @@ export class App {
     this.wordSempreEl = document.getElementById('wordSempre');
     this.phraseFlourishEl = document.getElementById('phraseFlourish');
     this.morphPathEl = document.getElementById('morphPath');
-    this.progressBarEl = document.getElementById('progressBar');
-    this.playPauseIconEl = document.getElementById('playPauseIcon');
-    this.soundIconEl = document.getElementById('soundIcon');
     this.photoFocusLayerEl = document.getElementById('photoFocusLayer');
-    this.focusBackdropEl = document.getElementById('focusBackdrop');
     this.focusSpotlightEl = document.getElementById('focusSpotlight');
     this.focusedCardHolderEl = document.getElementById('focusedCardHolder');
-    this.apotheosisReplayContainerEl = document.getElementById('apotheosisReplayContainer');
   }
 
   // --------------------------------------------------------------------------
-  // EVENT LISTENERS & POINTER INTERACTIVITY
+  // EVENT LISTENERS (POINTER TILT & INTUITIVE TOUCH/CLICK)
   // --------------------------------------------------------------------------
   initEventListeners() {
-    const handlePointerMove = (e) => {
-      const rect = this.root.getBoundingClientRect();
-      const sw = this.svgWidth || 1920;
-      const sh = this.svgHeight || 1080;
-      const x = (e.clientX - rect.left) * (sw / Math.max(1, rect.width));
-      const y = (e.clientY - rect.top) * (sh / Math.max(1, rect.height));
-      this.springField.updatePointer(x, y, true);
+    let ticking = false;
 
-      if (!this.isFocused) {
-        const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-        const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-        this.targetTiltX = Math.max(-1, Math.min(1, normX));
-        this.targetTiltY = Math.max(-1, Math.min(1, normY));
-      }
-    };
-
-    const handleTouchMove = (e) => {
-      if (e.touches && e.touches.length > 0) {
-        const touch = e.touches[0];
+    const handlePointer = (clientX, clientY) => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
         const rect = this.root.getBoundingClientRect();
         const sw = this.svgWidth || 1920;
         const sh = this.svgHeight || 1080;
-        const x = (touch.clientX - rect.left) * (sw / Math.max(1, rect.width));
-        const y = (touch.clientY - rect.top) * (sh / Math.max(1, rect.height));
+        const x = (clientX - rect.left) * (sw / Math.max(1, rect.width));
+        const y = (clientY - rect.top) * (sh / Math.max(1, rect.height));
         this.springField.updatePointer(x, y, true);
-      }
-    };
 
-    const handleTouchEnd = () => {
-      this.springField.updatePointer(-9999, -9999, false);
-      this.targetTiltX = 0;
-      this.targetTiltY = 0;
-    };
-
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('pointerleave', () => {
-      this.springField.updatePointer(-9999, -9999, false);
-      this.targetTiltX = 0;
-      this.targetTiltY = 0;
-    }, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-    // Sound toggle
-    const btnSound = document.getElementById('btnSound');
-    if (btnSound) {
-      btnSound.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const unmuted = this.soundscape.toggleMute();
-        if (this.soundIconEl) {
-          this.soundIconEl.innerHTML = unmuted
-            ? '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>'
-            : '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
+        if (!this.isFocused) {
+          const normX = ((clientX - rect.left) / rect.width - 0.5) * 2;
+          const normY = ((clientY - rect.top) / rect.height - 0.5) * 2;
+          this.targetTiltX = Math.max(-1, Math.min(1, normX));
+          this.targetTiltY = Math.max(-1, Math.min(1, normY));
         }
+        ticking = false;
       });
-    }
+    };
 
-    // Play/Pause toggle
-    const btnPlayPause = document.getElementById('btnPlayPause');
-    if (btnPlayPause) {
-      btnPlayPause.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.togglePlayPause();
-      });
-    }
+    window.addEventListener('pointermove', (e) => {
+      handlePointer(e.clientX, e.clientY);
+    }, { passive: true });
 
-    // Restart button
-    const btnRestart = document.getElementById('btnRestart');
-    if (btnRestart) {
-      btnRestart.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.restart();
-      });
-    }
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        handlePointer(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
 
-    // Apotheosis replay button
-    const btnApotheosisReplay = document.getElementById('btnApotheosisReplay');
-    if (btnApotheosisReplay) {
-      btnApotheosisReplay.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.restart();
-      });
-    }
+    const handlePointerLeave = () => {
+      this.springField.updatePointer(-9999, -9999, false);
+      this.targetTiltX = 0;
+      this.targetTiltY = 0;
+    };
+
+    window.addEventListener('pointerleave', handlePointerLeave, { passive: true });
+    window.addEventListener('touchend', handlePointerLeave, { passive: true });
 
     // Photo focus clicks on any photo card
     this.photoStageEl.addEventListener('click', (e) => {
       const card = e.target.closest('.editorial-photo-card');
       if (card) {
         const photoId = card.dataset.photoId;
-        const frameStyle = card.dataset.frameStyle || 'soft';
-        this.openPhotoFocus(photoId, card, frameStyle);
+        this.openPhotoFocus(photoId, card);
       }
     });
 
@@ -503,15 +309,10 @@ export class App {
       this.closePhotoFocus();
     });
 
-    // Canvas click to toggle play/pause (if not clicking controls or focus)
+    // Background click to start audio soundscape smoothly
     this.root.addEventListener('click', (e) => {
-      if (e.target.closest('.ambient-controller-bar') ||
-          e.target.closest('.photo-focus-layer') ||
-          e.target.closest('.apotheosis-replay-container') ||
-          e.target.closest('.editorial-photo-card')) {
-        return;
-      }
-      this.togglePlayPause();
+      if (e.target.closest('.editorial-photo-card') || e.target.closest('.photo-focus-layer')) return;
+      this.soundscape.start();
     });
 
     // Keyboard accessibility
@@ -519,18 +320,14 @@ export class App {
       if (e.code === 'Space') {
         e.preventDefault();
         this.togglePlayPause();
-      } else if (e.key === 'r' || e.key === 'R') {
-        this.restart();
-      } else if (e.key === 'Escape') {
-        if (this.isFocused) {
-          this.closePhotoFocus();
-        }
+      } else if (e.key === 'Escape' && this.isFocused) {
+        this.closePhotoFocus();
       }
     });
 
     // Resize recalculation
     window.addEventListener('resize', () => {
-      if (Math.abs(window.innerWidth - this.lastWidth) > 40 || Math.abs(window.innerHeight - this.lastHeight) > 40) {
+      if (Math.abs(window.innerWidth - this.lastWidth) > 50 || Math.abs(window.innerHeight - this.lastHeight) > 50) {
         this.lastWidth = window.innerWidth;
         this.lastHeight = window.innerHeight;
         this.rebuildDynamicLayout();
@@ -541,7 +338,7 @@ export class App {
   // --------------------------------------------------------------------------
   // INTERACTIVE PHOTO FOCUS
   // --------------------------------------------------------------------------
-  openPhotoFocus(photoId, sourceCardElement, frameStyle = 'soft') {
+  openPhotoFocus(photoId, sourceCardElement) {
     if (this.isFocused || !photoId) return;
 
     const photo = getPhotoById(photoId);
@@ -553,17 +350,8 @@ export class App {
     this.targetTiltX = 0;
     this.targetTiltY = 0;
 
-    this.wasPlayingBeforeFocus = this.isPlaying;
-    if (this.isPlaying && this.masterTimeline) {
-      this.masterTimeline.pause();
-      this.isPlaying = false;
-      if (this.playPauseIconEl) {
-        this.playPauseIconEl.innerHTML = '<path d="M8 5v14l11-7z"/>';
-      }
-    }
-
     if (this.activeSourceCard) {
-      gsap.to(this.activeSourceCard, { opacity: 0.2, duration: 0.35 });
+      gsap.to(this.activeSourceCard, { opacity: 0.2, duration: 0.3 });
     }
 
     const device = getLayoutProfile(window.innerWidth);
@@ -577,88 +365,45 @@ export class App {
     `;
 
     this.photoFocusLayerEl.style.display = 'flex';
-    this.photoFocusLayerEl.classList.add('active');
-
-    const srcRect = sourceCardElement.getBoundingClientRect();
-    const focusedCard = document.getElementById('focusedCard');
-    const focusedRect = focusedCard.getBoundingClientRect();
-
-    const dx = (srcRect.left + srcRect.width / 2) - (focusedRect.left + focusedRect.width / 2);
-    const dy = (srcRect.top + srcRect.height / 2) - (focusedRect.top + focusedRect.height / 2);
-    const scale = Math.max(0.2, Math.max(srcRect.width / focusedRect.width, srcRect.height / focusedRect.height));
-
-    gsap.killTweensOf([this.focusBackdropEl, this.focusSpotlightEl, focusedCard, this.photoFocusLayerEl]);
 
     gsap.fromTo(this.photoFocusLayerEl, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-    gsap.fromTo(this.focusBackdropEl, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'power2.out' });
-    gsap.fromTo(this.focusSpotlightEl, { opacity: 0, scale: 0.75 }, { opacity: 1, scale: 1.0, duration: 0.55, ease: 'power2.out' });
-
-    gsap.fromTo(focusedCard, {
-      x: dx,
-      y: dy,
-      scale: scale,
-      opacity: 0.9
-    }, {
-      x: 0,
-      y: 0,
-      scale: 1,
-      opacity: 1,
-      duration: 0.52,
-      ease: EASINGS.cinematicSlow
-    });
+    const focusedCard = document.getElementById('focusedCard');
+    if (focusedCard) {
+      gsap.fromTo(focusedCard, {
+        scale: 0.85,
+        opacity: 0.5
+      }, {
+        scale: 1,
+        opacity: 1,
+        duration: 0.4,
+        ease: EASINGS.cinematicSlow
+      });
+    }
   }
 
   closePhotoFocus() {
     if (!this.isFocused) return;
     this.isFocused = false;
 
-    const focusedCard = document.getElementById('focusedCard');
-    if (focusedCard && this.activeSourceCard) {
-      const srcRect = this.activeSourceCard.getBoundingClientRect();
-      const focusedRect = focusedCard.getBoundingClientRect();
-      const dx = (srcRect.left + srcRect.width / 2) - (focusedRect.left + focusedRect.width / 2);
-      const dy = (srcRect.top + srcRect.height / 2) - (focusedRect.top + focusedRect.height / 2);
-      const scale = Math.max(0.2, Math.max(srcRect.width / focusedRect.width, srcRect.height / focusedRect.height));
-
-      gsap.to(focusedCard, {
-        x: dx,
-        y: dy,
-        scale: scale,
-        opacity: 0,
-        duration: 0.4,
-        ease: EASINGS.silkInOut
-      });
-    }
-
-    gsap.to([this.focusBackdropEl, this.focusSpotlightEl, this.photoFocusLayerEl], {
+    gsap.to(this.photoFocusLayerEl, {
       opacity: 0,
-      duration: 0.38,
-      ease: 'power2.inOut',
+      duration: 0.3,
       onComplete: () => {
         this.photoFocusLayerEl.style.display = 'none';
-        this.photoFocusLayerEl.classList.remove('active');
         this.focusedCardHolderEl.innerHTML = '';
       }
     });
 
     if (this.activeSourceCard) {
-      gsap.to(this.activeSourceCard, { opacity: 1, duration: 0.4 });
+      gsap.to(this.activeSourceCard, { opacity: 1, duration: 0.3 });
       this.activeSourceCard = null;
     }
 
     this.focusedPhotoId = null;
-
-    if (this.wasPlayingBeforeFocus && this.masterTimeline) {
-      this.masterTimeline.play();
-      this.isPlaying = true;
-      if (this.playPauseIconEl) {
-        this.playPauseIconEl.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-      }
-    }
   }
 
   // --------------------------------------------------------------------------
-  // MASTER TIMELINE CHOREOGRAPHY (5 ACTS + CONTINUOUS STRAIGHT PHRASE)
+  // MASTER TIMELINE CHOREOGRAPHY (5 ACTS + REPEATING HARMONIC VOYAGE)
   // --------------------------------------------------------------------------
   buildMasterTimeline() {
     if (this.masterTimeline) {
@@ -666,120 +411,93 @@ export class App {
     }
 
     this.masterTimeline = gsap.timeline({
-      paused: false,
-      onUpdate: () => {
-        const time = this.masterTimeline.time();
-        const progress = this.masterTimeline.progress();
-        this.currentT = time;
-        if (this.progressBarEl) {
-          this.progressBarEl.style.width = `${(progress * 100).toFixed(2)}%`;
-        }
-      },
-      onComplete: () => {
-        this.isApotheosisSettled = true;
-        if (this.apotheosisReplayContainerEl) {
-          gsap.to(this.apotheosisReplayContainerEl, {
-            opacity: 1,
-            pointerEvents: 'auto',
-            duration: 2.0,
-            ease: EASINGS.softOut
-          });
-        }
-      }
+      repeat: -1,
+      repeatDelay: 2.0
     });
 
     // ------------------------------------------------------------------------
-    // ACT I (0.0s - 12.0s): AWAKENING — "AMO" FOCUS
+    // ACT I (0.0s - 12.0s): AWAKENING — "AMO"
     // ------------------------------------------------------------------------
-    this.masterTimeline.addLabel('act1', 0.0);
-
-    // Initial state
     this.masterTimeline.set('.act-layer', { opacity: 0, pointerEvents: 'none' }, 0);
     this.masterTimeline.set('#act1-layer', { opacity: 1, pointerEvents: 'auto' }, 0);
-    this.masterTimeline.set('#apotheosisReplayContainer', { opacity: 0, pointerEvents: 'none' }, 0);
 
-    // Reveal Straight Phrase in Center (Permanent, never disappearing)
+    // Reveal Straight Phrase in Center
     this.masterTimeline.to(this.straightPhraseContainerEl, {
       opacity: 1,
       scale: 1,
-      filter: 'blur(0px)',
-      duration: 2.4,
+      duration: 2.2,
       ease: EASINGS.cinematicSlow
     }, 0.2);
 
-    // Act 1 Word Emphasis: "AMO" shines brightly
+    // "AMO" Highlight
     this.masterTimeline.to(this.wordAmoEl, {
       opacity: 1,
-      scale: 1.08,
-      duration: 2.2,
+      scale: 1.06,
+      duration: 2.0,
       ease: EASINGS.cinematicSlow
     }, 0.4);
 
     this.masterTimeline.to([this.wordVocesEl, this.wordDoisEl, this.wordPraEl, this.wordSempreEl], {
-      opacity: 0.8,
+      opacity: 0.82,
       scale: 1.0,
-      duration: 2.2,
+      duration: 2.0,
       ease: EASINGS.cinematicSlow
-    }, 0.6);
+    }, 0.4);
 
-    // Act 1 Lateral Photos Reveal (Left Crib + Right Ball Pit)
+    // Photos Reveal
     this.masterTimeline.to('#p01-card', {
       opacity: 1,
       scale: 1,
-      duration: 3.0,
+      duration: 2.8,
       ease: EASINGS.cinematicSlow
-    }, 0.6);
+    }, 0.5);
 
     this.masterTimeline.to('#p02-card-act1', {
       opacity: 0.92,
       scale: 1,
-      duration: 3.0,
+      duration: 2.8,
       ease: EASINGS.softOut
-    }, 2.5);
+    }, 2.0);
 
-    // Morph: Heart shape breathing
+    // Morph Heart
     this.masterTimeline.to(this, {
       morphProgress: 0.1,
       duration: 11.0,
       ease: 'sine.inOut'
     }, 0.0);
 
-    // Act 1 Lateral Photos Fade Out
+    // Photos Fade
     this.masterTimeline.to(['#p01-card', '#p02-card-act1'], {
       opacity: 0,
-      scale: 1.04,
-      filter: 'blur(4px)',
-      duration: 2.0,
+      scale: 1.03,
+      duration: 1.8,
       ease: 'power2.inOut'
     }, 10.5);
 
     // ------------------------------------------------------------------------
-    // ACT II (12.0s - 24.0s): TENDERNESS — "VOCÊS DOIS" FOCUS
+    // ACT II (12.0s - 24.0s): TENDERNESS — "VOCÊS DOIS"
     // ------------------------------------------------------------------------
-    this.masterTimeline.addLabel('act2', 12.0);
     this.masterTimeline.set('#act2-layer', { opacity: 1, pointerEvents: 'auto' }, 11.8);
 
-    // Act 2 Word Emphasis: "VOCÊS DOIS" shines brightly
     this.masterTimeline.to([this.wordVocesEl, this.wordDoisEl], {
       opacity: 1,
-      scale: 1.08,
-      duration: 2.4,
+      scale: 1.06,
+      duration: 2.2,
       ease: EASINGS.cinematicSlow
     }, 12.2);
 
     this.masterTimeline.to([this.wordAmoEl, this.wordPraEl, this.wordSempreEl], {
-      opacity: 0.8,
+      opacity: 0.82,
       scale: 1.0,
       duration: 2.0,
       ease: EASINGS.softOut
     }, 12.2);
 
-    // Act 2 Lateral Diptych Photos (p03 Bath on Left + p04 Reading on Right)
     this.masterTimeline.to('#p03-card', {
       opacity: 1,
       scale: 1,
       rotate: -1.5,
-      duration: 2.8,
+      duration: 2.6,
       ease: EASINGS.cinematicSlow
     }, 12.2);
 
@@ -787,60 +505,54 @@ export class App {
       opacity: 1,
       scale: 1,
       rotate: 1.5,
-      duration: 3.0,
+      duration: 2.8,
       ease: EASINGS.cinematicSlow
     }, 12.8);
 
-    // Morph progress
     this.masterTimeline.to(this, {
       morphProgress: 0.35,
       duration: 11.5,
       ease: 'sine.inOut'
     }, 12.0);
 
-    // Act 2 Lateral Photos Fade Out
     this.masterTimeline.to(['#p03-card', '#p04-card'], {
       opacity: 0,
-      scale: 0.96,
-      filter: 'blur(4px)',
-      duration: 2.0,
+      scale: 0.97,
+      duration: 1.8,
       ease: 'power2.inOut'
     }, 22.2);
 
     // ------------------------------------------------------------------------
-    // ACT III (24.0s - 36.0s): JOY & MILESTONES — "AMO VOCÊS DOIS" FOCUS
+    // ACT III (24.0s - 36.0s): JOY — "AMO VOCÊS DOIS"
     // ------------------------------------------------------------------------
-    this.masterTimeline.addLabel('act3', 24.0);
     this.masterTimeline.set('#act3-layer', { opacity: 1, pointerEvents: 'auto' }, 23.8);
 
-    // Act 3 Word Emphasis: "AMO VOCÊS DOIS" illuminate together
     this.masterTimeline.to([this.wordAmoEl, this.wordVocesEl, this.wordDoisEl], {
       opacity: 1,
-      scale: 1.06,
-      duration: 2.4,
+      scale: 1.05,
+      duration: 2.2,
       ease: EASINGS.cinematicSlow
     }, 24.2);
 
     this.masterTimeline.to([this.wordPraEl, this.wordSempreEl], {
-      opacity: 0.8,
+      opacity: 0.82,
       scale: 1.0,
       duration: 2.0,
       ease: EASINGS.softOut
     }, 24.2);
 
-    // Act 3 Lateral Triptych Photos (p05 Beach on Left, p06 & p07 on Right)
     this.masterTimeline.to('#p05-card', {
       opacity: 1,
       scale: 1,
       rotate: -2.0,
-      duration: 2.6,
+      duration: 2.4,
       ease: EASINGS.cinematicSlow
     }, 24.2);
 
     this.masterTimeline.to('#p06-card', {
       opacity: 1,
       scale: 1,
-      duration: 2.8,
+      duration: 2.6,
       ease: EASINGS.cinematicSlow
     }, 24.8);
 
@@ -848,130 +560,116 @@ export class App {
       opacity: 1,
       scale: 1,
       rotate: 2.0,
-      duration: 3.0,
+      duration: 2.8,
       ease: EASINGS.cinematicSlow
     }, 25.4);
 
-    // Morph progress
     this.masterTimeline.to(this, {
       morphProgress: 0.65,
       duration: 11.5,
       ease: 'sine.inOut'
     }, 24.0);
 
-    // Act 3 Lateral Photos Fade Out
     this.masterTimeline.to(['#p05-card', '#p06-card', '#p07-card'], {
       opacity: 0,
-      scale: 1.04,
-      filter: 'blur(4px)',
-      duration: 2.0,
+      scale: 1.03,
+      duration: 1.8,
       ease: 'power2.inOut'
     }, 34.2);
 
     // ------------------------------------------------------------------------
-    // ACT IV (36.0s - 48.0s): DEVOTION — "PRA SEMPRE" FOCUS
+    // ACT IV (36.0s - 48.0s): DEVOTION — "PRA SEMPRE"
     // ------------------------------------------------------------------------
-    this.masterTimeline.addLabel('act4', 36.0);
     this.masterTimeline.set('#act4-layer', { opacity: 1, pointerEvents: 'auto' }, 35.8);
 
-    // Act 4 Word Emphasis: "PRA SEMPRE" shines with deep brilliance
     this.masterTimeline.to([this.wordPraEl, this.wordSempreEl], {
       opacity: 1,
-      scale: 1.08,
-      duration: 2.6,
+      scale: 1.06,
+      duration: 2.4,
       ease: EASINGS.cinematicSlow
     }, 36.2);
 
     this.masterTimeline.to([this.wordAmoEl, this.wordVocesEl, this.wordDoisEl], {
-      opacity: 0.8,
+      opacity: 0.82,
       scale: 1.0,
       duration: 2.0,
       ease: EASINGS.softOut
     }, 36.2);
 
-    // Act 4 Lateral Photos (p08 & p10 on Left, p09 Mother on Right)
     this.masterTimeline.to('#p09-card', {
       opacity: 1,
       scale: 1,
-      duration: 3.2,
+      duration: 2.8,
       ease: EASINGS.cinematicSlow
     }, 36.2);
 
     this.masterTimeline.to('#p08-card', {
       opacity: 0.88,
       scale: 1,
-      duration: 3.0,
+      duration: 2.6,
       ease: EASINGS.softOut
     }, 36.8);
 
     this.masterTimeline.to('#p10-card', {
       opacity: 0.92,
       scale: 1,
-      duration: 3.0,
+      duration: 2.6,
       ease: EASINGS.softOut
     }, 37.4);
 
-    // Morph: Lemniscate lobes opening
     this.masterTimeline.to(this, {
       morphProgress: 0.9,
       duration: 11.5,
       ease: 'sine.inOut'
     }, 36.0);
 
-    // Act 4 Photos Fade Out
     this.masterTimeline.to(['#p08-card', '#p09-card', '#p10-card'], {
       opacity: 0,
-      scale: 1.04,
-      filter: 'blur(4px)',
-      duration: 2.0,
+      scale: 1.03,
+      duration: 1.8,
       ease: 'power2.inOut'
     }, 46.2);
 
     // ------------------------------------------------------------------------
-    // ACT V (48.0s - 65.0s+): APOTHEOSIS & ETERNAL BOND
-    // Background Photo Mosaic ONLY + Full Straight Uppercase Phrase
+    // ACT V (48.0s - 65.0s): APOTHEOSIS & ETERNAL BOND
+    // Background Mosaic ONLY + Full Phrase
     // ------------------------------------------------------------------------
-    this.masterTimeline.addLabel('act5', 48.0);
     this.masterTimeline.set('#act5-layer', { opacity: 1, pointerEvents: 'auto' }, 47.8);
 
-    // Complete Harmonic Enlightenment across ALL WORDS
     this.masterTimeline.to([this.wordAmoEl, this.wordVocesEl, this.wordDoisEl, this.wordPraEl, this.wordSempreEl], {
       opacity: 1,
       scale: 1.04,
-      duration: 3.2,
+      duration: 2.8,
       ease: EASINGS.cinematicSlow
     }, 48.2);
 
     this.masterTimeline.to(this.phraseFlourishEl, {
-      width: '260px',
+      width: '240px',
       opacity: 1,
-      duration: 2.5,
+      duration: 2.2,
       ease: EASINGS.softOut
     }, 49.0);
 
-    // Ambient Mosaic Grid Elements in background ONLY (Zero foreground cards)
     this.masterTimeline.to('.mosaic-tile', {
-      opacity: 0.42,
+      opacity: 0.45,
       scale: 1,
-      stagger: 0.08,
-      duration: 2.4,
+      stagger: 0.05,
+      duration: 2.0,
       ease: EASINGS.softOut
     }, 48.2);
 
-    // Apotheosis Replay Button Bloom
-    this.masterTimeline.to('#apotheosisReplayContainer', {
-      opacity: 1,
-      pointerEvents: 'auto',
-      duration: 2.4,
-      ease: EASINGS.softOut
-    }, 53.5);
-
-    // Final full morph into perfect Infinity Lemniscate (t = 1.0)
     this.masterTimeline.to(this, {
       morphProgress: 1.0,
-      duration: 5.0,
+      duration: 4.5,
       ease: 'sine.out'
     }, 48.0);
+
+    // Hold final majestic moment before subtle repeat
+    this.masterTimeline.to('#act5-layer', {
+      opacity: 0,
+      duration: 2.0,
+      ease: 'power2.inOut'
+    }, 63.0);
   }
 
   // --------------------------------------------------------------------------
@@ -1040,7 +738,7 @@ export class App {
       <div class="act-layer layout-act-5" id="act5-layer">
         <div class="mosaic-grid-stage">
           ${photos.map((p, idx) => `
-            <div class="editorial-photo-card mosaic-tile" id="mosaic-${idx}" data-photo-id="${p.id}" style="opacity: 0; transform: scale(0.92);">
+            <div class="editorial-photo-card mosaic-tile" id="mosaic-${idx}" data-photo-id="${p.id}" style="opacity: 0; transform: scale(0.94);">
               <div class="editorial-photo-inner">
                 <img class="editorial-photo-img" src="${p.src}" alt="AMO VOCÊS DOIS PRA SEMPRE" draggable="false" loading="eager" style="object-position: ${getObjectPositionStyle(p.id, device)};" />
               </div>
@@ -1054,26 +752,21 @@ export class App {
   }
 
   // --------------------------------------------------------------------------
-  // REAL-TIME TICKER & ANIMATION LOOP (SOLE HEART-TO-INFINITY MORPH MOTIF)
+  // HIGH-PERFORMANCE 60FPS TICKER (OPTIMIZED WITH ZERO REPAINTS)
   // --------------------------------------------------------------------------
   startAnimationLoop() {
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
+
     let prevTime = performance.now();
 
     const loop = (now) => {
       const dt = Math.min(2.0, (now - prevTime) / 16.666);
       prevTime = now;
 
-      // 1. Central Heart-to-Infinity Morphing Update
-      let currentMorphT = this.morphProgress;
-      if (this.isApotheosisSettled) {
-        const breath = 0.5 * (1 + Math.sin(now * 0.0012));
-        currentMorphT = 0.88 + breath * 0.12;
-      }
-
+      // 1. Central Morph Update
       const sw = this.svgWidth || 1920;
       const sh = this.svgHeight || 1080;
       const cx = sw * 0.5;
@@ -1084,37 +777,26 @@ export class App {
         ? Math.min(sw * 0.36, sh * 0.16) 
         : (isTablet ? Math.min(sw * 0.24, sh * 0.20) : Math.min(sw * 0.18, sh * 0.26));
 
-      const morphSegments = getMorphSegments(currentMorphT, {
+      const morphSegments = getMorphSegments(this.morphProgress, {
         cx,
         cy,
         scale: morphScale,
         easing: 'easeInOutCubic'
       });
 
-      // 2. Interactive Spring-Damper Physics on the Heart & Infinity Curve
       if (this.morphPathEl && morphSegments.length > 0) {
         const deformedSegments = this.springField.deformSegments(morphSegments, dt);
         this.morphPathEl.setAttribute('d', segmentsToSvgPath(deformedSegments, true));
       }
 
-      // 3. Ken Burns Camera Micro-drift combined with Restrained 3D Tilt
-      this.currentTiltX += (this.targetTiltX - this.currentTiltX) * 0.07;
-      this.currentTiltY += (this.targetTiltY - this.currentTiltY) * 0.07;
-
-      const tiltDegX = (-this.currentTiltY * 2.0).toFixed(2);
-      const tiltDegY = (this.currentTiltX * 2.0).toFixed(2);
-      const transX = (this.currentTiltX * 10).toFixed(2);
-      const transY = (this.currentTiltY * 8).toFixed(2);
-
-      const drift = getCameraDrift(this.currentT);
-      if (this.photoStageEl) {
-        this.photoStageEl.style.transform = `${drift.transformString} perspective(1200px) rotateX(${tiltDegX}deg) rotateY(${tiltDegY}deg) translate3d(${transX}px, ${transY}px, 0px)`;
-      }
+      // 2. Smooth Subtle Tilt Parallax (Without Overriding GSAP)
+      this.currentTiltX += (this.targetTiltX - this.currentTiltX) * 0.06;
+      this.currentTiltY += (this.targetTiltY - this.currentTiltY) * 0.06;
 
       if (this.straightPhraseContainerEl) {
-        const typoX = (this.currentTiltX * 3.5).toFixed(2);
-        const typoY = (this.currentTiltY * 2.5).toFixed(2);
-        this.straightPhraseContainerEl.style.transform = `translate(calc(-50% + ${typoX}px), calc(-50% + ${typoY}px))`;
+        const typoX = (this.currentTiltX * 4.0).toFixed(1);
+        const typoY = (this.currentTiltY * 3.0).toFixed(1);
+        this.straightPhraseContainerEl.style.transform = `translate(calc(-50% + ${typoX}px), calc(-50% + ${typoY}px)) translateZ(0)`;
       }
 
       this.rafId = requestAnimationFrame(loop);
@@ -1123,88 +805,28 @@ export class App {
     this.rafId = requestAnimationFrame(loop);
   }
 
-  // --------------------------------------------------------------------------
-  // PLAYBACK CONTROL METHODS
-  // --------------------------------------------------------------------------
   togglePlayPause() {
     if (!this.masterTimeline) return;
     if (this.isPlaying) {
       this.masterTimeline.pause();
       this.isPlaying = false;
-      if (this.playPauseIconEl) {
-        this.playPauseIconEl.innerHTML = '<path d="M8 5v14l11-7z"/>';
-      }
     } else {
-      if (this.isApotheosisSettled) {
-        this.restart();
-        return;
-      }
       this.masterTimeline.play();
       this.isPlaying = true;
-      if (this.playPauseIconEl) {
-        this.playPauseIconEl.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-      }
-      this.soundscape.initContext();
-    }
-  }
-
-  seekTo(seconds) {
-    if (!this.masterTimeline) return;
-    const clamped = Math.max(0, Math.min(this.totalDuration, seconds));
-    this.masterTimeline.seek(clamped);
-    this.currentT = clamped;
-    this.isApotheosisSettled = clamped >= 60.0;
-    if (this.isApotheosisSettled) {
-      if (this.apotheosisReplayContainerEl) {
-        gsap.to(this.apotheosisReplayContainerEl, { opacity: 1, pointerEvents: 'auto', duration: 0.4 });
-      }
-    } else {
-      if (this.apotheosisReplayContainerEl) {
-        gsap.killTweensOf(this.apotheosisReplayContainerEl);
-        gsap.to(this.apotheosisReplayContainerEl, { opacity: 0, pointerEvents: 'none', duration: 0.2 });
-      }
-    }
-  }
-
-  seekRelative(deltaSec) {
-    if (!this.masterTimeline) return;
-    this.seekTo(this.masterTimeline.time() + deltaSec);
-  }
-
-  restart() {
-    this.isApotheosisSettled = false;
-    this.morphProgress = 0.0;
-    if (this.isFocused) {
-      this.closePhotoFocus();
-    }
-    if (this.apotheosisReplayContainerEl) {
-      gsap.killTweensOf(this.apotheosisReplayContainerEl);
-      gsap.set(this.apotheosisReplayContainerEl, {
-        opacity: 0,
-        pointerEvents: 'none'
-      });
-    }
-    if (this.masterTimeline) {
-      this.masterTimeline.restart();
-    }
-    this.isPlaying = true;
-    if (this.playPauseIconEl) {
-      this.playPauseIconEl.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      this.soundscape.start();
     }
   }
 
   rebuildDynamicLayout() {
     const currentTime = this.masterTimeline ? this.masterTimeline.time() : 0;
-    const wasPlaying = this.isPlaying;
     if (this.isFocused) {
       this.closePhotoFocus();
     }
     this.updateSvgDimensions();
     this.buildPhotosDOM();
     this.buildMasterTimeline();
-    this.seekTo(currentTime);
-    if (!wasPlaying && this.masterTimeline) {
-      this.masterTimeline.pause();
+    if (this.masterTimeline) {
+      this.masterTimeline.seek(currentTime);
     }
   }
 
@@ -1222,12 +844,6 @@ export class App {
     }
     if (this.springField) {
       this.springField.reset();
-    }
-    if (this.photoFocusLayerEl) {
-      gsap.killTweensOf(this.photoFocusLayerEl);
-    }
-    if (this.apotheosisReplayContainerEl) {
-      gsap.killTweensOf(this.apotheosisReplayContainerEl);
     }
   }
 }
