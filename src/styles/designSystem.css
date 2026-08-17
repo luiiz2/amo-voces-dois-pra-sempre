@@ -380,15 +380,16 @@ html, body {
 }
 
 /* ==========================================================================
-   6. RESPONSIVE LATERAL POSITIONING (SQUARE CARDS & SAFE INSETS)
+   6. RESPONSIVE LATERAL POSITIONING (UNIFORMLY LARGER SQUARE CARDS)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
    A. DESKTOP (Wide & Standard: >= 1024px)
    -------------------------------------------------------------------------- */
 @media screen and (min-width: 1024px) {
+  /* Act I: Hero Left & Secondary Right */
   .layout-act-1 .photo-hero-solo {
-    width: clamp(160px, 17vw, 240px);
+    width: clamp(210px, 19vw, 290px);
     aspect-ratio: 1 / 1;
     left: clamp(24px, 3.5vw, 60px);
     right: auto;
@@ -396,7 +397,7 @@ html, body {
     transform: translateY(-50%);
   }
   .layout-act-1 .photo-hero-secondary {
-    width: clamp(150px, 16vw, 230px);
+    width: clamp(210px, 19vw, 290px);
     aspect-ratio: 1 / 1;
     right: clamp(24px, 3.5vw, 60px);
     left: auto;
@@ -405,8 +406,9 @@ html, body {
     z-index: 38;
   }
 
+  /* Act II: Diptych Left & Right */
   .layout-act-2 .photo-diptych-left {
-    width: clamp(150px, 16vw, 230px);
+    width: clamp(210px, 19vw, 290px);
     aspect-ratio: 1 / 1;
     left: clamp(24px, 3.5vw, 60px);
     right: auto;
@@ -415,7 +417,7 @@ html, body {
     z-index: 42;
   }
   .layout-act-2 .photo-diptych-right {
-    width: clamp(150px, 16vw, 230px);
+    width: clamp(210px, 19vw, 290px);
     aspect-ratio: 1 / 1;
     right: clamp(24px, 3.5vw, 60px);
     left: auto;
@@ -424,8 +426,9 @@ html, body {
     z-index: 44;
   }
 
+  /* Act III: Triptych Flanking the Center */
   .layout-act-3 .photo-triptych-1 {
-    width: clamp(150px, 16vw, 230px);
+    width: clamp(210px, 19vw, 290px);
     aspect-ratio: 1 / 1;
     left: clamp(24px, 3.5vw, 60px);
     right: auto;
@@ -433,40 +436,41 @@ html, body {
     transform: translateY(-50%) rotate(-2deg);
   }
   .layout-act-3 .photo-triptych-2 {
-    width: clamp(120px, 12.5vw, 175px);
+    width: clamp(160px, 14.5vw, 220px);
     aspect-ratio: 1 / 1;
     right: clamp(24px, 3.5vw, 60px);
     left: auto;
-    top: 28%;
+    top: 26%;
     transform: translateY(-50%);
   }
   .layout-act-3 .photo-triptych-3 {
-    width: clamp(120px, 12.5vw, 175px);
+    width: clamp(160px, 14.5vw, 220px);
     aspect-ratio: 1 / 1;
     right: clamp(24px, 3.5vw, 60px);
     left: auto;
-    top: 72%;
+    top: 74%;
     transform: translateY(-50%) rotate(2deg);
   }
 
+  /* Act IV: Devotion Wings */
   .layout-act-4 .photo-echo-left {
-    width: clamp(120px, 12.5vw, 175px);
+    width: clamp(160px, 14.5vw, 220px);
     aspect-ratio: 1 / 1;
     left: clamp(24px, 3.5vw, 60px);
     right: auto;
-    top: 28%;
+    top: 26%;
     transform: translateY(-50%) rotate(-1.5deg);
   }
   .layout-act-4 .photo-echo-right {
-    width: clamp(120px, 12.5vw, 175px);
+    width: clamp(160px, 14.5vw, 220px);
     aspect-ratio: 1 / 1;
     left: clamp(24px, 3.5vw, 60px);
     right: auto;
-    top: 72%;
+    top: 74%;
     transform: translateY(-50%) rotate(1.5deg);
   }
   .layout-act-4 .photo-monolith-center {
-    width: clamp(150px, 16vw, 230px);
+    width: clamp(210px, 19vw, 290px);
     aspect-ratio: 1 / 1;
     right: clamp(24px, 3.5vw, 60px);
     left: auto;
@@ -488,7 +492,7 @@ html, body {
   }
 
   .layout-act-1 .photo-hero-solo {
-    width: clamp(130px, 18vw, 180px);
+    width: clamp(160px, 21vw, 220px);
     aspect-ratio: 1 / 1;
     left: clamp(16px, 2.5vw, 36px);
     right: auto;
@@ -496,7 +500,7 @@ html, body {
     transform: translateY(-50%);
   }
   .layout-act-1 .photo-hero-secondary {
-    width: clamp(120px, 17vw, 170px);
+    width: clamp(160px, 21vw, 220px);
     aspect-ratio: 1 / 1;
     right: clamp(16px, 2.5vw, 36px);
     left: auto;
@@ -505,7 +509,7 @@ html, body {
   }
 
   .layout-act-2 .photo-diptych-left {
-    width: clamp(130px, 18vw, 180px);
+    width: clamp(160px, 21vw, 220px);
     aspect-ratio: 1 / 1;
     left: clamp(16px, 2.5vw, 36px);
     right: auto;
@@ -513,7 +517,7 @@ html, body {
     transform: translateY(-50%);
   }
   .layout-act-2 .photo-diptych-right {
-    width: clamp(130px, 18vw, 180px);
+    width: clamp(160px, 21vw, 220px);
     aspect-ratio: 1 / 1;
     right: clamp(16px, 2.5vw, 36px);
     left: auto;
@@ -522,7 +526,7 @@ html, body {
   }
 
   .layout-act-3 .photo-triptych-1 {
-    width: clamp(125px, 17vw, 175px);
+    width: clamp(160px, 21vw, 220px);
     aspect-ratio: 1 / 1;
     left: clamp(16px, 2.5vw, 36px);
     right: auto;
@@ -530,40 +534,40 @@ html, body {
     transform: translateY(-50%);
   }
   .layout-act-3 .photo-triptych-2 {
-    width: clamp(100px, 13vw, 140px);
+    width: clamp(125px, 16vw, 170px);
     aspect-ratio: 1 / 1;
     right: clamp(16px, 2.5vw, 36px);
     left: auto;
-    top: 28%;
+    top: 26%;
     transform: translateY(-50%);
   }
   .layout-act-3 .photo-triptych-3 {
-    width: clamp(100px, 13vw, 140px);
+    width: clamp(125px, 16vw, 170px);
     aspect-ratio: 1 / 1;
     right: clamp(16px, 2.5vw, 36px);
     left: auto;
-    top: 72%;
+    top: 74%;
     transform: translateY(-50%);
   }
 
   .layout-act-4 .photo-echo-left {
-    width: clamp(100px, 13vw, 140px);
+    width: clamp(125px, 16vw, 170px);
     aspect-ratio: 1 / 1;
     left: clamp(16px, 2.5vw, 36px);
     right: auto;
-    top: 28%;
+    top: 26%;
     transform: translateY(-50%);
   }
   .layout-act-4 .photo-echo-right {
-    width: clamp(100px, 13vw, 140px);
+    width: clamp(125px, 16vw, 170px);
     aspect-ratio: 1 / 1;
     left: clamp(16px, 2.5vw, 36px);
     right: auto;
-    top: 72%;
+    top: 74%;
     transform: translateY(-50%);
   }
   .layout-act-4 .photo-monolith-center {
-    width: clamp(125px, 17vw, 175px);
+    width: clamp(160px, 21vw, 220px);
     aspect-ratio: 1 / 1;
     right: clamp(16px, 2.5vw, 36px);
     left: auto;
@@ -596,9 +600,9 @@ html, body {
     margin-top: 6px;
   }
 
-  /* Mobile: Pure White Square Photos strictly at Top (16%) & Bottom (84%) */
+  /* Mobile: Uniform Larger Square Photos at Top (16%) & Bottom (84%) */
   .layout-act-1 .photo-hero-solo {
-    width: min(38vw, 145px);
+    width: min(44vw, 165px);
     aspect-ratio: 1 / 1;
     left: 50%;
     right: auto;
@@ -606,7 +610,7 @@ html, body {
     transform: translate(-50%, -50%);
   }
   .layout-act-1 .photo-hero-secondary {
-    width: min(38vw, 145px);
+    width: min(44vw, 165px);
     aspect-ratio: 1 / 1;
     left: 50%;
     right: auto;
@@ -615,7 +619,7 @@ html, body {
   }
 
   .layout-act-2 .photo-diptych-left {
-    width: min(38vw, 145px);
+    width: min(44vw, 165px);
     aspect-ratio: 1 / 1;
     left: 50%;
     right: auto;
@@ -623,7 +627,7 @@ html, body {
     transform: translate(-50%, -50%);
   }
   .layout-act-2 .photo-diptych-right {
-    width: min(38vw, 145px);
+    width: min(44vw, 165px);
     aspect-ratio: 1 / 1;
     left: 50%;
     right: auto;
@@ -632,7 +636,7 @@ html, body {
   }
 
   .layout-act-3 .photo-triptych-1 {
-    width: min(34vw, 130px);
+    width: min(40vw, 145px);
     aspect-ratio: 1 / 1;
     left: 28%;
     right: auto;
@@ -640,7 +644,7 @@ html, body {
     transform: translate(-50%, -50%);
   }
   .layout-act-3 .photo-triptych-2 {
-    width: min(34vw, 130px);
+    width: min(40vw, 145px);
     aspect-ratio: 1 / 1;
     left: 72%;
     right: auto;
@@ -648,7 +652,7 @@ html, body {
     transform: translate(-50%, -50%);
   }
   .layout-act-3 .photo-triptych-3 {
-    width: min(38vw, 145px);
+    width: min(44vw, 165px);
     aspect-ratio: 1 / 1;
     left: 50%;
     right: auto;
@@ -657,7 +661,7 @@ html, body {
   }
 
   .layout-act-4 .photo-echo-left {
-    width: min(38vw, 145px);
+    width: min(44vw, 165px);
     aspect-ratio: 1 / 1;
     left: 50%;
     right: auto;
@@ -665,7 +669,7 @@ html, body {
     transform: translate(-50%, -50%);
   }
   .layout-act-4 .photo-monolith-center {
-    width: min(38vw, 145px);
+    width: min(44vw, 165px);
     aspect-ratio: 1 / 1;
     left: 50%;
     right: auto;
