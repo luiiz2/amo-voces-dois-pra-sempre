@@ -1,15 +1,16 @@
 /* ==========================================================================
-   EU AMO VOCÊS DOIS — EXACT 1:1 REPLICA OF REFERENCE SCRAPBOOK
-   Warm Aged Yellowish Paper | Whispering Background Audio | Tactile Collage
+   EU AMO VOCÊS DOIS — RICH HANDMADE SCRAPBOOK / JUNK JOURNAL SPREAD
+   Warm Aged Yellowish Paper | Wax Seals | Botanical Branches | Micro-Notes
    ========================================================================== */
 
 :root {
   /* --- PALETTE: Warm Yellowish Paper & Antique Patina --- */
   --bg-desk: #D5C7AD;
   --bg-notebook-cover: #E5D5BA;
-  --bg-notebook-sheet: #F7EED2; /* Authentic warm yellowed paper */
+  --bg-notebook-sheet: #F7EED2;
   --bg-notebook-sheet-gradient: radial-gradient(ellipse at 50% 45%, #FCF6E5 0%, #F8EFCF 55%, #EEDDB3 100%);
   --bg-torn-paper: #FFFDF7;
+  --bg-grid-paper: #FAF4E1;
 
   /* Inks */
   --ink-navy-title: #132C52;
@@ -17,6 +18,7 @@
   --ink-coral-pink: #E57373;
   --ink-gold-star: #E8A817;
   --ink-stitch: #BFA57B;
+  --ink-pencil: #6B5E4C;
 
   /* Washi Tapes */
   --tape-coral-red: rgba(229, 107, 107, 0.88);
@@ -24,6 +26,7 @@
   --tape-ocean-blue: rgba(85, 150, 212, 0.88);
   --tape-pink-soft: rgba(240, 138, 155, 0.88);
   --tape-kraft-top: rgba(216, 178, 132, 0.90);
+  --tape-mustard: rgba(233, 196, 106, 0.88);
   --tape-translucent: rgba(238, 222, 192, 0.72);
 
   /* Fonts */
@@ -62,7 +65,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(10px, 2vw, 32px);
+  padding: clamp(8px, 1.8vw, 28px);
   background: 
     radial-gradient(circle at 50% 50%, #E8DEC9 0%, #CFC0A3 100%),
     repeating-linear-gradient(45deg, rgba(160, 130, 95, 0.03) 0, rgba(160, 130, 95, 0.03) 1px, transparent 0, transparent 20px);
@@ -76,19 +79,19 @@ html, body {
 
 .notebook-spread-canvas {
   position: relative;
-  width: min(96vw, 1180px);
-  height: min(94svh, 720px);
+  width: min(97vw, 1200px);
+  height: min(95svh, 740px);
   background-color: var(--bg-notebook-sheet);
   background-image: 
     var(--bg-notebook-sheet-gradient),
-    linear-gradient(to right, rgba(140, 110, 70, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(140, 110, 70, 0.03) 1px, transparent 1px);
-  background-size: auto, 24px 24px, 24px 24px;
+    linear-gradient(to right, rgba(140, 110, 70, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(140, 110, 70, 0.035) 1px, transparent 1px);
+  background-size: auto, 22px 22px, 22px 22px;
   border-radius: 12px;
   box-shadow: 
-    0 24px 70px rgba(50, 35, 15, 0.30),
+    0 26px 75px rgba(50, 35, 15, 0.32),
     0 6px 20px rgba(0, 0, 0, 0.12),
-    inset 0 0 80px rgba(180, 140, 80, 0.16);
+    inset 0 0 90px rgba(180, 140, 80, 0.18);
   border: 1px solid #D5C29E;
   display: flex;
   align-items: center;
@@ -146,6 +149,118 @@ html, body {
   background: #BFA985;
   border-radius: 50%;
   box-shadow: inset 1px 1px 3px rgba(0,0,0,0.55);
+}
+
+/* ==========================================================================
+   SCRAPBOOK BACKGROUND LAYERS (GRID SCRAPS & VINTAGE TICKETS)
+   ========================================================================== */
+
+/* Peeking Grid Paper Scrap behind Central Card */
+.peeking-grid-scrap {
+  position: absolute;
+  top: clamp(40px, 7vh, 80px);
+  right: clamp(230px, 28vw, 360px);
+  width: clamp(100px, 12vw, 140px);
+  height: clamp(80px, 10vh, 110px);
+  background-color: var(--bg-grid-paper);
+  background-image: 
+    linear-gradient(to right, rgba(40, 80, 140, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(40, 80, 140, 0.08) 1px, transparent 1px);
+  background-size: 14px 14px;
+  box-shadow: 0 4px 12px rgba(45, 30, 15, 0.12);
+  transform: rotate(14deg);
+  z-index: 15;
+  clip-path: polygon(2% 4%, 98% 0%, 100% 96%, 4% 100%);
+  border: 1px dashed rgba(160, 130, 95, 0.4);
+}
+
+/* Peeking Kraft Scrap near Bottom */
+.peeking-kraft-scrap {
+  position: absolute;
+  bottom: clamp(55px, 9vh, 95px);
+  left: clamp(240px, 29vw, 370px);
+  padding: 6px 12px;
+  background: #D9C3A0;
+  box-shadow: 0 4px 10px rgba(45, 30, 15, 0.12);
+  transform: rotate(-12deg);
+  z-index: 15;
+  font-family: var(--font-cursive);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #3E3020;
+  border-radius: 2px;
+}
+
+/* Vintage Ticket Scrap */
+.vintage-ticket-scrap {
+  position: absolute;
+  top: clamp(20px, 3.5vh, 40px);
+  right: clamp(140px, 17vw, 220px);
+  background: #FDF4DE;
+  border: 1px dashed #C2A16E;
+  padding: 4px 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  transform: rotate(-8deg);
+  z-index: 22;
+  text-align: center;
+  font-family: var(--font-typewriter);
+}
+
+.ticket-top-dashed {
+  font-size: 0.62rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: #8C6D37;
+  border-bottom: 1px dashed #C2A16E;
+  padding-bottom: 2px;
+}
+
+.ticket-main-num {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--ink-coral-pink);
+  margin-top: 1px;
+}
+
+.ticket-bottom-stars {
+  font-size: 0.55rem;
+  color: #8C6D37;
+}
+
+/* Crimson Wax Seal Stamp */
+.notebook-wax-seal {
+  position: absolute;
+  bottom: clamp(18px, 3vh, 40px);
+  right: clamp(190px, 23vw, 290px);
+  z-index: 26;
+  transform: rotate(6deg);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.notebook-wax-seal:hover {
+  transform: scale(1.12) rotate(0deg);
+}
+
+/* Botanical Branch on Right Margin */
+.notebook-botanical-branch {
+  position: absolute;
+  top: clamp(120px, 18vh, 180px);
+  right: clamp(210px, 25vw, 320px);
+  pointer-events: none;
+  z-index: 18;
+  transform: rotate(-15deg);
+  opacity: 0.85;
+}
+
+/* Circular Postmark Stamp */
+.notebook-circular-postmark {
+  position: absolute;
+  bottom: clamp(60px, 9vh, 110px);
+  right: clamp(280px, 33vw, 420px);
+  pointer-events: none;
+  z-index: 12;
+  transform: rotate(-8deg);
 }
 
 /* ==========================================================================
@@ -301,7 +416,7 @@ html, body {
 .pressed-flower-container {
   position: absolute;
   bottom: clamp(12px, 2vh, 28px);
-  left: clamp(210px, 25vw, 310px);
+  left: clamp(200px, 24vw, 295px);
   pointer-events: none;
   z-index: 22;
   transform: rotate(12deg);
@@ -413,8 +528,8 @@ html, body {
   background-image: radial-gradient(ellipse at 50% 50%, #FFFFFF 0%, #FAF5E8 100%);
   padding: clamp(24px, 4vh, 42px) clamp(20px, 3vw, 36px) clamp(20px, 3vh, 32px) clamp(20px, 3vw, 36px);
   box-shadow: 
-    0 18px 45px rgba(45, 30, 15, 0.22),
-    0 4px 12px rgba(0, 0, 0, 0.08);
+    0 20px 48px rgba(45, 30, 15, 0.24),
+    0 4px 14px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -541,7 +656,7 @@ html, body {
 }
 
 /* ==========================================================================
-   SIDE FLOURISHES (BLUE SWIRLS & CORAL HEARTS FLANKING TORN PAPER)
+   SIDE FLOURISHES & MARGIN DOODLES
    ========================================================================== */
 
 .side-flourish-left {
@@ -568,6 +683,42 @@ html, body {
   gap: 14px;
 }
 
+/* Margin Handwritten Inscriptions */
+.margin-note-left {
+  position: absolute;
+  top: clamp(150px, 22vh, 220px);
+  left: clamp(24px, 3.5vw, 55px);
+  font-family: var(--font-cursive);
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  font-weight: 700;
+  color: var(--ink-pencil);
+  transform: rotate(-90deg);
+  transform-origin: left top;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.margin-note-right {
+  position: absolute;
+  bottom: clamp(120px, 18vh, 180px);
+  right: clamp(15px, 2.2vw, 35px);
+  font-family: var(--font-cursive);
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  font-weight: 700;
+  color: var(--ink-pencil);
+  transform: rotate(90deg);
+  transform-origin: right bottom;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* Scattered Doodle Stars & Hearts */
+.scattered-doodle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 16;
+}
+
 /* ==========================================================================
    RESPONSIVE COMPOSITION FOR SMALLER SCREENS / TABLETS
    ========================================================================== */
@@ -588,7 +739,16 @@ html, body {
   .stamp-adjacent-heart,
   .pressed-flower-container,
   .side-flourish-left,
-  .side-flourish-right {
+  .side-flourish-right,
+  .peeking-grid-scrap,
+  .peeking-kraft-scrap,
+  .vintage-ticket-scrap,
+  .notebook-wax-seal,
+  .notebook-botanical-branch,
+  .notebook-circular-postmark,
+  .margin-note-left,
+  .margin-note-right,
+  .scattered-doodle {
     display: none;
   }
 
@@ -609,7 +769,6 @@ html, body {
     height: 50px;
   }
 
-  /* Compact polaroids on mobile */
   .polaroid--top-left {
     top: 8px;
     left: 8px;

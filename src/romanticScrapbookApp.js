@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * EU AMO VOCÊS DOIS — EXACT 1:1 REPLICA OF REFERENCE SCRAPBOOK
+ * EU AMO VOCÊS DOIS — RICH HANDMADE JUNK JOURNAL SCRAPBOOK GIFT
  * Pixel-Perfect Single-Screen Art Journal & Love Note for Girlfriend & Son
  * ============================================================================
  */
@@ -10,8 +10,12 @@ import { getAllPhotos } from './data/photos.js';
 import {
   getBinderClipSvg,
   getParaSempreStampSvg,
+  getWaxSealSvg,
+  getVintageTicketSvg,
   getCoffeeRingSvg,
   getDriedFlowerSvg,
+  getBotanicalBranchSvg,
+  getCircularPostmarkSvg,
   getGoldHeartStickerSvg,
   getBlueSwirlSvg,
   getTickMarksSvg,
@@ -73,10 +77,6 @@ export class RomanticScrapbookApp {
     this.photos = getAllPhotos();
 
     // Exact 4 canonical starter photos from the reference image:
-    // Slot 0 (Top-Left): Mother holding baby on shoulder ('photo-09' / 'photo_...-59.jpg')
-    // Slot 1 (Top-Right): Baby in bath ('photo-05' / 'photo_...-54.jpg')
-    // Slot 2 (Bottom-Left): Baby in plaid shirt looking at lights ('photo-08' / 'photo_...-58.jpg')
-    // Slot 3 (Bottom-Right): Christmas family kiss ('photo-03' / 'photo_...-50.jpg')
     const findPhotoIdx = (filename) => {
       const idx = this.photos.findIndex(p => p.filename.includes(filename));
       return idx >= 0 ? idx : 0;
@@ -137,6 +137,54 @@ export class RomanticScrapbookApp {
           <!-- Top-Right Coffee Ring Stain -->
           <div class="notebook-coffee-stain">
             ${getCoffeeRingSvg(100)}
+          </div>
+
+          <!-- Vintage Admission / Memory Ticket Scrap -->
+          ${getVintageTicketSvg()}
+
+          <!-- Crimson Wax Seal Stamp at Bottom Right -->
+          <div class="notebook-wax-seal" title="Nosso Amor Eterno">
+            ${getWaxSealSvg(46)}
+          </div>
+
+          <!-- Botanical Eucalyptus Branch Sprig on Right Margin -->
+          <div class="notebook-botanical-branch">
+            ${getBotanicalBranchSvg(85)}
+          </div>
+
+          <!-- Circular Postal Postmark Stamp -->
+          <div class="notebook-circular-postmark">
+            ${getCircularPostmarkSvg(80)}
+          </div>
+
+          <!-- Peeking Grid Paper Scrap behind Central Card -->
+          <div class="peeking-grid-scrap"></div>
+
+          <!-- Peeking Kraft Scrap near Bottom -->
+          <div class="peeking-kraft-scrap">
+            sempre nós 3 ♥
+          </div>
+
+          <!-- Handwritten Margin Inscriptions -->
+          <div class="margin-note-left">
+            nosso amor infinito ★
+          </div>
+          <div class="margin-note-right">
+            minha família, meu tudo ♥
+          </div>
+
+          <!-- Scattered Doodles (Stars & Hearts) -->
+          <div class="scattered-doodle" style="top: 18%; left: 33%;">
+            ${getSparkleStarSvg(18)}
+          </div>
+          <div class="scattered-doodle" style="bottom: 18%; right: 33%;">
+            ${getSparkleStarSvg(18)}
+          </div>
+          <div class="scattered-doodle" style="top: 24%; right: 29%;">
+            ${getCoralHeartSvg(20, 15)}
+          </div>
+          <div class="scattered-doodle" style="bottom: 25%; left: 30%;">
+            ${getCoralHeartSvg(18, -12)}
           </div>
 
           <!-- ==============================================================
@@ -281,7 +329,7 @@ export class RomanticScrapbookApp {
     tl.to(polaroidEl, {
       scale: 1.06,
       y: -5,
-      boxShadow: '0 22px 50px rgba(45, 30, 15, 0.30)',
+      boxShadow: '0 24px 55px rgba(45, 30, 15, 0.32)',
       duration: 0.4,
       ease: 'power2.out'
     })
@@ -304,7 +352,7 @@ export class RomanticScrapbookApp {
     .to(polaroidEl, {
       scale: 1,
       y: 0,
-      boxShadow: '0 14px 34px rgba(45, 30, 15, 0.20)',
+      boxShadow: '0 16px 36px rgba(45, 30, 15, 0.22)',
       duration: 0.6,
       ease: 'power2.out'
     }, '-=0.3');

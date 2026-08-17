@@ -1,8 +1,8 @@
 /**
  * ============================================================================
- * SCRAPBOOK DOODLES & VECTOR ELEMENTS — EXACT 1:1 REPLICA OF REFERENCE
- * Pure vector SVG geometry for binder clip, stamps, coffee rings, dried flower,
- * polaroid heart stickers, looping ink flourishes, infinity loop, and doodles.
+ * SCRAPBOOK DOODLES & VECTOR ELEMENTS — RICH HANDMADE SCRAPBOOK ASSETS
+ * Pure vector SVG geometry for binder clip, stamps, wax seals, coffee rings,
+ * dried flowers, botanical branches, paperclips, tickets, hearts & sparkles.
  * ============================================================================
  */
 
@@ -29,7 +29,7 @@ export function getBinderClipSvg() {
         </filter>
       </defs>
 
-      <!-- Upper wire arms loop (silver/brass wire) -->
+      <!-- Upper wire arms loop (brass wire) -->
       <path d="M 18,30 L 18,16 C 18,8 21,4 25,4 C 29,4 32,8 32,16 L 32,30" 
             stroke="url(#wireGrad)" stroke-width="2.6" stroke-linecap="round" fill="none" />
       
@@ -63,19 +63,60 @@ export function getParaSempreStampSvg() {
 }
 
 /**
+ * Crimson Red Wax Seal Stamp with Embossed Heart
+ */
+export function getWaxSealSvg(size = 46) {
+  return `
+    <svg viewBox="0 0 60 60" width="${size}" height="${size}" class="wax-seal-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="waxGrad" cx="35%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#E24A4A" />
+          <stop offset="45%" stop-color="#B82424" />
+          <stop offset="85%" stop-color="#801414" />
+          <stop offset="100%" stop-color="#4F0A0A" />
+        </radialGradient>
+        <filter id="waxShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="rgba(0,0,0,0.35)" />
+        </filter>
+      </defs>
+
+      <!-- Irregular dripping wax outer contour -->
+      <path d="M 30,5 C 45,3 56,14 55,28 C 58,40 48,55 34,56 C 20,57 4,48 5,32 C 3,18 16,6 30,5 Z" 
+            fill="url(#waxGrad)" filter="url(#waxShadow)" />
+      
+      <!-- Inner circular impression ridge -->
+      <circle cx="30" cy="30" r="18" stroke="#680D0D" stroke-width="2.5" opacity="0.6" />
+      <circle cx="30" cy="30" r="16" stroke="#FA7575" stroke-width="1.2" opacity="0.4" />
+
+      <!-- Embossed Heart in center -->
+      <path d="M 30,22 C 28,16 20,15 17,21 C 13,29 23,37 30,42 C 37,37 47,29 43,21 C 40,15 32,16 30,22 Z" 
+            fill="#C93232" stroke="#6E0F0F" stroke-width="1.5" />
+    </svg>
+  `;
+}
+
+/**
+ * Vintage Admission / Memory Ticket Stub
+ */
+export function getVintageTicketSvg() {
+  return `
+    <div class="vintage-ticket-scrap">
+      <div class="ticket-top-dashed">MEMÓRIA ETERNA</div>
+      <div class="ticket-main-num">№ 2026</div>
+      <div class="ticket-bottom-stars">★ ★ ★</div>
+    </div>
+  `;
+}
+
+/**
  * Realistic Dual-Ring Coffee Stain
  */
 export function getCoffeeRingSvg(size = 110) {
   return `
     <svg viewBox="0 0 100 100" width="${size}" height="${size}" class="coffee-ring-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Main outer ring -->
       <circle cx="50" cy="50" r="40" stroke="#C5A47E" stroke-width="5" stroke-dasharray="14 3 20 4 8 2" opacity="0.45" filter="blur(0.8px)" />
       <circle cx="50" cy="50" r="40" stroke="#A98256" stroke-width="2.2" stroke-dasharray="25 6 15 4" opacity="0.55" />
-      
-      <!-- Soft inner bleed ring -->
       <circle cx="50" cy="50" r="37" stroke="#D8BD9E" stroke-width="3" opacity="0.25" />
-      
-      <!-- Subtle splatter marks -->
       <circle cx="92" cy="42" r="1.5" fill="#A98256" opacity="0.4" />
       <circle cx="8" cy="62" r="1.2" fill="#A98256" opacity="0.35" />
     </svg>
@@ -88,7 +129,6 @@ export function getCoffeeRingSvg(size = 110) {
 export function getDriedFlowerSvg() {
   return `
     <svg viewBox="0 0 120 140" width="110" height="130" class="dried-flower-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Main Woody Branch / Stems -->
       <path d="M 60,135 Q 56,95 48,65 Q 42,42 35,20" stroke="#8C6E4A" stroke-width="2.2" stroke-linecap="round" />
       <path d="M 52,80 Q 65,58 75,35 Q 82,18 88,8" stroke="#9A7B54" stroke-width="1.8" stroke-linecap="round" />
       <path d="M 45,55 Q 30,40 22,25" stroke="#9A7B54" stroke-width="1.4" stroke-linecap="round" />
@@ -96,7 +136,6 @@ export function getDriedFlowerSvg() {
       <path d="M 72,40 Q 64,26 58,15" stroke="#9A7B54" stroke-width="1.2" stroke-linecap="round" />
       <path d="M 38,32 Q 46,20 50,10" stroke="#9A7B54" stroke-width="1.2" stroke-linecap="round" />
 
-      <!-- Dried White Fluffy Flower Buds -->
       <circle cx="34" cy="18" r="4.5" fill="#FAF5E8" stroke="#8C6E4A" stroke-width="0.8" />
       <circle cx="21" cy="24" r="3.8" fill="#F7F1DE" stroke="#8C6E4A" stroke-width="0.8" />
       <circle cx="89" cy="8" r="4.2" fill="#FAF5E8" stroke="#8C6E4A" stroke-width="0.8" />
@@ -106,6 +145,44 @@ export function getDriedFlowerSvg() {
       <circle cx="75" cy="34" r="4.2" fill="#FAF5E8" stroke="#8C6E4A" stroke-width="0.8" />
       <circle cx="48" cy="62" r="3.2" fill="#F7F1DE" stroke="#8C6E4A" stroke-width="0.8" />
       <circle cx="65" cy="48" r="3.6" fill="#FAF5E8" stroke="#8C6E4A" stroke-width="0.8" />
+    </svg>
+  `;
+}
+
+/**
+ * Hand-drawn Botanical Eucalyptus / Olive Branch Sprig
+ */
+export function getBotanicalBranchSvg(size = 90) {
+  return `
+    <svg viewBox="0 0 80 110" width="${size}" height="${size * 1.3}" class="botanical-branch-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 40,105 Q 38,70 42,40 Q 45,15 48,5" stroke="#687F63" stroke-width="1.8" stroke-linecap="round" />
+      
+      <!-- Leaf pairs -->
+      <path d="M 42,85 Q 25,80 18,72 Q 28,68 40,78" fill="#8DA687" stroke="#5A7056" stroke-width="1" />
+      <path d="M 42,80 Q 58,74 65,65 Q 56,62 42,72" fill="#A0B89A" stroke="#5A7056" stroke-width="1" />
+      
+      <path d="M 41,58 Q 22,50 16,40 Q 28,38 41,50" fill="#8DA687" stroke="#5A7056" stroke-width="1" />
+      <path d="M 43,52 Q 62,45 68,34 Q 58,32 44,45" fill="#A0B89A" stroke="#5A7056" stroke-width="1" />
+      
+      <path d="M 44,30 Q 30,22 26,12 Q 36,12 45,24" fill="#8DA687" stroke="#5A7056" stroke-width="1" />
+      <path d="M 46,25 Q 60,18 64,8 Q 56,8 47,20" fill="#A0B89A" stroke="#5A7056" stroke-width="1" />
+      
+      <path d="M 48,8 Q 45,-2 48,-5 Q 52,-2 48,8" fill="#8DA687" stroke="#5A7056" stroke-width="1" />
+    </svg>
+  `;
+}
+
+/**
+ * Circular Airmail / Special Delivery Postal Postmark
+ */
+export function getCircularPostmarkSvg(size = 80) {
+  return `
+    <svg viewBox="0 0 80 80" width="${size}" height="${size}" class="circular-postmark-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="36" stroke="#16325B" stroke-width="1.8" stroke-dasharray="3 2" opacity="0.65" />
+      <circle cx="40" cy="40" r="30" stroke="#16325B" stroke-width="1.2" opacity="0.65" />
+      <text x="40" y="28" font-family="'Courier Prime', monospace" font-size="6" font-weight="bold" fill="#16325B" text-anchor="middle" letter-spacing="1" opacity="0.75">PAR AVION</text>
+      <text x="40" y="42" font-family="'Courier Prime', monospace" font-size="8" font-weight="bold" fill="#E57373" text-anchor="middle" letter-spacing="1" opacity="0.85">AMOR ★ 2026</text>
+      <text x="40" y="54" font-family="'Courier Prime', monospace" font-size="6" fill="#16325B" text-anchor="middle" opacity="0.75">SPECIAL DELIVERY</text>
     </svg>
   `;
 }
@@ -180,7 +257,7 @@ export function getSparkleStarSvg(size = 24) {
   return `
     <svg viewBox="0 0 32 32" width="${size}" height="${size}" class="sparkle-star-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M 16,3 Q 16,16 29,16 Q 16,16 16,29 Q 16,16 3,16 Q 16,16 16,3 Z" 
-            fill="#E6A817" stroke="#C88E0E" stroke-width="1.2" stroke-linejoin="round" />
+            fill="#E8A817" stroke="#C88E0E" stroke-width="1.2" stroke-linejoin="round" />
     </svg>
   `;
 }
