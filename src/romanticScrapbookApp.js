@@ -2,17 +2,18 @@
  * ============================================================================
  * EU AMO VOCÊS DOIS — SINGLE-SCREEN ROMANTIC SCRAPBOOK GIFT
  * A single-screen digital love note / handmade art journal for my girlfriend & son.
+ * Features continuous organic cycling of all 13 family memories.
  * ============================================================================
  */
 
 import gsap from 'gsap';
 import losHermanosMp3 from '../Los Hermanos - Sentimental (Karaokê) [Ga2Ja4O6k7c].mp3';
+import { getAllPhotos } from './data/photos.js';
 import {
   getArrowSvg,
   getHeartSvg,
   getStarSvg,
   getUnderlineSvg,
-  getPostmarkSvg,
   getCoffeeStainSvg
 } from './graphics/scrapbookDoodles.js';
 
@@ -65,6 +66,11 @@ export class RomanticScrapbookApp {
   constructor(rootContainer) {
     this.root = rootContainer || document.getElementById('app');
     this.bgMusic = new BackgroundMusic(losHermanosMp3);
+    this.photos = getAllPhotos();
+    this.slotIndices = [0, 4, 8, 11]; // 4 distinct starter photos
+    this.nextPhotoPointer = 1;
+    this.currentCycleSlot = 0;
+    this.cycleInterval = null;
     this.init();
   }
 
@@ -72,10 +78,16 @@ export class RomanticScrapbookApp {
     this.render();
     this.initInteractions();
     this.initEntranceAnimation();
+    this.startPhotoCycling();
     this.bgMusic.play();
   }
 
   render() {
+    const p0 = this.photos[this.slotIndices[0]];
+    const p1 = this.photos[this.slotIndices[1]];
+    const p2 = this.photos[this.slotIndices[2]];
+    const p3 = this.photos[this.slotIndices[3]];
+
     this.root.innerHTML = `
       <div class="scrapbook-viewport" id="scrapbookViewport">
         <main class="scrapbook-sheet" id="scrapbookSheet">
@@ -101,37 +113,38 @@ export class RomanticScrapbookApp {
 
           <!-- ==============================================================
                4 REAL AUTHENTIC FAMILY POLAROIDS FRAMING THE SPREAD
+               (Continuously rotating through all 13 family memories)
                ============================================================== -->
           
-          <!-- Polaroid 1: Top Left (Baby discovery) -->
-          <div class="scrapbook-polaroid polaroid--top-left">
+          <!-- Polaroid 1: Top Left -->
+          <div class="scrapbook-polaroid polaroid--top-left" data-slot="0" title="Clique para trocar a foto">
             <div class="washi-tape tape--ochre" style="top: -8px; left: -10px; width: 60px; height: 18px; transform: rotate(-16deg);"></div>
             <div class="polaroid-frame-inner">
-              <img src="./photo_2026-08-17_15-18-05.jpg" alt="Family memory" draggable="false" />
+              <img class="polaroid-img" src="${p0.src}" alt="${p0.alt}" draggable="false" />
             </div>
           </div>
 
-          <!-- Polaroid 2: Top Right (Father & Son laugh) -->
-          <div class="scrapbook-polaroid polaroid--top-right">
+          <!-- Polaroid 2: Top Right -->
+          <div class="scrapbook-polaroid polaroid--top-right" data-slot="1" title="Clique para trocar a foto">
             <div class="washi-tape tape--sage" style="top: -8px; right: -10px; width: 60px; height: 18px; transform: rotate(14deg);"></div>
             <div class="polaroid-frame-inner">
-              <img src="./photo_2026-08-17_15-17-54.jpg" alt="Family memory" draggable="false" />
+              <img class="polaroid-img" src="${p1.src}" alt="${p1.alt}" draggable="false" />
             </div>
           </div>
 
-          <!-- Polaroid 3: Bottom Left (Mother holding baby) -->
-          <div class="scrapbook-polaroid polaroid--bottom-left">
+          <!-- Polaroid 3: Bottom Left -->
+          <div class="scrapbook-polaroid polaroid--bottom-left" data-slot="2" title="Clique para trocar a foto">
             <div class="washi-tape tape--sky" style="bottom: -8px; left: -10px; width: 60px; height: 18px; transform: rotate(18deg);"></div>
             <div class="polaroid-frame-inner">
-              <img src="./photo_2026-08-17_15-17-58.jpg" alt="Family memory" draggable="false" />
+              <img class="polaroid-img" src="${p2.src}" alt="${p2.alt}" draggable="false" />
             </div>
           </div>
 
-          <!-- Polaroid 4: Bottom Right (Christmas Kiss / Eternal bond) -->
-          <div class="scrapbook-polaroid polaroid--bottom-right">
+          <!-- Polaroid 4: Bottom Right -->
+          <div class="scrapbook-polaroid polaroid--bottom-right" data-slot="3" title="Clique para trocar a foto">
             <div class="washi-tape tape--rose" style="bottom: -8px; right: -10px; width: 60px; height: 18px; transform: rotate(-18deg);"></div>
             <div class="polaroid-frame-inner">
-              <img src="./photo_2026-08-17_15-17-50.jpg" alt="Family memory" draggable="false" />
+              <img class="polaroid-img" src="${p3.src}" alt="${p3.alt}" draggable="false" />
             </div>
           </div>
 
@@ -198,6 +211,77 @@ export class RomanticScrapbookApp {
         </main>
       </div>
     `;
+
+    this.polaroidEls = [
+      document.querySelector('.polaroid--top-left'),
+      document.querySelector('.polaroid--top-right'),
+      document.querySelector('.polaroid--bottom-left'),
+      document.querySelector('.polaroid--bottom-right')
+    ];
+  }
+
+  // --------------------------------------------------------------------------
+  // CONTINUOUS PHOTO CYCLING TRANSITION
+  // --------------------------------------------------------------------------
+  transitionSlot(slotIndex) {
+    const polaroidEl = this.polaroidEls[slotIndex];
+    if (!polaroidEl) return;
+
+    // Pick next photo that is not currently displayed in any slot
+    let nextIdx = (this.nextPhotoPointer + 1) % this.photos.length;
+    while (this.slotIndices.includes(nextIdx)) {
+      nextIdx = (nextIdx + 1) % this.photos.length;
+    }
+    this.nextPhotoPointer = nextIdx;
+    this.slotIndices[slotIndex] = nextIdx;
+    const nextPhoto = this.photos[nextIdx];
+
+    const imgEl = polaroidEl.querySelector('.polaroid-img');
+    if (!imgEl) return;
+
+    // Gentle physical paper lift & crossfade
+    const tl = gsap.timeline();
+    tl.to(polaroidEl, {
+      scale: 1.06,
+      y: -5,
+      boxShadow: '0 24px 50px rgba(45, 30, 15, 0.28)',
+      duration: 0.4,
+      ease: 'power2.out'
+    })
+    .to(imgEl, {
+      opacity: 0.15,
+      scale: 0.94,
+      duration: 0.35,
+      ease: 'power2.in',
+      onComplete: () => {
+        imgEl.src = nextPhoto.src;
+        imgEl.alt = nextPhoto.alt;
+      }
+    }, '-=0.15')
+    .to(imgEl, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.5,
+      ease: 'power2.out'
+    })
+    .to(polaroidEl, {
+      scale: 1,
+      y: 0,
+      boxShadow: '0 18px 45px rgba(45, 30, 15, 0.18)',
+      duration: 0.6,
+      ease: 'power2.out'
+    }, '-=0.3');
+  }
+
+  startPhotoCycling() {
+    if (this.cycleInterval) {
+      clearInterval(this.cycleInterval);
+    }
+    // Rotate one polaroid every 3.2 seconds sequentially across the 4 corners
+    this.cycleInterval = setInterval(() => {
+      this.transitionSlot(this.currentCycleSlot);
+      this.currentCycleSlot = (this.currentCycleSlot + 1) % 4;
+    }, 3200);
   }
 
   initInteractions() {
@@ -208,6 +292,15 @@ export class RomanticScrapbookApp {
     window.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
     window.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
     window.addEventListener('keydown', unlockAudio, { once: true, passive: true });
+
+    // Click on any polaroid to immediately cycle it
+    this.polaroidEls.forEach((card, idx) => {
+      if (card) {
+        card.addEventListener('click', () => {
+          this.transitionSlot(idx);
+        });
+      }
+    });
 
     // Subtle 3D tilt on Central Stage & Sheet
     const sheet = document.getElementById('scrapbookSheet');
@@ -277,6 +370,10 @@ export class RomanticScrapbookApp {
   }
 
   destroy() {
+    if (this.cycleInterval) {
+      clearInterval(this.cycleInterval);
+      this.cycleInterval = null;
+    }
     if (this.bgMusic) {
       this.bgMusic.destroy();
     }
