@@ -1,6 +1,6 @@
-# AMO VOCÊS DOIS PRA SEMPRE 💜
+# EU AMO VOCÊS DOIS 💖
 
-> **Uma experiência web interativa, artística e cinematográfica de tela única dedicada à família.**
+> **Um presente digital afetivo, artesanal e memorável em estilo *Junk Journal / Handmade Scrapbook* de tela única.**
 
 [![Vite](https://img.shields.io/badge/Vite-6.4-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![GSAP](https://img.shields.io/badge/GSAP-3.12-88CE02?style=flat-square&logo=greensock&logoColor=white)](https://greensock.com/gsap/)
@@ -9,21 +9,28 @@
 
 ---
 
-## ✨ Destaques do Projeto
+## ✨ Destaques da Experiência
 
-- **🎨 Paleta Minimalista & Elegante**: Canvas branco puro perolado (`#FFFFFF` e `#FAF7FD`) com tipografia monumental e iluminação atmosférica em **Roxo Real Nobre** (`#3B0764` $\rightarrow$ `#7E22CE` $\rightarrow$ `#9333EA`).
-- **♾️ Metamorfose Paramétrica Coração $\leftrightarrow$ Infinito**: Sistema generativo em SVG com 8 segmentos cúbicos de Bézier que se transformam dinamicamente ao longo da linha do tempo.
-- **✨ Física de Mola Interativa**: Dinâmica física de amortecimento (*Mass-Spring-Damper*) que responde ao movimento do mouse ou toque do usuário sem interromper o fluxo cinemático.
-- **🖼️ Molduras Quadradas Brancas (1:1)**: 13 fotografias autênticas de família em molduras brancas puras estilo galeria, com calibração inteligente de coordenadas focais que protegem os rostos e olhares.
-- **🎭 Jornada Cinemática em 5 Atos (60s)**:
-  - **Ato I: Despertar** (*"AMO"*)
-  - **Ato II: Ternura & Vínculo** (*"VOCÊS DOIS"*)
-  - **Ato III: Alegria & Conquistas** (*"AMO VOCÊS DOIS"*)
-  - **Ato IV: Devoção & Amor Maternal** (*"PRA SEMPRE"*)
-  - **Ato V: Apoteose & Eternidade** (*"AMO VOCÊS DOIS PRA SEMPRE"* sobre mosaico suave de memórias).
-- **🎵 Soundscape Procedural Web Audio**: Motor de áudio em tempo real gerando harmonias celestiais (progressões Cmaj9, Gmaj7, Fmaj7#11, Am9) com sintetizador sub-grave e delay etéreo.
-- **📱 Zero-Scroll Strict Viewport**: Contenção total em `100vw × 100svh` com suporte completo para Desktop, Tablet e Mobile Portrait sem nenhuma barra de rolagem.
-- **💎 Pureza de Conteúdo**: O **único** texto exibido em toda a experiência é `AMO VOCÊS DOIS PRA SEMPRE`.
+- **📜 Estética Tátil de Caderno Artesanal (*Junk Journal*)**:
+  - Folha de caderno amarelada vintage com encadernação em espiral metálica à esquerda e bordas pespontadas/costuradas.
+  - Cartão central em papel rasgado à mão (*torn paper*) com presilha metálica de latão/bronze (*binder clip*).
+- **💖 Mensagem Central Afetiva**:
+  - Tipografia manuscrita em tinta azul marinho nobre: **"Eu Amo VOCÊS DOIS"**.
+  - Símbolo do **Infinito ($\infty$)** em traço contínuo pastel coral com respiração suave.
+  - Estrelas de brilho douradas ($\text{✦}$) e corações salmão desenhados à mão.
+- **🖼️ 4 Polaroids com Fotos Reais da Família**:
+  - Molduras estilo Polaroid com passe-partout autêntico, fitas adesivas (*washi tape*) coloridas e selos de coração dourado.
+  - **Rotação Contínua**: As fotos alternam suavemente entre todas as **13 memórias reais da família** em um ciclo contínuo, ou ao clicar em qualquer foto.
+- **🌿 Camadas & Detalhes Físicos de Scrapbook**:
+  - Selo de cera carmesim em 3D com coração gravado (*wax seal*).
+  - Ramo de flores secas (*gipsofila*) e raminho botânico de eucalipto.
+  - Carimbo postal vintage com ondulações e selo `♥ PARA SEMPRE ♥`.
+  - Retalhos de papel quadriculado e kraft com anotações de margem.
+  - Marca realista de xícara de café com anéis duplos.
+- **🎵 Trilha Sonora dos Los Hermanos**:
+  - Fundo acústico intimista ("Último Romance") em volume suave com início fluido ao toque na tela.
+- **📱 Zero-Scroll Strict Viewport**:
+  - Contenção total em `100vw × 100svh` com suporte completo e sem nenhuma barra de rolagem.
 
 ---
 
@@ -31,11 +38,10 @@
 
 | Tecnologia | Finalidade |
 |---|---|
-| **Vite 6** | Bundler ultra-rápido para desenvolvimento e build de produção otimizado |
-| **GSAP 3** | Orquestração de linha do tempo cinemática, transições e easing cúbico |
-| **SVG Generativo** | Curvas de Bézier e interpolação contínua da Lemniscata de Bernoulli |
-| **Web Audio API** | Síntese de áudio procedural e ambiência harmônica |
-| **CSS Moderno** | Hardware-accelerated transforms (GPU 60fps), filtros SVG e grid responsivo |
+| **Vite 6** | Bundler ultra-rápido para desenvolvimento e compilação de produção |
+| **GSAP 3** | Animações de entrada, transição suave de fotos e física interativa |
+| **SVG Vetorial Puro** | Doodles, setas, carimbos, selo de cera, flores secas e símbolo do infinito |
+| **CSS3 Moderno** | Texturas de papel, clip-paths poligonais rasgados e sombras de elevação 3D |
 
 ---
 
@@ -43,7 +49,7 @@
 
 ### Pré-requisitos
 - **Node.js** (versão 18 ou superior)
-- **npm**, **yarn** ou **pnpm**
+- **npm** ou **pnpm**
 
 ### Passo a Passo
 
@@ -62,30 +68,20 @@
    ```bash
    npm run dev
    ```
-   Acesse no navegador: `http://localhost:5180/` (ou a porta informada no terminal).
 
-4. **Gerar build de produção:**
-   ```bash
-   npm run build
-   ```
-
-5. **Visualizar o build de produção:**
-   ```bash
-   npm run preview
-   ```
+4. **Abra no navegador:**
+   - Acesse `http://localhost:5173/` (ou a porta informada pelo Vite).
 
 ---
 
-## ⌨️ Controles Interativos
+## 📦 Build para Produção
 
-- **Espaço / Clique no fundo**: Pausar / Retomar a reprodução cinemática.
-- **R**: Reiniciar a experiência do início.
-- **Clique em qualquer foto**: Elevação focal interativa (*focus layer*) sem sair da tela.
-- **Esc**: Fechar o modo de foco da foto.
-- **Movimento do mouse / Toque**: Efeito de inclinação 3D (*tilt parallax*) e deformação orgânica na curva do vetor.
+```bash
+npm run build
+```
+
+Os arquivos estáticos otimizados serão gerados na pasta `/dist`.
 
 ---
 
-## 📄 Licença
-
-Este projeto é de uso pessoal e familiar. Desenvolvido com amor. 💜
+💖 *Feito com amor, linhas de código e recortes de afeto.*
