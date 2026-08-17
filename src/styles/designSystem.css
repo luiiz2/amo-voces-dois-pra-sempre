@@ -130,11 +130,11 @@ html, body {
 #morphPath {
   fill: none;
   stroke: url(#amo-grad-purple-pure);
-  stroke-width: 2.6;
+  stroke-width: clamp(3.8px, 0.35vw, 5.0px);
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 8px rgba(147, 51, 234, 0.4));
-  opacity: 0.88;
+  filter: drop-shadow(0 0 10px rgba(147, 51, 234, 0.45));
+  opacity: 0.92;
   will-change: d;
 }
 

@@ -143,12 +143,6 @@ export class App {
   constructor(rootContainer) {
     this.root = rootContainer || document.getElementById('app');
     this.soundscape = new AmbientSoundscape();
-    this.springField = new SpringDisplacementField({
-      stiffness: 0.08,
-      damping: 0.88,
-      influenceRadius: 180,
-      maxForce: 36
-    });
 
     this.isPlaying = true;
     this.masterTimeline = null;
@@ -205,7 +199,7 @@ export class App {
         <!-- Master SVG Vector Engine Layer (SOLE HEART & INFINITY MOTIF) -->
         <svg class="continuous-svg-layer" id="masterSvg" viewBox="0 0 1920 1080" preserveAspectRatio="none">
           <defs>${luxuryDefs}</defs>
-          <path id="morphPath" d="" fill="none" stroke="url(#amo-grad-purple-pure)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path id="morphPath" d="" fill="none" stroke="url(#amo-grad-purple-pure)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
 
         <!-- Dynamic Photo Stage Layer (Lateral Left & Right Wings) -->
@@ -260,12 +254,6 @@ export class App {
       ticking = true;
       requestAnimationFrame(() => {
         const rect = this.root.getBoundingClientRect();
-        const sw = this.svgWidth || 1920;
-        const sh = this.svgHeight || 1080;
-        const x = (clientX - rect.left) * (sw / Math.max(1, rect.width));
-        const y = (clientY - rect.top) * (sh / Math.max(1, rect.height));
-        this.springField.updatePointer(x, y, true);
-
         if (!this.isFocused) {
           const normX = ((clientX - rect.left) / rect.width - 0.5) * 2;
           const normY = ((clientY - rect.top) / rect.height - 0.5) * 2;
@@ -287,7 +275,6 @@ export class App {
     }, { passive: true });
 
     const handlePointerLeave = () => {
-      this.springField.updatePointer(-9999, -9999, false);
       this.targetTiltX = 0;
       this.targetTiltY = 0;
     };
@@ -785,8 +772,7 @@ export class App {
       });
 
       if (this.morphPathEl && morphSegments.length > 0) {
-        const deformedSegments = this.springField.deformSegments(morphSegments, dt);
-        this.morphPathEl.setAttribute('d', segmentsToSvgPath(deformedSegments, true));
+        this.morphPathEl.setAttribute('d', segmentsToSvgPath(morphSegments, true));
       }
 
       // 2. Smooth Subtle Tilt Parallax (Without Overriding GSAP)
@@ -841,9 +827,6 @@ export class App {
     }
     if (this.soundscape) {
       this.soundscape.destroy();
-    }
-    if (this.springField) {
-      this.springField.reset();
     }
   }
 }
