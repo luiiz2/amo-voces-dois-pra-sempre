@@ -1,8 +1,7 @@
 /**
  * ============================================================================
- * EU AMO VOCÊS DOIS — SINGLE-SCREEN ROMANTIC SCRAPBOOK GIFT
- * A single-screen digital love note / handmade art journal for my girlfriend & son.
- * Features continuous organic cycling of all 13 family memories.
+ * EU AMO VOCÊS DOIS — EXACT 1:1 REPLICA OF REFERENCE SCRAPBOOK
+ * Pixel-Perfect Single-Screen Art Journal & Love Note for Girlfriend & Son
  * ============================================================================
  */
 
@@ -10,11 +9,15 @@ import gsap from 'gsap';
 import losHermanosMp3 from '../Los Hermanos - Sentimental (Karaokê) [Ga2Ja4O6k7c].mp3';
 import { getAllPhotos } from './data/photos.js';
 import {
-  getArrowSvg,
-  getHeartSvg,
-  getStarSvg,
-  getUnderlineSvg,
-  getCoffeeStainSvg
+  getBinderClipSvg,
+  getParaSempreStampSvg,
+  getCoffeeRingSvg,
+  getDriedFlowerSvg,
+  getGoldHeartStickerSvg,
+  getBlueSwirlSvg,
+  getTickMarksSvg,
+  getCoralHeartSvg,
+  getSparkleStarSvg
 } from './graphics/scrapbookDoodles.js';
 
 import './styles/romanticScrapbook.css';
@@ -67,8 +70,25 @@ export class RomanticScrapbookApp {
     this.root = rootContainer || document.getElementById('app');
     this.bgMusic = new BackgroundMusic(losHermanosMp3);
     this.photos = getAllPhotos();
-    this.slotIndices = [0, 4, 8, 11]; // 4 distinct starter photos
-    this.nextPhotoPointer = 1;
+
+    // Exact 4 canonical starter photos from the reference image:
+    // Slot 0 (Top-Left): Mother holding baby on shoulder ('photo-09' / 'photo_...-59.jpg')
+    // Slot 1 (Top-Right): Baby in bath ('photo-05' / 'photo_...-54.jpg')
+    // Slot 2 (Bottom-Left): Baby in plaid shirt looking at lights ('photo-08' / 'photo_...-58.jpg')
+    // Slot 3 (Bottom-Right): Christmas family kiss ('photo-03' / 'photo_...-50.jpg')
+    const findPhotoIdx = (filename) => {
+      const idx = this.photos.findIndex(p => p.filename.includes(filename));
+      return idx >= 0 ? idx : 0;
+    };
+
+    this.slotIndices = [
+      findPhotoIdx('15-17-59'),
+      findPhotoIdx('15-17-54'),
+      findPhotoIdx('15-17-58'),
+      findPhotoIdx('15-17-50')
+    ];
+
+    this.nextPhotoPointer = 0;
     this.currentCycleSlot = 0;
     this.cycleInterval = null;
     this.init();
@@ -89,122 +109,139 @@ export class RomanticScrapbookApp {
     const p3 = this.photos[this.slotIndices[3]];
 
     this.root.innerHTML = `
-      <div class="scrapbook-viewport" id="scrapbookViewport">
-        <main class="scrapbook-sheet" id="scrapbookSheet">
-          <!-- Spiral Binding at Left Edge -->
-          <div class="scrapbook-spiral" aria-hidden="true">
-            ${Array.from({ length: 12 }).map(() => '<div class="spiral-ring"></div>').join('')}
+      <div class="scrapbook-master-viewport" id="scrapbookViewport">
+        <!-- ==============================================================
+             SPIRAL NOTEBOOK SPREAD CANVAS
+             ============================================================== -->
+        <main class="notebook-spread-canvas" id="notebookCanvas">
+          <!-- Outer Stitched Margin Line -->
+          <div class="notebook-stitched-line"></div>
+
+          <!-- Spiral Wire Loops at Left Side -->
+          <div class="notebook-spiral-strip" aria-hidden="true">
+            ${Array.from({ length: 13 }).map(() => '<div class="spiral-wire-loop"></div>').join('')}
           </div>
 
-          <!-- Top Washi Tape -->
-          <div class="washi-tape tape--mustard" style="top: -12px; left: 50%; transform: translateX(-50%) rotate(-1deg); width: 140px;"></div>
+          <!-- Top-Center Kraft Tape Strip on Notebook -->
+          <div class="notebook-top-tape"></div>
 
-          <!-- Postage Stamp with Heart Inscription -->
-          <div class="postage-stamp-gift">
-            <div class="stamp-inner-text">
-              ★ FOR ALWAYS ★
-            </div>
+          <!-- Top-Left Stamp: ♥ PARA SEMPRE ♥ -->
+          ${getParaSempreStampSvg()}
+
+          <!-- Adjacent Pink Heart Doodle -->
+          <div class="stamp-adjacent-heart">
+            ${getCoralHeartSvg(26, -14)}
           </div>
 
-          <!-- Coffee Cup Stain -->
-          <div class="scrapbook-coffee-mark">
-            ${getCoffeeStainSvg(110)}
+          <!-- Top-Right Coffee Ring Stain -->
+          <div class="notebook-coffee-stain">
+            ${getCoffeeRingSvg(100)}
           </div>
 
           <!-- ==============================================================
-               4 REAL AUTHENTIC FAMILY POLAROIDS FRAMING THE SPREAD
-               (Continuously rotating through all 13 family memories)
+               THE 4 POLAROIDS (EXACT MATCHING REFERENCE CORNERS)
                ============================================================== -->
           
-          <!-- Polaroid 1: Top Left -->
-          <div class="scrapbook-polaroid polaroid--top-left" data-slot="0" title="Clique para trocar a foto">
-            <div class="washi-tape tape--ochre" style="top: -8px; left: -10px; width: 60px; height: 18px; transform: rotate(-16deg);"></div>
-            <div class="polaroid-frame-inner">
+          <!-- Polaroid 1: Top-Left (Mother & Son) -->
+          <div class="polaroid-card polaroid--top-left" data-slot="0" title="Clique para trocar">
+            <div class="tape-top-coral"></div>
+            <div class="polaroid-photo-frame">
               <img class="polaroid-img" src="${p0.src}" alt="${p0.alt}" draggable="false" />
             </div>
+            ${getGoldHeartStickerSvg(20)}
           </div>
 
-          <!-- Polaroid 2: Top Right -->
-          <div class="scrapbook-polaroid polaroid--top-right" data-slot="1" title="Clique para trocar a foto">
-            <div class="washi-tape tape--sage" style="top: -8px; right: -10px; width: 60px; height: 18px; transform: rotate(14deg);"></div>
-            <div class="polaroid-frame-inner">
+          <!-- Polaroid 2: Top-Right (Baby in Bath) -->
+          <div class="polaroid-card polaroid--top-right" data-slot="1" title="Clique para trocar">
+            <div class="tape-top-mint"></div>
+            <div class="polaroid-photo-frame">
               <img class="polaroid-img" src="${p1.src}" alt="${p1.alt}" draggable="false" />
             </div>
+            ${getGoldHeartStickerSvg(20)}
           </div>
 
-          <!-- Polaroid 3: Bottom Left -->
-          <div class="scrapbook-polaroid polaroid--bottom-left" data-slot="2" title="Clique para trocar a foto">
-            <div class="washi-tape tape--sky" style="bottom: -8px; left: -10px; width: 60px; height: 18px; transform: rotate(18deg);"></div>
-            <div class="polaroid-frame-inner">
+          <!-- Polaroid 3: Bottom-Left (Baby in Flannel at Bokeh Lights) -->
+          <div class="polaroid-card polaroid--bottom-left" data-slot="2" title="Clique para trocar">
+            <div class="tape-corner-blue"></div>
+            <div class="polaroid-photo-frame">
               <img class="polaroid-img" src="${p2.src}" alt="${p2.alt}" draggable="false" />
             </div>
+            ${getGoldHeartStickerSvg(20)}
           </div>
 
-          <!-- Polaroid 4: Bottom Right -->
-          <div class="scrapbook-polaroid polaroid--bottom-right" data-slot="3" title="Clique para trocar a foto">
-            <div class="washi-tape tape--rose" style="bottom: -8px; right: -10px; width: 60px; height: 18px; transform: rotate(-18deg);"></div>
-            <div class="polaroid-frame-inner">
+          <!-- Pressed Dried Baby's Breath Flower near Bottom-Left -->
+          <div class="pressed-flower-container">
+            ${getDriedFlowerSvg()}
+            <div class="flower-stem-tape"></div>
+          </div>
+
+          <!-- Polaroid 4: Bottom-Right (Family Kiss at Christmas) -->
+          <div class="polaroid-card polaroid--bottom-right" data-slot="3" title="Clique para trocar">
+            <div class="tape-bottom-translucent"></div>
+            <div class="tape-corner-pink"></div>
+            <div class="polaroid-photo-frame">
               <img class="polaroid-img" src="${p3.src}" alt="${p3.alt}" draggable="false" />
             </div>
+            ${getGoldHeartStickerSvg(20)}
           </div>
 
           <!-- ==============================================================
-               HAND-DRAWN DOODLES (ARROWS & STARS)
+               CENTRAL TORN PAPER SHEET WITH BRONZE BINDER CLIP & EXACT MOTIF
                ============================================================== -->
-          <div class="doodle-element doodle-arrow-left">
-            ${getArrowSvg('curve-down-right', '#2A4365', 90, 60)}
-          </div>
+          <div class="central-torn-sheet-container" id="centralContainer">
+            <!-- Bronze Metal Binder Clip Fastener at Top Center -->
+            <div class="binder-clip-fastener">
+              ${getBinderClipSvg()}
+            </div>
+            <!-- Coral Tape Strip under Binder Clip -->
+            <div class="binder-clip-tape-strip"></div>
 
-          <div class="doodle-element doodle-arrow-right">
-            ${getArrowSvg('loop-right', '#2A4365', 90, 60)}
-          </div>
+            <!-- Left & Right Looping Blue Swirls & Coral Hearts Flanking Central Sheet -->
+            <div class="side-flourish-left">
+              ${getBlueSwirlSvg('left')}
+              ${getCoralHeartSvg(26, -10)}
+            </div>
 
-          <!-- Floating Doodled Hearts & Stars -->
-          <div class="doodle-element floating-heart-stamp" style="top: 22%; left: 34%;">
-            ${getHeartSvg('#D95D6A', 34)}
-          </div>
+            <div class="side-flourish-right">
+              ${getBlueSwirlSvg('right')}
+              ${getCoralHeartSvg(26, 12)}
+            </div>
 
-          <div class="doodle-element floating-heart-stamp" style="bottom: 22%; right: 34%; animation-delay: 1.5s;">
-            ${getStarSvg('#E9C46A', 30)}
-          </div>
-
-          <div class="doodle-element floating-heart-stamp" style="top: 26%; right: 32%; animation-delay: 0.8s;">
-            ${getHeartSvg('#E27D60', 28)}
-          </div>
-
-          <!-- ==============================================================
-               CENTRAL SCRAPBOOK CARD: "EU AMO VOCÊS DOIS" + INFINITY
-               ============================================================== -->
-          <div class="central-scrapbook-stage" id="centralStage">
-            <div class="central-torn-card" id="centralCard">
-              <!-- Washi tape at top of inner note -->
-              <div class="washi-tape tape--rose" style="top: -12px; width: 90px; height: 24px; transform: rotate(-2deg);"></div>
-
-              <!-- Main Central Phrase: EU AMO VOCÊS DOIS -->
-              <h1 class="romantic-main-title">
-                <span class="title-line-top">Eu Amo</span>
-                <span class="title-line-bottom">VOCÊS DOIS</span>
-              </h1>
-
-              <!-- Doodled Underline -->
-              <div style="margin-top: -4px;">
-                ${getUnderlineSvg('#D95D6A', 220, 20)}
+            <!-- The Ripped / Torn Paper Sheet Body -->
+            <div class="torn-paper-body" id="tornPaperBody">
+              <!-- Corner Tick Marks -->
+              <div class="torn-paper-tick-left">
+                ${getTickMarksSvg('left')}
+              </div>
+              <div class="torn-paper-tick-right">
+                ${getTickMarksSvg('right')}
               </div>
 
-              <!-- Central Hand-Drawn Infinity (∞) Motif -->
-              <div class="central-infinity-container" id="infinityHolder">
-                <svg viewBox="0 0 160 80" class="infinity-svg-path" width="150" height="75" xmlns="http://www.w3.org/2000/svg">
-                  <!-- Hand-Drawn Continuous Infinity Spline -->
-                  <path d="M 80,40 C 95,20 125,12 142,26 C 158,40 156,62 138,70 C 120,78 95,58 80,40 C 65,22 40,2 22,10 C 4,18 2,40 20,54 C 38,68 65,60 80,40 Z" 
-                        class="doodle-draw-path infinity-stroke" />
+              <!-- Main Central Phrase: Eu Amo VOCÊS DOIS -->
+              <div class="central-message-group">
+                <span class="msg-line-cursive">Eu Amo</span>
+                <span class="msg-line-marker">VOCÊS DOIS</span>
+              </div>
+
+              <!-- Soft Wavy Coral Underline -->
+              <svg viewBox="0 0 220 16" class="coral-wavy-underline-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 4,8 Q 30,2 60,9 T 120,8 T 170,9 T 216,6" 
+                      stroke="#E57373" stroke-width="3.2" stroke-linecap="round" />
+              </svg>
+
+              <!-- Central Pastel Coral Infinity (∞) Motif -->
+              <div class="infinity-motif-container">
+                <svg viewBox="0 0 160 80" class="coral-infinity-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M 80,40 C 95,18 126,12 142,26 C 158,40 156,62 138,70 C 120,78 95,58 80,40 C 65,22 40,2 22,10 C 4,18 2,40 20,54 C 38,68 65,60 80,40 Z" 
+                        stroke="#E57373" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               </div>
 
-              <!-- Doodled Star Accents -->
-              <div style="display: flex; gap: 14px; margin-top: 4px;">
-                ${getStarSvg('#E9C46A', 22)}
-                ${getHeartSvg('#D95D6A', 24)}
-                ${getStarSvg('#E9C46A', 22)}
+              <!-- Sparkles & Coral Heart under Infinity -->
+              <div class="infinity-sub-accents">
+                ${getSparkleStarSvg(22)}
+                ${getCoralHeartSvg(26, 0)}
+                ${getSparkleStarSvg(22)}
               </div>
             </div>
           </div>
@@ -227,7 +264,7 @@ export class RomanticScrapbookApp {
     const polaroidEl = this.polaroidEls[slotIndex];
     if (!polaroidEl) return;
 
-    // Pick next photo that is not currently displayed in any slot
+    // Pick next unshown photo in catalog
     let nextIdx = (this.nextPhotoPointer + 1) % this.photos.length;
     while (this.slotIndices.includes(nextIdx)) {
       nextIdx = (nextIdx + 1) % this.photos.length;
@@ -239,12 +276,11 @@ export class RomanticScrapbookApp {
     const imgEl = polaroidEl.querySelector('.polaroid-img');
     if (!imgEl) return;
 
-    // Gentle physical paper lift & crossfade
     const tl = gsap.timeline();
     tl.to(polaroidEl, {
       scale: 1.06,
       y: -5,
-      boxShadow: '0 24px 50px rgba(45, 30, 15, 0.28)',
+      boxShadow: '0 22px 50px rgba(45, 30, 15, 0.30)',
       duration: 0.4,
       ease: 'power2.out'
     })
@@ -267,7 +303,7 @@ export class RomanticScrapbookApp {
     .to(polaroidEl, {
       scale: 1,
       y: 0,
-      boxShadow: '0 18px 45px rgba(45, 30, 15, 0.18)',
+      boxShadow: '0 14px 34px rgba(45, 30, 15, 0.20)',
       duration: 0.6,
       ease: 'power2.out'
     }, '-=0.3');
@@ -277,15 +313,15 @@ export class RomanticScrapbookApp {
     if (this.cycleInterval) {
       clearInterval(this.cycleInterval);
     }
-    // Rotate one polaroid every 3.2 seconds sequentially across the 4 corners
+    // Rotate one polaroid every 3.5 seconds sequentially
     this.cycleInterval = setInterval(() => {
       this.transitionSlot(this.currentCycleSlot);
       this.currentCycleSlot = (this.currentCycleSlot + 1) % 4;
-    }, 3200);
+    }, 3500);
   }
 
   initInteractions() {
-    // Smooth auto-play Los Hermanos audio on first interaction
+    // Unlock and play Los Hermanos audio on first interaction
     const unlockAudio = () => {
       this.bgMusic.play();
     };
@@ -293,7 +329,7 @@ export class RomanticScrapbookApp {
     window.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
     window.addEventListener('keydown', unlockAudio, { once: true, passive: true });
 
-    // Click on any polaroid to immediately cycle it
+    // Click on any polaroid to immediately swap photo
     this.polaroidEls.forEach((card, idx) => {
       if (card) {
         card.addEventListener('click', () => {
@@ -302,27 +338,27 @@ export class RomanticScrapbookApp {
       }
     });
 
-    // Subtle 3D tilt on Central Stage & Sheet
-    const sheet = document.getElementById('scrapbookSheet');
-    const centralCard = document.getElementById('centralCard');
+    // Subtle 3D tilt on Canvas and Central Sheet
+    const canvas = document.getElementById('notebookCanvas');
+    const central = document.getElementById('centralContainer');
 
     window.addEventListener('pointermove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
-      if (sheet) {
-        gsap.to(sheet, {
-          rotateX: -y * 2.5,
-          rotateY: x * 2.5,
+      if (canvas) {
+        gsap.to(canvas, {
+          rotateX: -y * 2.0,
+          rotateY: x * 2.0,
           duration: 0.6,
           ease: 'power2.out'
         });
       }
 
-      if (centralCard) {
-        gsap.to(centralCard, {
-          x: x * 6,
-          y: y * 4,
+      if (central) {
+        gsap.to(central, {
+          x: x * 5,
+          y: y * 3,
           duration: 0.5,
           ease: 'power2.out'
         });
@@ -333,40 +369,25 @@ export class RomanticScrapbookApp {
   initEntranceAnimation() {
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
-    // Sheet settles onto desk
-    tl.fromTo('#scrapbookSheet', 
-      { scale: 0.94, opacity: 0, rotate: -2 }, 
+    // Notebook Canvas settles onto desk
+    tl.fromTo('#notebookCanvas', 
+      { scale: 0.94, opacity: 0, rotate: -1.5 }, 
       { scale: 1, opacity: 1, rotate: 0, duration: 1.2 }
     );
 
     // Polaroids drop into place with organic rotation
-    tl.fromTo('.scrapbook-polaroid', 
-      { scale: 0.8, opacity: 0, y: -20 }, 
+    tl.fromTo('.polaroid-card', 
+      { scale: 0.82, opacity: 0, y: -18 }, 
       { scale: 1, opacity: 1, y: 0, stagger: 0.12, duration: 0.8 }, 
       '-=0.7'
     );
 
-    // Central Card reveals
-    tl.fromTo('#centralCard', 
-      { scale: 0.9, opacity: 0, y: 15 }, 
+    // Central Card settles into place
+    tl.fromTo('#centralContainer', 
+      { scale: 0.9, opacity: 0, y: 12 }, 
       { scale: 1, opacity: 1, y: 0, duration: 0.9 }, 
       '-=0.5'
     );
-
-    // Animate drawing the infinity stroke and doodles
-    const drawPaths = document.querySelectorAll('.doodle-draw-path');
-    drawPaths.forEach((path) => {
-      const length = path.getTotalLength ? path.getTotalLength() : 400;
-      path.style.strokeDasharray = length;
-      path.style.strokeDashoffset = length;
-
-      gsap.to(path, {
-        strokeDashoffset: 0,
-        duration: 1.8,
-        ease: 'power1.inOut',
-        delay: 0.4
-      });
-    });
   }
 
   destroy() {

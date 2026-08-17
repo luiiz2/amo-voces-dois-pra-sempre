@@ -1,48 +1,39 @@
 /* ==========================================================================
-   EU AMO VOCÊS DOIS — SINGLE-SCREEN HANDMADE SCRAPBOOK GIFT
-   Tactile Junk Journal Aesthetic | Strict 100vw x 100svh Zero-Scroll
+   EU AMO VOCÊS DOIS — EXACT 1:1 REPLICA OF REFERENCE SCRAPBOOK
+   Pixel-Perfect Layout, Paper Textures, Binder Clip, Torn Paper & Polaroids
    ========================================================================== */
 
 :root {
-  /* --- PALETTE: Warm Paper, Kraft & Inks --- */
-  --bg-desk: #ECE4D4;
-  --bg-paper-aged: #FAF6ED;
-  --bg-paper-cream: #F5ECD9;
-  --bg-paper-kraft: #D5B992;
-  --bg-paper-grid: #F8F5EC;
-  --bg-paper-lined: #FFFDF9;
+  /* Colors from Reference Image */
+  --bg-desk: #DFD7C2;
+  --bg-notebook-cover: #E8DDCA;
+  --bg-notebook-sheet: #F9F6EE;
+  --bg-torn-paper: #FFFFFF;
 
-  /* Inks & Inscriptions */
-  --ink-blue-dark: #1D2A44;
-  --ink-blue-fountain: #2A4365;
-  --ink-red-stamp: #C34A36;
-  --ink-rose-love: #D95D6A;
-  --ink-green-sage: #4A6B53;
-  --ink-pencil: #5C5549;
+  /* Inks */
+  --ink-navy-title: #16325B;
+  --ink-navy-bold: #0E1F38;
+  --ink-coral-pink: #E57373;
+  --ink-gold-star: #E6A817;
+  --ink-stitch: #BFA882;
 
-  /* Washi Tapes */
-  --tape-ochre: rgba(226, 125, 96, 0.84);
-  --tape-mustard: rgba(233, 196, 106, 0.85);
-  --tape-sage: rgba(132, 169, 140, 0.82);
-  --tape-sky: rgba(142, 202, 230, 0.80);
-  --tape-rose: rgba(217, 93, 106, 0.82);
+  /* Tapes */
+  --tape-coral-red: rgba(229, 107, 107, 0.85);
+  --tape-sage-mint: rgba(144, 180, 150, 0.85);
+  --tape-ocean-blue: rgba(91, 155, 213, 0.85);
+  --tape-pink-soft: rgba(240, 140, 155, 0.85);
+  --tape-kraft-top: rgba(216, 178, 135, 0.88);
+  --tape-translucent: rgba(235, 220, 195, 0.70);
 
-  /* Typography */
-  --font-hand-caveat: 'Caveat', cursive;
-  --font-hand-patrick: 'Patrick Hand', cursive;
-  --font-hand-kalam: 'Kalam', cursive;
+  /* Fonts */
+  --font-cursive: 'Caveat', cursive;
   --font-marker: 'Permanent Marker', cursive;
+  --font-hand: 'Kalam', cursive;
   --font-typewriter: 'Courier Prime', monospace;
-
-  /* Paper Shadows */
-  --shadow-paper-flat: 0 2px 8px rgba(45, 30, 15, 0.08);
-  --shadow-paper-lifted: 0 10px 28px rgba(45, 30, 15, 0.14), 0 3px 8px rgba(0, 0, 0, 0.06);
-  --shadow-paper-floating: 0 18px 45px rgba(45, 30, 15, 0.18), 0 6px 16px rgba(0, 0, 0, 0.08);
-  --shadow-tape: 0 1px 4px rgba(0, 0, 0, 0.18);
 }
 
 /* ==========================================================================
-   RESET & STRICT ZERO-SCROLL VIEWPORT (100vw x 100svh)
+   VIEWPORT & NOTEBOOK CONTAINER (STRICT 100vw x 100svh ZERO SCROLL)
    ========================================================================== */
 
 *, *::before, *::after {
@@ -59,436 +50,574 @@ html, body {
   max-height: 100svh;
   overflow: hidden;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background-color: var(--bg-desk);
-  color: var(--ink-blue-dark);
-  font-family: var(--font-typewriter);
   user-select: none;
-  -webkit-user-select: none;
   touch-action: none;
-  overscroll-behavior: none;
 }
 
-#root, #app {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-/* ==========================================================================
-   SCRAPBOOK SPREAD CANVAS (FULL VIEWPORT SPREAD)
-   ========================================================================== */
-
-.scrapbook-viewport {
-  position: relative;
+.scrapbook-master-viewport {
   width: 100vw;
   height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(12px, 2.5vw, 36px);
-  background-color: var(--bg-desk);
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 0%, rgba(0, 0, 0, 0.08) 100%),
-    repeating-linear-gradient(45deg, rgba(160, 130, 95, 0.04) 0, rgba(160, 130, 95, 0.04) 1px, transparent 0, transparent 24px);
-  perspective: 1200px;
+  padding: clamp(10px, 2vw, 32px);
+  background: radial-gradient(circle at 50% 50%, #ECE4D3 0%, #D8CEB8 100%);
+  position: relative;
+  overflow: hidden;
 }
 
-.scrapbook-sheet {
+/* ==========================================================================
+   SPIRAL NOTEBOOK SPREAD WITH STITCHED BORDER & SPIRAL BINDER
+   ========================================================================== */
+
+.notebook-spread-canvas {
   position: relative;
-  width: min(96vw, 1140px);
-  height: min(94svh, 780px);
-  background-color: var(--bg-paper-aged);
-  background-image: 
-    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(180, 140, 90, 0.12) 100%),
-    linear-gradient(to right, rgba(40, 80, 140, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(40, 80, 140, 0.04) 1px, transparent 1px);
-  background-size: auto, 24px 24px, 24px 24px;
-  border-radius: 6px;
+  width: min(96vw, 1180px);
+  height: min(94svh, 720px);
+  background-color: var(--bg-notebook-sheet);
+  border-radius: 12px;
   box-shadow: 
-    0 22px 65px rgba(45, 30, 15, 0.25),
-    0 6px 18px rgba(0, 0, 0, 0.09),
-    inset 0 0 80px rgba(180, 140, 90, 0.10);
-  overflow: visible;
+    0 22px 60px rgba(50, 35, 20, 0.26),
+    0 6px 18px rgba(0, 0, 0, 0.10),
+    inset 0 0 60px rgba(190, 160, 120, 0.12);
+  border: 1px solid #D5C2A5;
   display: flex;
   align-items: center;
   justify-content: center;
-  will-change: transform;
+  overflow: visible;
+  padding-left: clamp(24px, 4vw, 52px);
+  padding-right: clamp(16px, 2.5vw, 36px);
 }
 
-/* Spiral Ring Binding at Left Edge */
-.scrapbook-spiral {
+/* Notebook Stitched Border Line */
+.notebook-stitched-line {
   position: absolute;
-  top: 12px;
-  bottom: 12px;
-  left: -18px;
-  width: 32px;
+  inset: clamp(8px, 1.2vw, 14px);
+  border: 1.5px dashed var(--ink-stitch);
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.75;
+}
+
+/* Spiral Ring Wire Loops at Left */
+.notebook-spiral-strip {
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: -20px;
+  width: 38px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   pointer-events: none;
   z-index: 50;
 }
 
-.spiral-ring {
-  width: 28px;
-  height: 10px;
-  border: 2.5px solid #8E9BAE;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #6C7A8E 0%, #D8E0EA 50%, #546274 100%);
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.25);
+.spiral-wire-loop {
+  width: 32px;
+  height: 12px;
+  border: 3px solid #36322D;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #24211D 0%, #635C53 45%, #8C8275 60%, #2B2722 100%);
+  box-shadow: 2px 3px 5px rgba(0,0,0,0.35);
   transform: rotate(-10deg);
 }
 
+/* Punch Holes behind Spiral */
+.spiral-wire-loop::before {
+  content: '';
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #C4B59B;
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5);
+}
+
 /* ==========================================================================
-   WASHI TAPE & FASTENERS
+   TOP & BOTTOM NOTEBOOK ACCENTS (STAMP, COFFEE STAIN, TOP TAPE)
    ========================================================================== */
 
-.washi-tape {
+/* Top Center Kraft Tape Strip */
+.notebook-top-tape {
   position: absolute;
-  height: clamp(22px, 2.8vw, 32px);
-  background-color: var(--tape-ochre);
-  box-shadow: var(--shadow-tape);
-  z-index: 30;
-  pointer-events: none;
-  opacity: 0.88;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-typewriter);
-  font-size: 0.70rem;
-  font-weight: bold;
-  letter-spacing: 0.1em;
-  color: rgba(30, 20, 10, 0.75);
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(100px, 14vw, 160px);
+  height: 28px;
+  background: var(--tape-kraft-top);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  z-index: 28;
   clip-path: polygon(
-    3% 0%, 97% 0%, 100% 15%, 98% 35%, 100% 55%, 98% 75%, 100% 90%, 97% 100%,
-    3% 100%, 0% 85%, 2% 65%, 0% 45%, 2% 25%, 0% 10%
+    2% 0%, 98% 0%, 100% 15%, 98% 35%, 100% 55%, 98% 75%, 100% 90%, 98% 100%,
+    2% 100%, 0% 85%, 2% 65%, 0% 45%, 2% 25%, 0% 10%
   );
 }
 
-.tape--mustard { background-color: var(--tape-mustard); }
-.tape--sage { background-color: var(--tape-sage); }
-.tape--sky { background-color: var(--tape-sky); }
-.tape--rose { background-color: var(--tape-rose); }
-
-/* ==========================================================================
-   CENTRAL HERO MESSAGE: "EU AMO VOCÊS DOIS" + INFINITY SYMBOL
-   ========================================================================== */
-
-.central-scrapbook-stage {
-  position: relative;
-  z-index: 25;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  max-width: min(88vw, 680px);
-  padding: 0;
-  will-change: transform;
-}
-
-/* Torn Kraft Paper Backplate behind Central Phrase */
-.central-torn-card {
-  position: relative;
-  background: var(--bg-paper-lined);
-  padding: clamp(24px, 4vw, 44px) clamp(28px, 4.5vw, 56px);
-  border-radius: 4px;
-  box-shadow: var(--shadow-paper-floating);
-  transform: rotate(-1.2deg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(180, 140, 90, 0.3);
-}
-
-/* Master Handwritten Typography: EU AMO VOCÊS DOIS */
-.romantic-main-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  line-height: 1.05;
-  margin: 0;
-  padding: 0;
-}
-
-.title-line-top {
-  font-family: var(--font-hand-caveat);
-  font-size: clamp(2.4rem, 5.2vw, 4.4rem);
-  font-weight: 700;
-  color: var(--ink-blue-fountain);
-  letter-spacing: 0.02em;
-  transform: rotate(-2deg);
-  display: inline-block;
-  text-shadow: 1px 2px 0px rgba(255, 255, 255, 0.8);
-}
-
-.title-line-bottom {
-  font-family: var(--font-marker);
-  font-size: clamp(2.2rem, 5.0vw, 4.2rem);
-  font-weight: 900;
-  color: var(--ink-blue-dark);
-  letter-spacing: 0.04em;
-  transform: rotate(1.5deg);
-  display: inline-block;
-  margin-top: 4px;
-  text-shadow: 2px 3px 0px rgba(226, 125, 96, 0.25);
-}
-
-/* Infinity Symbol Emblem */
-.central-infinity-container {
-  position: relative;
-  margin: clamp(14px, 2.2vh, 26px) 0 clamp(8px, 1.2vh, 14px) 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: clamp(140px, 18vw, 220px);
-  height: clamp(60px, 8vh, 90px);
-}
-
-.infinity-svg-path {
-  fill: none;
-  stroke: var(--ink-rose-love);
-  stroke-width: 3.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 8px rgba(217, 93, 106, 0.45));
-  will-change: transform;
-  animation: infinityBreathe 4s ease-in-out infinite alternate;
-}
-
-@keyframes infinityBreathe {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.88;
-  }
-  100% {
-    transform: scale(1.05);
-    opacity: 1.0;
-  }
-}
-
-/* ==========================================================================
-   FRAMING PHYSICAL POLAROIDS & FAMILY MEMORIES (AROUND THE MESSAGE)
-   ========================================================================== */
-
-.scrapbook-polaroid {
+/* Top-Left Stamp: ♥ PARA SEMPRE ♥ */
+.stamp-para-sempre {
   position: absolute;
-  background: #FFFDF9;
-  padding: clamp(6px, 0.8vw, 10px) clamp(6px, 0.8vw, 10px) clamp(20px, 2.5vw, 32px) clamp(6px, 0.8vw, 10px);
-  box-shadow: var(--shadow-paper-floating);
-  border-radius: 2px;
-  cursor: pointer;
-  will-change: transform;
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+  top: clamp(24px, 4vh, 44px);
+  left: clamp(220px, 26vw, 320px);
+  background: #FFFDF8;
+  border: 1px dashed #D28C8C;
+  outline: 3px solid #FFFDF8;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  padding: 4px 10px;
+  transform: rotate(2.5deg);
   z-index: 20;
 }
 
-.scrapbook-polaroid:hover {
-  transform: scale(1.08) rotate(0deg) !important;
-  box-shadow: 0 24px 50px rgba(45, 30, 15, 0.28);
+.stamp-para-sempre-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(217, 93, 106, 0.4);
+  padding: 3px 8px;
+}
+
+.stamp-heart {
+  color: var(--ink-coral-pink);
+  font-size: 0.75rem;
+}
+
+.stamp-text {
+  font-family: var(--font-typewriter);
+  font-size: clamp(0.68rem, 0.9vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #A34848;
+}
+
+/* Top-Right Coffee Ring Stain */
+.notebook-coffee-stain {
+  position: absolute;
+  top: clamp(16px, 3vh, 36px);
+  right: clamp(220px, 26vw, 320px);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Loose Pink Heart next to PARA SEMPRE stamp */
+.stamp-adjacent-heart {
+  position: absolute;
+  top: clamp(65px, 9vh, 95px);
+  left: clamp(230px, 27vw, 335px);
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* ==========================================================================
+   THE 4 POLAROIDS (EXACT MATCHING CORNERS & STYLING)
+   ========================================================================== */
+
+.polaroid-card {
+  position: absolute;
+  background: #FFFFFF;
+  padding: clamp(6px, 0.8vw, 10px) clamp(6px, 0.8vw, 10px) clamp(22px, 2.8vw, 34px) clamp(6px, 0.8vw, 10px);
+  box-shadow: 0 14px 34px rgba(45, 30, 15, 0.20), 0 3px 8px rgba(0,0,0,0.08);
+  border-radius: 2px;
+  cursor: pointer;
+  z-index: 25;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+
+.polaroid-card:hover {
+  transform: scale(1.06) rotate(0deg) !important;
+  box-shadow: 0 22px 50px rgba(45, 30, 15, 0.30);
   z-index: 45;
 }
 
-.polaroid-frame-inner {
+.polaroid-photo-frame {
   width: 100%;
   aspect-ratio: 1 / 1;
   background: #E8E0D2;
   overflow: hidden;
-  border-radius: 1px;
 }
 
-.polaroid-frame-inner img {
+.polaroid-photo-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.polaroid-caption {
-  font-family: var(--font-hand-caveat);
-  font-size: clamp(0.95rem, 1.4vw, 1.25rem);
-  font-weight: 700;
-  color: var(--ink-pencil);
-  text-align: center;
-  margin-top: 6px;
+.polaroid-gold-heart {
+  position: absolute;
+  bottom: clamp(5px, 0.7vw, 9px);
+  right: clamp(6px, 0.8vw, 10px);
+  pointer-events: none;
 }
 
-/* Polaroid 1: Top Left (Baby smile) */
+/* Polaroid 1: Top-Left (Mother & Son) */
 .polaroid--top-left {
   top: clamp(20px, 4vh, 48px);
-  left: clamp(24px, 4vw, 56px);
-  width: clamp(120px, 15vw, 175px);
-  transform: rotate(-6deg);
+  left: clamp(40px, 5.5vw, 85px);
+  width: clamp(135px, 16.5vw, 195px);
+  transform: rotate(-4.5deg);
 }
 
-/* Polaroid 2: Top Right (Father & Son bath / laughter) */
+/* Polaroid 2: Top-Right (Baby in Bath) */
 .polaroid--top-right {
   top: clamp(20px, 4vh, 48px);
-  right: clamp(24px, 4vw, 56px);
-  width: clamp(120px, 15vw, 175px);
+  right: clamp(30px, 4.5vw, 75px);
+  width: clamp(135px, 16.5vw, 195px);
   transform: rotate(5deg);
 }
 
-/* Polaroid 3: Bottom Left (Mother holding baby) */
+/* Polaroid 3: Bottom-Left (Baby in Flannel at Lights) */
 .polaroid--bottom-left {
   bottom: clamp(20px, 4vh, 48px);
-  left: clamp(28px, 4.5vw, 64px);
-  width: clamp(125px, 15.5vw, 180px);
-  transform: rotate(4deg);
+  left: clamp(45px, 6vw, 95px);
+  width: clamp(140px, 17vw, 200px);
+  transform: rotate(3deg);
 }
 
-/* Polaroid 4: Bottom Right (Christmas kiss / Family bond) */
+/* Polaroid 4: Bottom-Right (Family Kiss at Christmas) */
 .polaroid--bottom-right {
   bottom: clamp(20px, 4vh, 48px);
-  right: clamp(28px, 4.5vw, 64px);
-  width: clamp(125px, 15.5vw, 180px);
-  transform: rotate(-5deg);
+  right: clamp(30px, 4.5vw, 75px);
+  width: clamp(140px, 17vw, 200px);
+  transform: rotate(-3.5deg);
+}
+
+/* Pressed Dried Botanical Flower near Bottom-Left */
+.pressed-flower-container {
+  position: absolute;
+  bottom: clamp(12px, 2vh, 28px);
+  left: clamp(210px, 25vw, 310px);
+  pointer-events: none;
+  z-index: 22;
+  transform: rotate(12deg);
+}
+
+.flower-stem-tape {
+  position: absolute;
+  bottom: 8px;
+  left: 20px;
+  width: 70px;
+  height: 22px;
+  background: var(--tape-translucent);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transform: rotate(-25deg);
+  clip-path: polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%);
+}
+
+/* Washi Tapes on Polaroids */
+.tape-top-coral {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 75px;
+  height: 24px;
+  background: var(--tape-coral-red);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  clip-path: polygon(
+    4% 0%, 96% 0%, 100% 20%, 98% 50%, 100% 80%, 96% 100%,
+    4% 100%, 0% 80%, 2% 50%, 0% 20%
+  );
+}
+
+.tape-top-mint {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(1deg);
+  width: 75px;
+  height: 24px;
+  background: var(--tape-sage-mint);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  clip-path: polygon(
+    4% 0%, 96% 0%, 100% 20%, 98% 50%, 100% 80%, 96% 100%,
+    4% 100%, 0% 80%, 2% 50%, 0% 20%
+  );
+}
+
+.tape-corner-blue {
+  position: absolute;
+  bottom: -8px;
+  left: -12px;
+  width: 65px;
+  height: 22px;
+  background: var(--tape-ocean-blue);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transform: rotate(25deg);
+  clip-path: polygon(
+    4% 0%, 96% 0%, 100% 20%, 98% 50%, 100% 80%, 96% 100%,
+    4% 100%, 0% 80%, 2% 50%, 0% 20%
+  );
+}
+
+.tape-corner-pink {
+  position: absolute;
+  bottom: -8px;
+  right: -12px;
+  width: 65px;
+  height: 22px;
+  background: var(--tape-pink-soft);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transform: rotate(-25deg);
+  clip-path: polygon(
+    4% 0%, 96% 0%, 100% 20%, 98% 50%, 100% 80%, 96% 100%,
+    4% 100%, 0% 80%, 2% 50%, 0% 20%
+  );
+}
+
+.tape-bottom-translucent {
+  position: absolute;
+  bottom: 24px;
+  left: -18px;
+  width: 65px;
+  height: 20px;
+  background: var(--tape-translucent);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transform: rotate(-45deg);
 }
 
 /* ==========================================================================
-   HANDMADE DOODLES & SCRAPBOOK ACCENTS
+   CENTRAL TORN PAPER SHEET WITH BRONZE BINDER CLIP & EXACT MOTIF
    ========================================================================== */
 
-.doodle-element {
+.central-torn-sheet-container {
+  position: relative;
+  z-index: 30;
+  width: clamp(290px, 36vw, 460px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The Authentic Jagged Torn Paper Background */
+.torn-paper-body {
+  position: relative;
+  width: 100%;
+  background-color: #FFFDF9;
+  padding: clamp(24px, 4vh, 42px) clamp(20px, 3vw, 36px) clamp(20px, 3vh, 32px) clamp(20px, 3vw, 36px);
+  box-shadow: 
+    0 16px 40px rgba(45, 30, 15, 0.20),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Complex jagged torn paper edge on all 4 sides */
+  clip-path: polygon(
+    0% 3%, 3% 1%, 7% 3%, 12% 0%, 18% 3%, 24% 1%, 30% 3%, 36% 0%, 42% 2%, 48% 0%,
+    54% 2%, 60% 0%, 66% 3%, 72% 1%, 78% 3%, 84% 0%, 90% 2%, 95% 0%, 99% 3%,
+    100% 8%, 98% 15%, 100% 22%, 97% 30%, 100% 38%, 98% 46%, 100% 54%, 97% 62%, 100% 70%, 98% 78%, 100% 86%, 98% 94%, 99% 98%,
+    95% 100%, 90% 97%, 84% 100%, 78% 97%, 72% 100%, 66% 98%, 60% 100%, 54% 97%, 48% 100%, 42% 98%, 36% 100%, 30% 97%, 24% 100%, 18% 97%, 12% 100%, 7% 98%, 2% 100%, 0% 97%,
+    1% 90%, 0% 82%, 2% 74%, 0% 66%, 2% 58%, 0% 50%, 2% 42%, 0% 34%, 2% 26%, 0% 18%, 1% 10%
+  );
+}
+
+/* Bronze Binder Clip Pinched at Top-Center */
+.binder-clip-fastener {
   position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
   pointer-events: none;
-  z-index: 22;
+  filter: drop-shadow(1px 4px 6px rgba(0,0,0,0.3));
 }
 
-.doodle-arrow-left {
-  top: 48%;
-  left: clamp(155px, 18vw, 220px);
-  transform: translateY(-50%) rotate(12deg);
-}
-
-.doodle-arrow-right {
-  top: 48%;
-  right: clamp(155px, 18vw, 220px);
-  transform: translateY(-50%) rotate(-12deg);
-}
-
-/* Floating Heart Badges */
-.floating-heart-stamp {
+/* Coral Tape Strip pinched under the Binder Clip */
+.binder-clip-tape-strip {
   position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 22px;
+  background: var(--tape-coral-red);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  z-index: 35;
+  clip-path: polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%);
+}
+
+/* Tick Marks in Top Corners of Torn Paper */
+.torn-paper-tick-left {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  pointer-events: none;
+}
+
+.torn-paper-tick-right {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY: "Eu Amo VOCÊS DOIS"
+   ========================================================================== */
+
+.central-message-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.0;
+  margin-top: 4px;
+}
+
+.msg-line-cursive {
+  font-family: var(--font-cursive);
+  font-size: clamp(2.6rem, 4.2vw, 3.8rem);
+  font-weight: 700;
+  color: var(--ink-navy-title);
+  letter-spacing: 0.01em;
+  transform: rotate(-1.5deg);
+  display: block;
+}
+
+.msg-line-marker {
+  font-family: var(--font-marker);
+  font-size: clamp(2.4rem, 4.0vw, 3.6rem);
+  font-weight: 900;
+  color: var(--ink-navy-bold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transform: rotate(0.8deg);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Soft Wavy Underline */
+.coral-wavy-underline-svg {
+  width: clamp(180px, 22vw, 240px);
+  height: 16px;
+  margin-top: 2px;
+}
+
+/* Pastel Coral Infinity Loop */
+.infinity-motif-container {
+  margin-top: clamp(8px, 1.4vh, 16px);
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
-  animation: floatHeart 3s ease-in-out infinite alternate;
 }
 
-@keyframes floatHeart {
-  0% { transform: translateY(0px) rotate(-4deg); }
-  100% { transform: translateY(-8px) rotate(4deg); }
+.coral-infinity-svg {
+  width: clamp(130px, 15vw, 170px);
+  height: clamp(55px, 6.5vh, 75px);
+  filter: drop-shadow(0 2px 5px rgba(229, 115, 115, 0.35));
+  animation: infinityGentleBreathe 4s ease-in-out infinite alternate;
 }
 
-/* Coffee Stain Accent */
-.scrapbook-coffee-mark {
-  position: absolute;
-  top: clamp(18px, 3vh, 40px);
-  right: clamp(180px, 22vw, 280px);
-  pointer-events: none;
-  opacity: 0.7;
+@keyframes infinityGentleBreathe {
+  0% { transform: scale(0.97); }
+  100% { transform: scale(1.03); }
 }
 
-/* Postage Stamp */
-.postage-stamp-gift {
-  position: absolute;
-  top: 24px;
-  left: clamp(180px, 22vw, 270px);
-  background: #FFFDF9;
-  border: 1px dashed #C4A47C;
-  outline: 3px solid #FFFDF9;
-  padding: 6px 10px;
-  transform: rotate(-8deg);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  z-index: 22;
-}
-
-.stamp-inner-text {
-  border: 1px solid var(--ink-red-stamp);
-  padding: 4px 8px;
-  text-align: center;
-  font-family: var(--font-typewriter);
-  font-size: 0.65rem;
-  font-weight: bold;
-  color: var(--ink-red-stamp);
+/* Bottom Sparkles and Coral Heart under Infinity */
+.infinity-sub-accents {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 4px;
 }
 
 /* ==========================================================================
-   RESPONSIVE COMPOSITION (MOBILE POCKET SCRAPBOOK)
+   SIDE FLOURISHES (BLUE SWIRLS & CORAL HEARTS FLANKING TORN PAPER)
    ========================================================================== */
 
-@media screen and (max-width: 768px) {
-  .scrapbook-spiral {
+.side-flourish-left {
+  position: absolute;
+  left: -32px;
+  top: 44%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.side-flourish-right {
+  position: absolute;
+  right: -32px;
+  top: 44%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ==========================================================================
+   RESPONSIVE COMPOSITION FOR SMALLER SCREENS / TABLETS
+   ========================================================================== */
+
+@media screen and (max-width: 860px) {
+  .notebook-spiral-strip {
     display: none;
   }
 
-  .scrapbook-sheet {
+  .notebook-spread-canvas {
     width: 98vw;
     height: 98svh;
-    padding: 12px;
+    padding: 10px;
   }
 
-  .central-torn-card {
-    padding: 20px 16px;
-    max-width: 92vw;
-  }
-
-  .title-line-top {
-    font-size: clamp(2.0rem, 8.5vw, 2.8rem);
-  }
-
-  .title-line-bottom {
-    font-size: clamp(1.8rem, 8.0vw, 2.6rem);
-  }
-
-  .central-infinity-container {
-    width: 140px;
-    height: 50px;
-    margin: 8px 0;
-  }
-
-  .doodle-arrow-left,
-  .doodle-arrow-right,
-  .scrapbook-coffee-mark,
-  .postage-stamp-gift {
+  .stamp-para-sempre,
+  .notebook-coffee-stain,
+  .stamp-adjacent-heart,
+  .pressed-flower-container,
+  .side-flourish-left,
+  .side-flourish-right {
     display: none;
   }
 
-  /* Recompose 4 Polaroids into neat corners */
+  .central-torn-sheet-container {
+    width: min(88vw, 360px);
+  }
+
+  .msg-line-cursive {
+    font-size: clamp(2.0rem, 7.5vw, 2.8rem);
+  }
+
+  .msg-line-marker {
+    font-size: clamp(1.8rem, 7.0vw, 2.6rem);
+  }
+
+  .coral-infinity-svg {
+    width: 120px;
+    height: 50px;
+  }
+
+  /* Compact polaroids on mobile */
   .polaroid--top-left {
-    top: 10px;
-    left: 10px;
-    width: 90px;
-    transform: rotate(-5deg);
+    top: 8px;
+    left: 8px;
+    width: 95px;
   }
-
   .polaroid--top-right {
-    top: 10px;
-    right: 10px;
-    width: 90px;
-    transform: rotate(5deg);
+    top: 8px;
+    right: 8px;
+    width: 95px;
   }
-
   .polaroid--bottom-left {
-    bottom: 10px;
-    left: 10px;
-    width: 90px;
-    transform: rotate(4deg);
+    bottom: 8px;
+    left: 8px;
+    width: 95px;
   }
-
   .polaroid--bottom-right {
-    bottom: 10px;
-    right: 10px;
-    width: 90px;
-    transform: rotate(-4deg);
+    bottom: 8px;
+    right: 8px;
+    width: 95px;
   }
 }
