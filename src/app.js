@@ -196,6 +196,9 @@ export class App {
 
     this.root.innerHTML = `
       <div class="editorial-viewport" id="viewport">
+        <!-- Celestial Soft Light Halo radiating from Heart/Infinity -->
+        <div class="heart-celestial-halo" id="celestialHalo"></div>
+
         <!-- Master SVG Vector Engine Layer (SOLE HEART & INFINITY MOTIF) -->
         <svg class="continuous-svg-layer" id="masterSvg" viewBox="0 0 1920 1080" preserveAspectRatio="none">
           <defs>${luxuryDefs}</defs>
