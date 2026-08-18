@@ -1,6 +1,7 @@
 /* ==========================================================================
    EU AMO VOCÊS DOIS — RICH HANDMADE SCRAPBOOK / JUNK JOURNAL SPREAD
    Warm Aged Yellowish Paper | Wax Seals | Botanical Branches | Micro-Notes
+   Pixel-Perfect Responsive Architecture (Desktop & Mobile)
    ========================================================================== */
 
 :root {
@@ -158,10 +159,10 @@ html, body {
 /* Peeking Grid Paper Scrap behind Central Card */
 .peeking-grid-scrap {
   position: absolute;
-  top: clamp(40px, 7vh, 80px);
-  right: clamp(230px, 28vw, 360px);
-  width: clamp(100px, 12vw, 140px);
-  height: clamp(80px, 10vh, 110px);
+  top: clamp(35px, 6.5vh, 75px);
+  right: clamp(210px, 26vw, 350px);
+  width: clamp(90px, 11vw, 135px);
+  height: clamp(75px, 9.5vh, 105px);
   background-color: var(--bg-grid-paper);
   background-image: 
     linear-gradient(to right, rgba(40, 80, 140, 0.08) 1px, transparent 1px),
@@ -177,9 +178,9 @@ html, body {
 /* Peeking Kraft Scrap near Bottom */
 .peeking-kraft-scrap {
   position: absolute;
-  bottom: clamp(55px, 9vh, 95px);
-  left: clamp(240px, 29vw, 370px);
-  padding: 6px 12px;
+  bottom: clamp(45px, 7.5vh, 85px);
+  left: clamp(220px, 27vw, 350px);
+  padding: 5px 12px;
   background: #D9C3A0;
   box-shadow: 0 4px 10px rgba(45, 30, 15, 0.12);
   transform: rotate(-12deg);
@@ -288,7 +289,7 @@ html, body {
 .stamp-para-sempre {
   position: absolute;
   top: clamp(24px, 4vh, 44px);
-  left: clamp(220px, 26vw, 320px);
+  left: clamp(210px, 25vw, 310px);
   background: #FFFDF8;
   border: 1px dashed #D28C8C;
   outline: 3px solid #FFFDF8;
@@ -383,7 +384,7 @@ html, body {
 /* Polaroid 1: Top-Left (Mother & Son) */
 .polaroid--top-left {
   top: clamp(20px, 4vh, 48px);
-  left: clamp(40px, 5.5vw, 85px);
+  left: clamp(36px, 5vw, 85px);
   width: clamp(135px, 16.5vw, 195px);
   transform: rotate(-4.5deg);
 }
@@ -391,7 +392,7 @@ html, body {
 /* Polaroid 2: Top-Right (Baby in Bath) */
 .polaroid--top-right {
   top: clamp(20px, 4vh, 48px);
-  right: clamp(30px, 4.5vw, 75px);
+  right: clamp(28px, 4vw, 75px);
   width: clamp(135px, 16.5vw, 195px);
   transform: rotate(5deg);
 }
@@ -399,7 +400,7 @@ html, body {
 /* Polaroid 3: Bottom-Left (Baby in Flannel at Bokeh Lights) */
 .polaroid--bottom-left {
   bottom: clamp(20px, 4vh, 48px);
-  left: clamp(45px, 6vw, 95px);
+  left: clamp(40px, 5.5vw, 95px);
   width: clamp(140px, 17vw, 200px);
   transform: rotate(3deg);
 }
@@ -407,7 +408,7 @@ html, body {
 /* Polaroid 4: Bottom-Right (Family Kiss at Christmas) */
 .polaroid--bottom-right {
   bottom: clamp(20px, 4vh, 48px);
-  right: clamp(30px, 4.5vw, 75px);
+  right: clamp(28px, 4vw, 75px);
   width: clamp(140px, 17vw, 200px);
   transform: rotate(-3.5deg);
 }
@@ -416,7 +417,7 @@ html, body {
 .pressed-flower-container {
   position: absolute;
   bottom: clamp(12px, 2vh, 28px);
-  left: clamp(200px, 24vw, 295px);
+  left: clamp(195px, 23vw, 290px);
   pointer-events: none;
   z-index: 22;
   transform: rotate(12deg);
@@ -720,73 +721,208 @@ html, body {
 }
 
 /* ==========================================================================
-   RESPONSIVE COMPOSITION FOR SMALLER SCREENS / TABLETS
+   PERFECT MOBILE PORTRAIT SCRAPBOOK LAYOUT (BALANCED, WARM & FULL)
    ========================================================================== */
 
 @media screen and (max-width: 860px) {
-  .notebook-spiral-strip {
-    display: none;
+  .scrapbook-master-viewport {
+    padding: 6px;
   }
 
   .notebook-spread-canvas {
-    width: 98vw;
-    height: 98svh;
-    padding: 10px;
+    width: 96vw;
+    height: 97svh;
+    padding: 10px 8px;
+    border-radius: 10px;
   }
 
-  .stamp-para-sempre,
-  .notebook-coffee-stain,
-  .stamp-adjacent-heart,
-  .pressed-flower-container,
-  .side-flourish-left,
-  .side-flourish-right,
-  .peeking-grid-scrap,
-  .peeking-kraft-scrap,
-  .vintage-ticket-scrap,
-  .notebook-wax-seal,
-  .notebook-botanical-branch,
-  .notebook-circular-postmark,
-  .margin-note-left,
-  .margin-note-right,
-  .scattered-doodle {
-    display: none;
+  .notebook-spiral-strip {
+    left: -12px;
+    width: 22px;
   }
 
-  .central-torn-sheet-container {
-    width: min(88vw, 360px);
+  .spiral-wire-loop {
+    width: 20px;
+    height: 9px;
+    border-width: 2px;
   }
 
-  .msg-line-cursive {
-    font-size: clamp(2.0rem, 7.5vw, 2.8rem);
+  .spiral-wire-loop::before {
+    width: 5px;
+    height: 5px;
   }
 
-  .msg-line-marker {
-    font-size: clamp(1.8rem, 7.0vw, 2.6rem);
-  }
-
-  .coral-infinity-svg {
-    width: 120px;
-    height: 50px;
+  /* --- 4 POLAROIDS (GENEROUS & BALANCED ON MOBILE) --- */
+  .polaroid-card {
+    padding: 5px 5px 18px 5px;
+    box-shadow: 0 10px 24px rgba(45, 30, 15, 0.22);
   }
 
   .polaroid--top-left {
-    top: 8px;
-    left: 8px;
-    width: 95px;
+    top: 10px;
+    left: 12px;
+    width: min(34vw, 126px);
+    transform: rotate(-4deg);
   }
+
   .polaroid--top-right {
-    top: 8px;
-    right: 8px;
-    width: 95px;
+    top: 10px;
+    right: 12px;
+    width: min(34vw, 126px);
+    transform: rotate(4deg);
   }
+
   .polaroid--bottom-left {
-    bottom: 8px;
-    left: 8px;
-    width: 95px;
+    bottom: 12px;
+    left: 12px;
+    width: min(34vw, 126px);
+    transform: rotate(3deg);
   }
+
   .polaroid--bottom-right {
+    bottom: 12px;
+    right: 12px;
+    width: min(34vw, 126px);
+    transform: rotate(-3deg);
+  }
+
+  .tape-top-coral, .tape-top-mint {
+    width: 54px;
+    height: 18px;
+    top: -7px;
+  }
+
+  .tape-corner-blue, .tape-corner-pink {
+    width: 48px;
+    height: 17px;
+  }
+
+  .polaroid-gold-heart {
+    width: 16px;
+    height: 16px;
+    bottom: 4px;
+    right: 5px;
+  }
+
+  /* --- CENTRAL TORN CARD --- */
+  .central-torn-sheet-container {
+    width: min(84vw, 335px);
+    z-index: 30;
+  }
+
+  .torn-paper-body {
+    padding: 24px 14px 18px 14px;
+    box-shadow: 0 14px 32px rgba(45, 30, 15, 0.22);
+  }
+
+  .msg-line-cursive {
+    font-size: clamp(2.1rem, 8.5vw, 2.7rem);
+  }
+
+  .msg-line-marker {
+    font-size: clamp(1.9rem, 7.8vw, 2.5rem);
+  }
+
+  .coral-wavy-underline-svg {
+    width: 170px;
+    height: 13px;
+  }
+
+  .coral-infinity-svg {
+    width: 115px;
+    height: 48px;
+  }
+
+  .infinity-motif-container {
+    margin-top: 6px;
+  }
+
+  .binder-clip-fastener {
+    top: -26px;
+  }
+
+  .binder-clip-svg {
+    width: 36px;
+    height: 46px;
+  }
+
+  .binder-clip-tape-strip {
+    top: -9px;
+    width: 56px;
+    height: 17px;
+  }
+
+  /* --- MOBILE ACCENTS (KEPT VISIBLE & NICELY ADAPTED) --- */
+  .stamp-para-sempre {
+    display: flex !important;
+    top: auto;
+    bottom: calc(50% + 148px);
+    left: 50%;
+    transform: translateX(-50%) rotate(1deg);
+    padding: 3px 8px;
+    z-index: 28;
+  }
+
+  .stamp-para-sempre .stamp-text {
+    font-size: 0.65rem;
+  }
+
+  .stamp-adjacent-heart {
+    display: block !important;
+    top: auto;
+    bottom: calc(50% + 144px);
+    left: calc(50% + 78px);
+  }
+
+  .notebook-wax-seal {
+    display: block !important;
     bottom: 8px;
-    right: 8px;
-    width: 95px;
+    left: 50%;
+    transform: translateX(-50%) rotate(4deg);
+    z-index: 35;
+  }
+
+  .notebook-wax-seal .wax-seal-svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .peeking-kraft-scrap {
+    display: block !important;
+    bottom: calc(50% - 146px);
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    font-size: 0.95rem;
+    padding: 3px 10px;
+    z-index: 28;
+  }
+
+  .pressed-flower-container {
+    display: block !important;
+    bottom: 8px;
+    left: calc(50% - 75px);
+    transform: rotate(8deg) scale(0.65);
+    transform-origin: bottom left;
+  }
+
+  .side-flourish-left {
+    display: flex !important;
+    left: -18px;
+    transform: translateY(-50%) scale(0.75);
+  }
+
+  .side-flourish-right {
+    display: flex !important;
+    right: -18px;
+    transform: translateY(-50%) scale(0.75);
+  }
+
+  .peeking-grid-scrap,
+  .vintage-ticket-scrap,
+  .notebook-botanical-branch,
+  .notebook-circular-postmark,
+  .margin-note-left,
+  .margin-note-right {
+    display: none;
   }
 }
