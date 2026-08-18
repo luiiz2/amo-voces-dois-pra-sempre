@@ -85,9 +85,10 @@ html, body {
   background-color: var(--bg-notebook-sheet);
   background-image: 
     var(--bg-notebook-sheet-gradient),
-    linear-gradient(to right, rgba(140, 110, 70, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(140, 110, 70, 0.035) 1px, transparent 1px);
-  background-size: auto, 22px 22px, 22px 22px;
+    /* Soft vertical margin guideline (like authentic notebook page) */
+    linear-gradient(to right, transparent clamp(50px, 6vw, 75px), rgba(229, 115, 115, 0.22) clamp(50px, 6vw, 75px), rgba(229, 115, 115, 0.22) clamp(52px, calc(6vw + 2px), 77px), transparent clamp(52px, calc(6vw + 2px), 77px)),
+    /* Subtle horizontal ruled notebook lines (pautas de caderno pautado) */
+    repeating-linear-gradient(to bottom, transparent 0, transparent 27px, rgba(160, 130, 85, 0.16) 27.5px, rgba(160, 130, 85, 0.16) 28.5px, transparent 29px);
   border-radius: 12px;
   box-shadow: 
     0 26px 75px rgba(50, 35, 15, 0.32),
